@@ -45,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
         BaseDeDatosExterna baseDeDatosExterna= new BaseDeDatosExterna(this);
         //SQLiteDatabase db=null;
 
-        contenedorListaVehiculos.setAdapter(baseDeDatosExterna.getAdapterVehiculos());
+
         //baseDeDatosExterna.agregarVehiculo(1,1,"GY5-001","Modelo1","Marca1","Alias 1",2012,5000,null,null);
+        contenedorListaVehiculos.setAdapter(baseDeDatosExterna.getAdapterVehiculos());
         /*
         try {
             db=baseDeDatosExterna.getWritableDatabase();

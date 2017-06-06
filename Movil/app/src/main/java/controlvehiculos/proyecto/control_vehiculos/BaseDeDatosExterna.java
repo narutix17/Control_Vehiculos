@@ -26,7 +26,13 @@ public class BaseDeDatosExterna extends SQLiteAssetHelper {
     public BaseDeDatosExterna(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context=context;
-        db=getWritableDatabase();
+        try {
+            db=getWritableDatabase();
+
+        }
+        catch (SQLiteException ex){
+            Toast.makeText(this.context,ex.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
 
 

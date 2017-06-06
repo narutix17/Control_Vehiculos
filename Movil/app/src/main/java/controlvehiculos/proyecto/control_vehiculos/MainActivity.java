@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         listaVehiculos.add(new DataItem(1,"Hyunday Accent","Es el mejor",R.drawable.ic_launcher));
         listaVehiculos.add(new DataItem(1,"Most Wanted","Es el mejor",R.drawable.ic_launcher));
         listaVehiculos.add(new DataItem(1,"El chiquito","Es el mejor",R.drawable.spark));
-
+//gg
         adapter_listView_listaVehiculos adaptador= new adapter_listView_listaVehiculos(getApplicationContext(),listaVehiculos);
         */
         //contenedorListaVehiculos.setAdapter(adaptador);

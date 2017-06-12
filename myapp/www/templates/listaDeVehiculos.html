@@ -1,0 +1,18 @@
+<ion-view title="Lista de Vehiculos" id="page2"  ng-controller="DBController">
+  <ion-content padding="true" class="has-header" id="listaVehiculos">
+    <a ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button1" style="font-weight:300;border-radius:200px 200px 200px 200px; text-align: center; display: block; " class="button button-balanced icon ion-plus"></a>
+    <br>
+
+    <ion-list id="listaDeVehiculos-list2" class="disable-user-behavior" ng-init="select()">
+      <div class="list" ng-repeat="item in allSessions">
+        <ion-item class="item-thumbnail-left item" id="listaDeVehiculos-list-item">
+          <div> 
+            <h2>{{item.alias}}</h2>
+            <p>Placa: {{item.placa}}</p>
+            <p>Marca: {{item.marca}}</p>
+          </div>
+        </ion-item>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

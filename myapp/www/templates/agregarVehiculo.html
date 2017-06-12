@@ -1,0 +1,54 @@
+<ion-view title="Agregar Vehiculo" id="page3">
+  <ion-content padding="true" class="has-header" ng-controller="DBController">
+    <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
+      <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+    </div>
+    <form id="agregarVehiculo-form1" class="list">
+      <ion-radio id="agregarVehiculo-radio3"></ion-radio>
+      <label class="item item-input" id="agregarVehiculo-input2">
+        <span class="input-label">Placa</span>
+        <input type="text" placeholder="" id="agregarVehiculo-input2b" ng-model="placa">
+      </label>
+      <label class="item item-input" id="agregarVehiculo-input3">
+        <span class="input-label">Marca</span>
+        <input type="text" placeholder="" id="agregarVehiculo-input3b" ng-model="marca">
+      </label>
+      <label class="item item-input" id="agregarVehiculo-input5">
+        <span class="input-label">Alias</span>
+        <input type="text" placeholder="" id="agregarVehiculo-input5b" ng-model="alias">
+      </label>
+      <label class="item item-select" id="agregarVehiculo-select1">
+        <span class="input-label">Tipo</span>
+        <select ng-model="tipo">
+          <option>Automovil</option>
+          <option>Motocicleta</option>
+          <option>Bicicleta</option>
+          <option>Camion</option>
+          <option>Otro</option>
+        </select>
+      </label>
+      <label class="item item-input" id="agregarVehiculo-input6">
+        <span class="input-label">Ano</span>
+        <input type="text" placeholder="" id="agregarVehiculo-input6b" ng-model="year"> 
+      </label>
+      <label class="item item-input" id="agregarVehiculo-input7">
+        <span class="input-label">Color</span>
+        <input type="text" placeholder="" id="agregarVehiculo-input7b" ng-model="color">
+      </label>
+      <h3 id="agregarVehiculo-heading1" style="color:#000000;">Servicios del Vehiculo</h3>
+      <ion-list id="agregarVehiculo-list7">
+        <ion-item class="item-icon-right" id="agregarVehiculo-list-item8">Cambio de Aceite
+          <i class="icon ion-android-delete"></i>
+        </ion-item>
+        <ion-item class="item-icon-right" id="agregarVehiculo-list-item9">Cambio de Bateria
+          <i class="icon ion-android-delete"></i>
+        </ion-item>
+        <ion-item class="item-icon-right" id="agregarVehiculo-list-item10">Liquido de Frenos
+          <i class="icon ion-android-delete"></i>
+        </ion-item>
+      </ion-list>
+      <button ui-sref="tabsController.agregarServicioPersonalizado()" id="agregarVehiculo-button4" ng-click="select()" class="button button-positive button-small button-block">Agregar Servicio Personalizado</a>
+    </form>
+    <button ui-sref="tabsController.listaDeVehiculos()" id="botonAgregarVehiculo" ng-click="insert()" class="button button-balanced button-block">Agregar Vehiculo</button>
+  </ion-content>
+</ion-view>

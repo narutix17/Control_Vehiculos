@@ -31,7 +31,38 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
     db = $cordovaSQLite.openDB({ name: "controlvehiculos.db", iosDatabaseLocation:'default'});
     
     $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS vehiculo (placa text primary key, color text, marca text, alias text, modelo text, tipo text, imagen text, kilometraje integer, year integer)");
+    /*
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS tipo_vehiculo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombre VARCHAR (20) UNIQUE);").then(function(result){
+      $cordovaSQLite.executedb(db,"select * from tipo_vehiculo").then(function(result){
+        if (result.rows.length==0) {
+          $cordovaSQLite.executedb(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["automovil"]);
+          $cordovaSQLite.executedb(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["camion"]);
+          $cordovaSQLite.executedb(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["taxi"]);
+          console.log("seeee insertaron 3 tipos de vehiculoossssssssssssssssssssssss");
+        }
+        else{
+          console.log("nooooo seee insertaron  tipos de vehiculoos");
 
+        }
+      },function(error){
+
+        console.log(error);
+
+      });
+
+    },function(error){
+      console.log(error);
+
+    });
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS color (id  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,nombre VARCHAR (15) UNIQUE);");
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS tipo_intervalo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,nombre VARCHAR (15) UNIQUE);");
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS tipo_servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,nombre VARCHAR (20) UNIQUE);");
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER NOT NULL PRIMARY KEY, idTipo INTEGER REFERENCES tipo_servicio (id), idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id), idVehiculo INTEGER REFERENCES vehiculo (id), nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado INTEGER (10) );");
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS mantenimiento (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,idServicio INTEGER REFERENCES servicio (id),detalle TEXT, precio DECIMAL (5, 2),fechaRealizado DATE);");
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS notificacion (id INTEGER PRIMARY KEY AUTOINCREMENT,idServicio INTEGER REFERENCES servicio (id),cuandoRealizar INTEGER (10));");
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS region (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre VARCHAR (20) UNIQUE);");
+    $cordovaSQLite.executedb(db,"CREATE TABLE IF NOT EXISTS publicidad (id INTEGER PRIMARY KEY AUTOINCREMENT, idRegion INTEGER REFERENCES region (id),nombre VARCHAR (30),url VARCHAR (50) );");
+    */
   });
 })
 

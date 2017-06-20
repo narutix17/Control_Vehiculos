@@ -300,8 +300,8 @@ app.controller("DBController", function($scope, $cordovaSQLite){
   }
 
     $scope.modificarVehiculo = function(){
-    var query = "update vehiculo set idTipo=?, idColor=?, placa=?, modelo=?, marca=?, alias=?, año=?, kilometraje=?, imagen=?";
-    $cordovaSQLite.execute(db, query, [$scope.idTipo, $scope.idColor, $scope.placa, $scope.modelo,$scope.marca, $scope.alias, $scope.año,$scope.kilometraje, $scope.imagen]).then(function(result) {
+    var query = "update vehiculo set idTipo=?, idColor=?, placa=?, modelo=?, marca=?, alias=?, año=?, kilometraje=?, imagen=? where idVehiculo=?";
+    $cordovaSQLite.execute(db, query, [$scope.idTipo, $scope.idColor, $scope.placa, $scope.modelo,$scope.marca, $scope.alias, $scope.año,$scope.kilometraje, $scope.imagen,$scope.idVehiculo]).then(function(result) {
       console.log("Vehiculo Actualizado");
     }, function(error){
       console.log(error);

@@ -7,14 +7,13 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
+
 
       .state('tabsController.listaDeVehiculos', {
     url: '/tabs/vehiculos',
     views: {
       'tab4': {
-        templateUrl: 'templates/listaDeVehiculos.html',
-        controller: 'listaDeVehiculosCtrl'
+        templateUrl: 'templates/listaDeVehiculos.html'
       }
     }
   })
@@ -23,8 +22,7 @@ angular.module('app.routes', [])
     url: '/vehiculos/crear',
     views: {
       'tab4': {
-        templateUrl: 'templates/agregarVehiculo.html',
-        controller: 'agregarVehiculoCtrl'
+        templateUrl: 'templates/agregarVehiculo.html'
       }
     }
   })
@@ -33,8 +31,7 @@ angular.module('app.routes', [])
     url: '/tabs/vehiculos/crear/agregarservicio',
     views: {
       'tab4': {
-        templateUrl: 'templates/agregarServicioPersonalizado.html',
-        controller: 'agregarServicioPersonalizadoCtrl'
+        templateUrl: 'templates/agregarServicioPersonalizado.html'
       }
     }
   })
@@ -43,8 +40,7 @@ angular.module('app.routes', [])
     url: '/tabs/vehiculos/proximosMantenimientos',
     views: {
       'tab5': {
-        templateUrl: 'templates/proximosMantenimientos.html',
-        controller: 'proximosMantenimientosCtrl'
+        templateUrl: 'templates/proximosMantenimientos.html'
       }
     }
   })
@@ -62,8 +58,7 @@ angular.module('app.routes', [])
     url: '/informacion',
     views: {
       'tab1': {
-        templateUrl: 'templates/informaciN.html',
-        controller: 'informaciNCtrl'
+        templateUrl: 'templates/informaciN.html'
       }
     }
   })
@@ -72,8 +67,7 @@ angular.module('app.routes', [])
     url: '/mantenimiento',
     views: {
       'tab2': {
-        templateUrl: 'templates/mantenimiento.html',
-        controller: 'mantenimientoCtrl'
+        templateUrl: 'templates/mantenimiento.html'
       }
     }
   })
@@ -82,8 +76,7 @@ angular.module('app.routes', [])
     url: '/gastos',
     views: {
       'tab3': {
-        templateUrl: 'templates/gastos.html',
-        controller: 'gastosCtrl'
+        templateUrl: 'templates/gastos.html'
       }
     }
   })
@@ -98,58 +91,49 @@ angular.module('app.routes', [])
     url: '/nuevoMantenimiento',
     views: {
       'tab2': {
-        templateUrl: 'templates/nuevoMantenimiento.html',
-        controller: 'nuevoMantenimientoCtrl'
+        templateUrl: 'templates/nuevoMantenimiento.html'
       }
     }
   })
 
   .state('agregarServicioPersonalizado', {
     url: '/agregarServicioP',
-    templateUrl: 'templates/agregarServicioPersonalizado.html',
-    controller: 'agregarServicioPersonalizadoCtrl'
+    templateUrl: 'templates/agregarServicioPersonalizado.html'
   })
 
   .state('configuraciNDeVisualizaciN', {
     url: '/configuracionVisual',
-    templateUrl: 'templates/configuraciNDeVisualizaciN.html',
-    controller: 'configuraciNDeVisualizaciNCtrl'
+    templateUrl: 'templates/configuraciNDeVisualizaciN.html'
   })
 
   .state('inicio', {
     url: '/inicio',
-    templateUrl: 'templates/inicio.html',
-    controller: 'inicioCtrl'
+    templateUrl: 'templates/inicio.html'
   })
 
   .state('login', {
     url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'loginCtrl'
+    templateUrl: 'templates/login.html'
   })
 
   .state('enviarCorreo', {
     url: '/enviarCorreo',
-    templateUrl: 'templates/enviarCorreo.html',
-    controller: 'enviarCorreoCtrl'
+    templateUrl: 'templates/enviarCorreo.html'
   })
 
   .state('nuevaContraseA', {
     url: '/nuevaContraseña',
-    templateUrl: 'templates/nuevaContraseA.html',
-    controller: 'nuevaContraseACtrl'
+    templateUrl: 'templates/nuevaContraseA.html'
   })
 
   .state('registrarse', {
     url: '/registrarse',
-    templateUrl: 'templates/registrarse.html',
-    controller: 'registrarseCtrl'
+    templateUrl: 'templates/registrarse.html'
   })
 
   .state('infoServicio', {
     url: '/pageis',
-    templateUrl: 'templates/infoServicio.html',
-    controller: 'infoServicioCtrl'
+    templateUrl: 'templates/infoServicio.html'
   })
 
 $urlRouterProvider.otherwise('/inicio')

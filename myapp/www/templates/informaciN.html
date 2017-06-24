@@ -1,0 +1,83 @@
+<ion-view title="Información" id="page2" ng-controller="DBControllerOneVehiculo" cache-view="false">
+  <ion-nav-buttons side="left" class="has-header">
+    <button ui-sref="tabsController.listaDeVehiculos()" class="button back-button buttons button-clear header-item">
+      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header"  ng-repeat="item in selectedVehicle">
+    <div class="row">
+      <div class = "col-sm-9 col-md-9 col-xs-9" style="margin: 0px; line-height: 120px; background-color: rgb(232, 235, 239); text-align: center;">
+        <i class="icon ion-image" style="font-size: 150px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+      </div>
+      <div class = "col-sm-3 col-md-3 col-xs-3">
+        <div style="padding-top: 15px; padding-left: 20px">
+          <p> Alias: {{item.alias}} </p>
+          <p> Placa: {{item.placa}} </p>
+          <p> Marca: {{item.marca}} </p>
+          <p> Año: {{item.year}} </p>
+          <p> Color: {{item.color}} </p>
+        </div>
+      </div>
+    </div>
+    <div id="informaciN-markdown1" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">
+        <strong>Kilometraje:</strong>
+      </p>
+    </div>
+    <form id="actualizarKilometrajeForm" name="actualizarKilometrajeForm" class="list" novalidate>
+      <label class="item item-input" id="informaciN-input3"> 
+      <input ng-model="updatedKm.km" ng-min="{{item.kilometraje}}" name="updatedKm" ng-maxlength="7" type="number" ng-required="true" placeholder="{{item.kilometraje}}">
+      </label>
+    </form>
+      <button class="button ion-ios-speedometer" ng-click="actualizarKilometraje('{{item.alias}}')" ng-disabled="actualizarKilometrajeForm.$invalid"> 
+        Actualizar
+      </button>
+    <br>
+    <div id="informaciN-markdown2" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">
+        <strong>Próximo Mantenimiento:</strong>
+      </p>
+    </div>
+
+      <div id="informaciN-markdown3" class="show-list-numbers-and-dots" style="padding-top: 15px">
+        <p style="color:#000000;">
+          <strong>Servicios del vehículo:</strong>
+        </p>
+      </div>
+      
+            <div class="row">
+            
+              <div class = "col col-80">
+                <h5>Cambio de Aceite</h5>
+              </div>
+              <div class = "col col-10">
+                <i class="icon ion-android-settings" style="font-size: 25px; vertical-align: middle;"></i>
+              </div>
+              <div class = "col col-10">
+                <i class="icon ion-android-remove-circle" style="font-size: 25px; vertical-align: middle;"></i>
+              </div>
+
+            </div>
+
+            <div class="row">
+            
+              <div class = "col col-80">
+                <h5>Cambio de Bateria</h5>
+              </div>
+              <div class = "col col-10">
+                <i class="icon ion-android-settings" style="font-size: 25px; vertical-align: middle;"></i>
+              </div>
+              <div class = "col col-10">
+                <i class="icon ion-android-remove-circle" style="font-size: 25px; vertical-align: middle;"></i>
+              </div>
+              
+            </div>
+            
+          
+      <button ui-sref="agregarServicioPersonalizado()" id="informaciN-button1" class="button button-positive button-block">Agregar Servicio Perzonalizado</button>
+      <button id="informaciN-button2" class="button button-positive button-block">Eliminar Vehículo</button>
+      <div style="margin: 0px; margin-bottom: 20px; line-height: 100px; background-color: rgb(232, 235, 239); text-align: center;">
+        <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+      </div>
+  </ion-content>
+</ion-view>

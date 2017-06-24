@@ -1,15 +1,42 @@
-<ion-view title="Lista de Vehiculos" id="page2"  ng-controller="DBController">
+<ion-view title="Lista de Vehiculos" id="page2" ng-controller="DBControllerVehiculo">
+<ion-nav-buttons side="left" class="has-header">
+    <button ui-sref="inicio()" class="button back-button buttons button-clear header-item">
+      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
   <ion-content padding="true" class="has-header" id="listaVehiculos">
-    <a ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button1" style="font-weight:300;border-radius:200px 200px 200px 200px; text-align: center; display: block; " class="button button-balanced icon ion-plus"></a>
-    <br>
 
-    <ion-list id="listaDeVehiculos-list2" class="disable-user-behavior" ng-init="select()">
-      <div class="list" ng-repeat="item in allSessions">
+  <div class="row">
+    <div class="col col-60">
+      <label class="item item-input" id="mantenimiento-search1">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="search" placeholder="">
+      </label>
+    </div>
+    <div class="col col-20">
+      <a ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button1" style="font-weight:300;border-radius:200px 200px 200px 200px; text-align: center; display: block; " class="button button-balanced icon ion-plus"></a><br>
+    </div>
+    <div class="col col-20">
+       <i ui-sref="configuraciNDeVisualizaciN()" class="icon ion-android-settings" style="font-size: 50px; vertical-align: middle;"></i>
+
+    </div>
+    
+  </div>
+
+  
+
+    <ion-list id="listaDeVehiculos-list2" class="disable-user-behavior">
+
+      <div class="list" ng-repeat="item in registrosVehiculos">
+
         <ion-item class="item-thumbnail-left item" id="listaDeVehiculos-list-item">
           <div> 
             <h2>{{item.alias}}</h2>
             <p>Placa: {{item.placa}}</p>
             <p>Marca: {{item.marca}}</p>
+              <div>
+                <ion-button ng-click="setVehicle('{{item.alias}}')" ui-sref="tabsController2.informaciN()" id="listaDeVehiculos-button3" style="text-align: center;" class="button button-stable icon icon-right ion-android-car">Ver</button><br>
+              </div>
           </div>
         </ion-item>
       </div>

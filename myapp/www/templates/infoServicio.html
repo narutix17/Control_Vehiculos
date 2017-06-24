@@ -1,0 +1,39 @@
+<ion-view title="Información de Servicio" id="pageis">
+  <ion-nav-buttons side="left" class="has-header">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item">
+      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right" class="has-header">
+    <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
+      <i class="icon ion-android-home"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+    <div id="nuevoMantenimiento-markdown10" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Fecha del servicio:</p>
+    </div>
+    <form id="nuevoMantenimiento-form6" class="list">
+      <label class="item item-input" id="nuevoMantenimiento-input5">
+        <input type="date" placeholder="" disabled="true">
+      </label>
+    </form>
+    
+    <div id="nuevoMantenimiento-markdown14" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Valor de mantenimiento:</p>
+    </div>
+    <form id="nuevoMantenimiento-form8" class="list">
+      <label class="item item-input" id="nuevoMantenimiento-input6">
+        <input type="number" placeholder="" disabled="true">
+      </label>
+    </form>
+    
+    <div id="nuevoMantenimiento-markdown16" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Observación:</p>
+    </div>
+    <form id="nuevoMantenimiento-form12" class="list">
+      <label class="item item-input" id="nuevoMantenimiento-textarea2" style="margin-bottom: 8px">
+        <span class="input-label"></span><textarea placeholder="" disabled="true"></textarea></label>
+    </form>
+  </ion-content>
+</ion-view>

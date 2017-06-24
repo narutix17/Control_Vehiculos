@@ -1,39 +1,51 @@
-<ion-view title="Agregar Servicio Personalizado" id="page4">
+<ion-view title="Agregar Servicio Personalizado" id="page6">
+  <ion-nav-buttons side="left" class="has-header">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item">
+      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right" class="has-header">
+    <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
+      <i class="icon ion-android-home"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
-    <form id="agregarServicioPersonalizado-form2" class="list">
-      <label class="item item-input" id="agregarServicioPersonalizado-input8">
-        <span class="input-label">Nombre</span>
+    <div id="agregarServicioPersonalizado-markdown17" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Nombre:</p>
+    </div>
+    <form id="agregarServicioPersonalizado-form13" class="list">
+      <label class="item item-input" id="agregarServicioPersonalizado-input10">
         <input type="text" placeholder="">
       </label>
     </form>
-    <div id="agregarServicioPersonalizado-markdown3" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">El ciclo de los mantenimientos se realizara por:</p>
+    <div id="agregarServicioPersonalizado-markdown18" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">El ciclo de los mantenimientos se realizará por:</p>
     </div>
-    <form id="agregarServicioPersonalizado-form3" class="list">
-      <label class="item item-select" id="agregarServicioPersonalizado-select2">
-        <span class="input-label">Seleccione:</span>
-        <select>
+    <form id="agregarServicioPersonalizado-form14" class="list">
+      <label class="item item-select" id="agregarServicioPersonalizado-select3">
+        <span class="input-label"></span>
+        <select style="text-align: left;">
           <option>Kilometraje</option>
-          <option>Tiempo</option>
+          <option>Fecha</option>
         </select>
       </label>
     </form>
-    <div id="agregarServicioPersonalizado-markdown4" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">Y se realizara cada: </p>
+    <div id="agregarServicioPersonalizado-markdown19" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Se realiza cada:</p>
     </div>
-    <form id="agregarServicioPersonalizado-form4" class="list">
-      <label class="item item-input" id="agregarServicioPersonalizado-input9">
+    <form id="agregarServicioPersonalizado-form15" class="list">
+      <label class="item item-input" id="agregarServicioPersonalizado-input11">
         <input type="number" placeholder="">
       </label>
     </form>
-    <div id="agregarServicioPersonalizado-markdown5" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">La ultima vez que realize este servicio fue:</p>
+    <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Kilometraje de ultimo mantenimiento:</p>
     </div>
-    <form id="agregarServicioPersonalizado-form5" class="list">
-      <label class="item item-input" id="agregarServicioPersonalizado-input10">
-        <input type="date" placeholder="">
+    <form id="agregarServicioPersonalizado-form16" class="list">
+      <label class="item item-input" id="agregarServicioPersonalizado-input12">
+        <input type="number" placeholder="">
       </label>
-      <a ui-sref="tabsController.agregarVehiculo()" id="agregarServicioPersonalizado-button6" class="button button-balanced button-block">Agregar Servicio</a>
     </form>
+    <button id="agregarServicioPersonalizado-button5" class="button button-positive button-block">Agregar Servicio</button>
   </ion-content>
 </ion-view>

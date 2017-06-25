@@ -6,11 +6,11 @@
 
 2. Instalar [Node.js](https://nodejs.org/es/)
 
-3. Ejecutar:
+3. Ir al directorio donde se encuentra esta carpeta y ejecutar en el CMD:
 ```
 npm install -g cordova ionic
 ```
-4. Ir al directorio donde se encuentra esta carpeta y ejecutar:
+4. Ir al directorio donde se encuentra esta carpeta y ejecutar en el CMD:
 ```
 npm install
 ```

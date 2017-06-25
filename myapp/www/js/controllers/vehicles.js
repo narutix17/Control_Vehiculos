@@ -2,15 +2,15 @@ angular.module('app.controllers')
 /**
  * Controller for Vehicle operations
  */
-.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  function($scope, $cordovaSQLite, $rootScope){
+.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
 
+  $rootScope.serviciosParaAgregar = [];
   /**
    * Scope methods excecuted before entering the view that implements the controller
    */
   $scope.$on('$ionicView.beforeEnter', function () {
     $scope.cargarVehiculos();
     $scope.cargarPredeterminados();
-
   });
 
   /**
@@ -37,6 +37,7 @@ angular.module('app.controllers')
    * Load all the vehicles into $scope variable.
    */
   $scope.cargarVehiculos = function(){
+    $rootScope.serviciosParaAgregar = [];
     // Hardcoded vehicle for web testing
     $scope.registrosVehiculos=[{"alias": "hola", "placa":"hola", "marca":"hola"}];
     var query = "SELECT * FROM vehiculo";
@@ -68,19 +69,21 @@ angular.module('app.controllers')
    * Load all the default_services.
    */
   $scope.cargarPredeterminados = function(){
-    $scope.serviciosPredeterminados = [];
+    console.log("NO ESTA DEFINIDO. LO VOY A DEFINIR");
+    $rootScope.serviciosPredeterminados = [];
     var query = "SELECT * FROM servicios_predeterminados";
     console.log(query);
-    $cordovaSQLite.execute(db).then(function(res){
+    $cordovaSQLite.execute(db, query).then(function(res){
       console.log(res);
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
-          $scope.serviciosPredeterminados.push({
+          $rootScope.serviciosPredeterminados.push({
             nombre: res.rows.item(i).nombre,
             tipo_intervalo: res.rows.item(i).tipo_intervalo,
             intervalo: res.rows.item(i).intervalo
           });
         }
+      $rootScope.predeterminadosAgregados = true;
       console.log("Se agregaron los servicios predeterminados.")
       }else{
         console.log("No hay servicios predeterminados");
@@ -89,6 +92,5 @@ angular.module('app.controllers')
     }, function(error){
       console.log(error);
     });
-
   }
-}])
+}]);

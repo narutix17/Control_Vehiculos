@@ -1,5 +1,5 @@
-<ion-view title="Agregar Vehiculo" id="page3">
- <ion-content padding="true" class="has-header" ng-controller="DBControllerVehiculo" ng-init="cargarPredeterminados()">
+<ion-view title="Agregar Vehiculo" id="page3" ng-controller="DBControllerAgregarVehiculo">
+ <ion-content padding="true" class="has-header">
   <ion-nav-buttons side="right" class="has-header" >
     <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
       <i class="icon ion-android-home"></i> <span class="back-text"></span>
@@ -37,27 +37,27 @@
       </label>
       <label class="item item-input" id="agregarVehiculo-input6">
         <span class="input-label">Año</span>
-        <input ng-maxlength="4" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newYear" name="newYear"> 
+        <input ng-maxlength="4" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newYear" name="newYear">
       </label>
       <label class="item item-input" id="agregarVehiculo-input7">
         <span class="input-label">Color</span>
         <input ng-maxlength="20" ng-minlength="3" type="text" placeholder="" ng-required="false" id="agregarVehiculo-input7b" ng-model="newColor" name="newColor">
       </label>
       <h3 id="agregarVehiculo-heading1" style="color:#000000;">Servicios del Vehiculo</h3>
-      <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosPredeterminados">
+      <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosParaAgregar">
             <div class="row">
               <div class = "col col-80">
                 <h5>{{serv.nombre}}</h5>
               </div>
               <div class = "col col-10">
-                <i class="icon ion-android-settings" style="font-size: 25px; vertical-align: middle;"></i>
+                <button class="icon ion-android-settings" style="font-size: 25px; vertical-align: middle;"></button>
               </div>
               <div class = "col col-10">
-                <i class="icon ion-android-remove-circle" style="font-size: 25px; vertical-align: middle;"></i>
+                <button class="icon ion-android-remove-circle" style="font-size: 25px; vertical-align: middle;" ng-click="eliminarServicioDeLaLista('{{serv.nombre}}')"></button>
               </div>
             </div>
         </div id="nuevoVehiculoServicios">
-      <button ui-sref="agregarServicioPersonalizado()" id="agregarVehiculo-button4" ng-click="crearVehiculo()" class="button button-positive button-block">Agregar Servicio Personalizado</button>
+      <button ui-sref="agregarServicioPersonalizado()" id="agregarVehiculo-button4" class="button button-positive button-block">Agregar Servicio Personalizado</button>
       <div class="padding">
         <p ng-show="newVehicleForm.newPlaca.$error.required" >* La placa es un campo requerido </p>
         <p ng-show="newVehicleForm.newKilometraje.$error.required">* El Kilometraje es un campo requerido </p>

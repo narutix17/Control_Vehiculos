@@ -1,25 +1,51 @@
-Ionic App Base
-=====================
+# Aplicacion para el Control de Mantenimientos - Movil #
 
-A starting project for Ionic that optionally supports using custom SCSS.
+## Correr el Programa ##
 
-## Using this project
+1. Instalar Android Studio de tal manera que se instalen todas las dependencias necesarias de Android (ADB).
 
-We recommend using the [Ionic CLI](https://github.com/driftyco/ionic-cli) to create new Ionic projects that are based on this project but use a ready-made starter template.
+2. Instalar [Node.js](https://nodejs.org/es/)
 
-For example, to start a new Ionic project with the default tabs interface, make sure the `ionic` utility is installed:
+3. Ejecutar:
+```
+npm install -g cordova ionic
+```
+4. Ir al directorio donde se encuentra esta carpeta y ejecutar:
+```
+npm install
+```
+5. Ponga su celular Android en Developer Mode. Active el Debug Mode.
 
-```bash
-$ npm install -g ionic
+6. Conecte su celular por USB a la computadora.
+
+7. Para poder ver que esta sucediendo en el celular, ver mensajes de consola ( `console.log("")` ), errores, etc. Ejecutar en el CMD:
+```
+adb logcat *:I
+```
+8. Para instalar la aplicacion y probarla en el dispositivo, ejecute los siguientes comandos en el CMD: (ubicandose en este directorio)
+```
+ionic cordova build android
+adb install -r platforms/android/build/outputs/apk/android-debug.apk
 ```
 
-Then run: 
+El primer comando hace **build** de la aplicacion. El segundo la instala en el dispositivo. Luego tiene que buscar la aplicacion entre sus aplicaciones y correrla.
 
-```bash
-$ ionic start myProject tabs
+9. Para correr la aplicacion en el navegador:
 ```
+ionic serve
+```
+Recuerde que en el navegador no funciona SQLITE. El navegador sirve para visualizar la estetica de la aplicacion rapidamente.
 
-More info on this can be found on the Ionic [Getting Started](http://ionicframework.com/getting-started) page and the [Ionic CLI](https://github.com/driftyco/ionic-cli) repo.
+10. Para probar cualquier cambio que haga tiene que ejecutar el paso 8.
 
-## Issues
-Issues have been disabled on this repo, if you do find an issue or have a question consider posting it on the [Ionic Forum](http://forum.ionicframework.com/).  Or else if there is truly an error, follow our guidelines for [submitting an issue](http://ionicframework.com/submit-issue/) to the main Ionic repository.
+## Creando un nuevo Controlador ##
+
+1. Crear el controlador dentro de `www/js/controllers/`
+2. Siga la estructura de los otros controladores ya creados.
+3. Importe el controlador en `www/index.html`, tal y como se importan el resto.
+
+
+## Haciendo Validaciones ##
+
+1. Utilizar las etiquetas de ng-*
+2. Ver `www/templates/agregarVehiculo.html`

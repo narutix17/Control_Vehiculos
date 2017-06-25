@@ -1,4 +1,4 @@
-<ion-view title="Agregar Servicio Personalizado" id="page6">
+<ion-view title="Agregar Servicio Personalizado" id="page6" ng-controller= "DBControllerAgregarVehiculo" cache-view="false">
   <ion-nav-buttons side="left" class="has-header">
     <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item">
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
@@ -15,7 +15,7 @@
     </div>
     <form id="agregarServicioPersonalizado-form13" class="list">
       <label class="item item-input" id="agregarServicioPersonalizado-input10">
-        <input type="text" placeholder="">
+        <input type="text" placeholder="" ng-model="newService.nombre">
       </label>
     </form>
     <div id="agregarServicioPersonalizado-markdown18" class="show-list-numbers-and-dots">
@@ -24,7 +24,7 @@
     <form id="agregarServicioPersonalizado-form14" class="list">
       <label class="item item-select" id="agregarServicioPersonalizado-select3">
         <span class="input-label"></span>
-        <select style="text-align: left;">
+        <select style="text-align: left;" ng-model="newService.servTipo">
           <option>Kilometraje</option>
           <option>Fecha</option>
         </select>
@@ -35,7 +35,7 @@
     </div>
     <form id="agregarServicioPersonalizado-form15" class="list">
       <label class="item item-input" id="agregarServicioPersonalizado-input11">
-        <input type="number" placeholder="">
+        <input type="number" placeholder="" ng-model="newService.intervalo">
       </label>
     </form>
     <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots">
@@ -43,9 +43,9 @@
     </div>
     <form id="agregarServicioPersonalizado-form16" class="list">
       <label class="item item-input" id="agregarServicioPersonalizado-input12">
-        <input type="number" placeholder="">
+        <input type="number" placeholder="" ng-model="newService.ultimoRealizado">
       </label>
     </form>
-    <button id="agregarServicioPersonalizado-button5" class="button button-positive button-block">Agregar Servicio</button>
+    <button id="agregarServicioPersonalizado-button5" class="button button-positive button-block" ng-click="agregarServicioALista()" ui-sref="tabsController.agregarVehiculo()">Agregar Servicio</button>
   </ion-content>
 </ion-view>

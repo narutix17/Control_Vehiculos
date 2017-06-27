@@ -25,11 +25,11 @@
       </p>
     </div>
     <form id="actualizarKilometrajeForm" name="actualizarKilometrajeForm" class="list" novalidate>
-      <label class="item item-input" id="informaciN-input3"> 
+      <label class="item item-input" id="informaciN-input3">
       <input ng-model="updatedKm.km" ng-min="{{item.kilometraje}}" name="updatedKm" ng-maxlength="7" type="number" ng-required="true" placeholder="{{item.kilometraje}}">
       </label>
     </form>
-      <button class="button ion-ios-speedometer" ng-click="actualizarKilometraje('{{item.alias}}')" ng-disabled="actualizarKilometrajeForm.$invalid"> 
+      <button class="button ion-ios-speedometer" ng-click="actualizarKilometraje('{{item.alias}}')" ng-disabled="actualizarKilometrajeForm.$invalid">
         Actualizar
       </button>
     <br>
@@ -44,11 +44,11 @@
           <strong>Servicios del vehículo:</strong>
         </p>
       </div>
-      
+          <div id="serviciosDeVehiculo" ng-repeat="item in selectedVehicleServices">
             <div class="row">
-            
+
               <div class = "col col-80">
-                <h5>Cambio de Aceite</h5>
+                <h5>{{item.nombre}}</h5>
               </div>
               <div class = "col col-10">
                 <i class="icon ion-android-settings" style="font-size: 25px; vertical-align: middle;"></i>
@@ -59,23 +59,11 @@
 
             </div>
 
-            <div class="row">
-            
-              <div class = "col col-80">
-                <h5>Cambio de Bateria</h5>
-              </div>
-              <div class = "col col-10">
-                <i class="icon ion-android-settings" style="font-size: 25px; vertical-align: middle;"></i>
-              </div>
-              <div class = "col col-10">
-                <i class="icon ion-android-remove-circle" style="font-size: 25px; vertical-align: middle;"></i>
-              </div>
-              
-            </div>
-            
-          
+          </div>
+
+
       <button ui-sref="agregarServicioPersonalizado()" id="informaciN-button1" class="button button-positive button-block">Agregar Servicio Perzonalizado</button>
-      <button id="informaciN-button2" class="button button-positive button-block">Eliminar Vehículo</button>
+      <button ui-sref="tabsController.listaDeVehiculos()" id="informaciN-button2" class="button button-positive button-block" ng-click="eliminarVehiculo('{{item.placa}}')">Eliminar Vehículo</button>
       <div style="margin: 0px; margin-bottom: 20px; line-height: 100px; background-color: rgb(232, 235, 239); text-align: center;">
         <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
       </div>

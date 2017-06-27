@@ -17,6 +17,14 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     showDelay: 0
   });
 
+  $scope.eliminarVehiculo = function(placa){
+    var query = "DELETE FROM vehiculo WHERE placa = ?";
+    $cordovaSQLite.execute(db, query, [placa]).then(function(result) {
+      console.log("Vehiculo Eliminado");
+    }, function(error){
+      console.log(error);
+    });
+  }
 
   /**
    * We use a listener to wait the selected vehicle to be retrieved from the database.
@@ -26,13 +34,14 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   }, function(){
     console.log("LOADING")
     $scope.selectedVehicle = [];
+    $scope.selectedVehicleServices = [];
     $scope.actualAlias = $rootScope.alias;
     var query = "SELECT * FROM vehiculo WHERE alias = '"+ $scope.actualAlias +"'";
      $cordovaSQLite.execute(db, query).then(function(res){
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
           $scope.selectedVehicle.push({
-            idVehiculo: res.rows.item(i).idVehiculo,
+            idVehiculo: res.rows.item(i).id,
             idTipo: res.rows.item(i).idTipo,
             color: res.rows.item(i).color,
             placa: res.rows.item(i).placa,
@@ -41,6 +50,22 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
             year: res.rows.item(i).año,
             kilometraje: res.rows.item(i).kilometraje,
             imagen: res.rows.item(i).imagen,
+          });
+          var servQuery = "SELECT * FROM servicio WHERE idVehiculo = ?"
+          $cordovaSQLite.execute(db, servQuery, [res.rows.item(i).id]).then(function(res){
+            if (res.rows.length > 0){
+              for (var j=0; j<res.rows.length; j++){
+                $scope.selectedVehicleServices.push({
+                  idServ: res.rows.item(j).id,
+                  idTipo: res.rows.item(j).idTipo,
+                  idTipoIntervalo: res.rows.item(j).idTipoIntervalo,
+                  idVehiculo: res.rows.item(j).idVehiculo,
+                  nombre: res.rows.item(j).nombre,
+                  intervalo: res.rows.item(j).intervalo,
+                  ultimoRealizado: res.rows.item(j).ultimoRealizado
+                });
+              }
+            }
           });
         }
       }else{

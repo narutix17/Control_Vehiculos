@@ -11,19 +11,19 @@
     <form id="agregarVehiculo-form1" class="list" name="newVehicleForm" novalidate>
       <label class="item item-input" id="agregarVehiculo-input2">
         <span class="input-label">Placa</span>
-        <input ng-maxlength="10" ng-minlength="5" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input2b" ng-model="newPlaca" name="newPlaca">
+        <input ng-maxlength="10" ng-minlength="5" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input2b" ng-model="newVehicle.newPlaca" name="newPlaca">
       </label>
       <label class="item item-input" id="agregarVehiculo-input3">
         <span class="input-label">Marca</span>
-        <input ng-maxlength="20" ng-minlength="3" ng-required="false" type="text" placeholder="" id="agregarVehiculo-input3b" ng-model="newMarca" name="newMarca">
+        <input ng-maxlength="20" ng-minlength="3" ng-required="false" type="text" placeholder="" id="agregarVehiculo-input3b" ng-model="newVehicle.newMarca" name="newMarca">
       </label>
       <label class="item item-input" id="agregarVehiculo-input5">
         <span class="input-label">Alias</span>
-        <input ng-maxlength="20" ng-minlength="1" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input5b" ng-model="newAlias" name="newAlias">
+        <input ng-maxlength="20" ng-minlength="1" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input5b" ng-model="newVehicle.newAlias" name="newAlias">
       </label>
       <label class="item item-input" id="agregarVehiculo-input5">
         <span class="input-label">Kilometraje</span>
-        <input type="number" ng-maxlength="7" ng-minlength="1" placeholder="" ng-required="true" id="agregarVehiculo-input5b" ng-model="newKilometraje" name="newKilometraje">
+        <input type="number" ng-maxlength="7" ng-minlength="1" placeholder="" ng-required="true" id="agregarVehiculo-input5b" ng-model="newVehicle.newKilometraje" name="newKilometraje">
       </label>
       <label class="item item-select" id="agregarVehiculo-select1">
         <span class="input-label">Tipo</span>
@@ -37,11 +37,11 @@
       </label>
       <label class="item item-input" id="agregarVehiculo-input6">
         <span class="input-label">Año</span>
-        <input ng-maxlength="4" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newYear" name="newYear">
+        <input ng-maxlength="4" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newVehicle.newYear" name="newYear">
       </label>
       <label class="item item-input" id="agregarVehiculo-input7">
         <span class="input-label">Color</span>
-        <input ng-maxlength="20" ng-minlength="3" type="text" placeholder="" ng-required="false" id="agregarVehiculo-input7b" ng-model="newColor" name="newColor">
+        <input ng-maxlength="20" ng-minlength="3" type="text" placeholder="" ng-required="false" id="agregarVehiculo-input7b" ng-model="newVehicle.newColor" name="newColor">
       </label>
       <h3 id="agregarVehiculo-heading1" style="color:#000000;">Servicios del Vehiculo</h3>
       <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosParaAgregar">

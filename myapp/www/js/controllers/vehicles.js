@@ -45,7 +45,7 @@ angular.module('app.controllers')
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
           $scope.registrosVehiculos.push({
-            idVehiculo: res.rows.item(i).idVehiculo,
+            idVehiculo: res.rows.item(i).id,
             idTipo: res.rows.item(i).idTipo,
             color: res.rows.item(i).color,
             placa: res.rows.item(i).placa,
@@ -55,6 +55,7 @@ angular.module('app.controllers')
             kilometraje: res.rows.item(i).kilometraje,
             imagen: res.rows.item(i).imagen,
           });
+
         }
       }else{
         console.log("No hay Registros de Vehiculos");

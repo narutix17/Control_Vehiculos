@@ -5,6 +5,7 @@ angular.module('app.controllers')
 .controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
 
   $scope.newService = {}
+  $scope.newVehicle = {}
 
   /**
    * Scope methods excecuted before entering the view that implements the controller
@@ -21,13 +22,22 @@ angular.module('app.controllers')
    * Create Vehicle method. Recieve the form model located in "agregarVehiculo.html"
    */
   $scope.crearVehiculo = function(){
+    var servicios = $rootScope.serviciosParaAgregar;
     var query = "INSERT INTO vehiculo (idTipo, color, placa, marca, alias, año, kilometraje, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    $cordovaSQLite.execute(db, query, [1, $scope.newColor, $scope.newPlaca, $scope.newMarca, $scope.newAlias, $scope.newYear, $scope.newKilometraje, ""]).then(function(result) {
+    $cordovaSQLite.execute(db, query, [1, $scope.newVehicle.newColor, $scope.newVehicle.newPlaca, $scope.newVehicle.newMarca, $scope.newVehicle.newAlias, $scope.newVehicle.newYear, $scope.newVehicle.newKilometraje, ""]).then(function(result) {
       console.log("Vehiculo Agregado");
-      console.log($rootScope.serviciosParaAgregar);
-      // AGREGAR LOS SERVICIOS DE LA LISTA AL VEHICULO $rootScope.serviciosParaAgregar
-
-      // Una vez finalizado el query       $rootScope.serviciosParaAgregar = [];
+      console.log(servicios);
+      var query2 = "SELECT * FROM vehiculo WHERE placa = ? "
+      $cordovaSQLite.execute(db, query2, [$scope.newVehicle.newPlaca]).then(function(result) {
+          var idVehiculo = result.rows.item(0).id;
+          for (i = 0; i < servicios.length; i++){
+              var serv = servicios[i];
+              var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
+              $cordovaSQLite.execute(db, servQuery, [2, serv.tipo_intervalo, idVehiculo, serv.nombre, serv.intervalo, serv.ultimoRealizado ]).then(function(result) {
+                  console.log("Servicio Agregado");
+              });
+          }
+      });
     }, function(error){
       console.log(error);
     });

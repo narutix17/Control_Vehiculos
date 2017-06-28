@@ -30,13 +30,13 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
    * We use a listener to wait the selected vehicle to be retrieved from the database.
    */
   $scope.$watch(function(){
-    return $rootScope.alias;
+    return $rootScope.chosenVehicle.id;
   }, function(){
     console.log("LOADING")
     $scope.selectedVehicle = [];
-    $scope.selectedVehicleServices = [];
-    $scope.actualAlias = $rootScope.alias;
-    var query = "SELECT * FROM vehiculo WHERE alias = '"+ $scope.actualAlias +"'";
+    $rootScope.selectedVehicleServices = [];
+    $scope.actualid = $rootScope.chosenVehicle.id;
+    var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
      $cordovaSQLite.execute(db, query).then(function(res){
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
@@ -55,7 +55,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
           $cordovaSQLite.execute(db, servQuery, [res.rows.item(i).id]).then(function(res){
             if (res.rows.length > 0){
               for (var j=0; j<res.rows.length; j++){
-                $scope.selectedVehicleServices.push({
+                $rootScope.selectedVehicleServices.push({
                   idServ: res.rows.item(j).id,
                   idTipo: res.rows.item(j).idTipo,
                   idTipoIntervalo: res.rows.item(j).idTipoIntervalo,

@@ -28,8 +28,11 @@ angular.module('app.controllers')
   /**
    * Set onto a $scope variable the selected vehicle identifier.
    */
-  $scope.setVehicle = function(alias){
-    $rootScope.alias = alias;
+  $scope.setVehicle = function(alias, id, placa){
+    $rootScope.chosenVehicle = {}
+    $rootScope.chosenVehicle.alias = alias;
+    $rootScope.chosenVehicle.id = id;
+    $rootScope.chosenVehicle.placa = placa;
   }
 
 

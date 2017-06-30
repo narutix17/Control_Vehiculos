@@ -34,6 +34,8 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
       StatusBar.styleDefault();
     }
 
+    //db = $cordovaSQLite.deleteDatabase({name: 'controlvehiculos.db', location: 'default'}, successcb, errorcb);
+
     // Open DB
     db = $cordovaSQLite.openDB({ name: "controlvehiculos.db", iosDatabaseLocation:'default'});
 
@@ -63,7 +65,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
 
       });
 
-      $cordovaSQLite.execute(db,"CREATE TABLE if NOT EXISTS vehiculo ( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER NOT NULL REFERENCES tipo_vehiculo (id), color VARCHAR(10), placa VARCHAR (10) UNIQUE, marca VARCHAR (20), alias VARCHAR (20), año INTEGER (4), kilometraje INTEGER (7) NOT NULL, imagen TEXT);")
+      $cordovaSQLite.execute(db,"CREATE TABLE if NOT EXISTS vehiculo ( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER NOT NULL REFERENCES tipo_vehiculo (id) ON DELETE CASCADE, color VARCHAR(10), placa VARCHAR (10) UNIQUE, marca VARCHAR (20), alias VARCHAR (20), año INTEGER (4), kilometraje INTEGER (7) NOT NULL, imagen TEXT);")
 
 
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS tipo_intervalo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,nombre VARCHAR (15) UNIQUE);").then(function(result){
@@ -119,7 +121,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
       });
 
 
-      $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS servicios_predeterminados (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombre VARCHAR(40), tipo_intervalo INTEGER NOT NULL REFERENCES tipo_vehiculo (id), intervalo INTEGER)").then(function(result){
+      $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS servicios_predeterminados (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombre VARCHAR(40), tipo_intervalo INTEGER NOT NULL REFERENCES tipo_vehiculo (id) ON DELETE CASCADE, intervalo INTEGER)").then(function(result){
           console.log("SE HA CREADO LA TABLA");
           $cordovaSQLite.execute(db,"select * from servicios_predeterminados").then(function(result){
             if (result.rows.length==0) {
@@ -133,7 +135,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
           });
       });
 
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER REFERENCES tipo_servicio (id), idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id), idVehiculo INTEGER REFERENCES vehiculo (id), nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado INTEGER (10) );").then(function(result){
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER REFERENCES tipo_servicio (id) ON DELETE CASCADE, idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id) ON DELETE CASCADE, idVehiculo INTEGER REFERENCES vehiculo (id) ON DELETE CASCADE, nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado INTEGER (10) );").then(function(result){
         $cordovaSQLite.execute(db,"select * from servicio").then(function(result){
           if (result.rows.length==0) {
             $cordovaSQLite.execute(db,"insert into tipo_servicio (nombre) VALUES (?)",["predeterminado"]);
@@ -152,10 +154,10 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
         console.log(error);
 
       });
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS mantenimiento (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,idServicio INTEGER REFERENCES servicio (id),detalle TEXT, precio DECIMAL (5, 2),fechaRealizado DATE);");
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS notificacion (id INTEGER PRIMARY KEY AUTOINCREMENT,idServicio INTEGER REFERENCES servicio (id),cuandoRealizar INTEGER (10));");
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS mantenimiento (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,idServicio INTEGER REFERENCES servicio (id) ON DELETE CASCADE,detalle TEXT, precio DECIMAL (5, 2),fechaRealizado DATE);");
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS notificacion (id INTEGER PRIMARY KEY AUTOINCREMENT,idServicio INTEGER REFERENCES servicio (id) ON DELETE CASCADE,cuandoRealizar INTEGER (10));");
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS region (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre VARCHAR (20) UNIQUE);");
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS publicidad (id INTEGER PRIMARY KEY AUTOINCREMENT, idRegion INTEGER REFERENCES region (id),nombre VARCHAR (30),url VARCHAR (50) );");
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS publicidad (id INTEGER PRIMARY KEY AUTOINCREMENT, idRegion INTEGER REFERENCES region (id) ON DELETE CASCADE,nombre VARCHAR (30),url VARCHAR (50) );");
 
 
   });

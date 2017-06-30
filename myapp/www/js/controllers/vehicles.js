@@ -42,7 +42,7 @@ angular.module('app.controllers')
   $scope.cargarVehiculos = function(){
     $rootScope.serviciosParaAgregar = [];
     // Hardcoded vehicle for web testing
-    $scope.registrosVehiculos=[{"alias": "hola", "placa":"hola", "marca":"hola"}];
+    $scope.registrosVehiculos=[];
     var query = "SELECT * FROM vehiculo";
     $cordovaSQLite.execute(db, query).then(function(res){
       if (res.rows.length > 0){

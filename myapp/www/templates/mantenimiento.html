@@ -1,4 +1,4 @@
-<ion-view title="MantenimientoS" id="page3" ng-controller="DBControllerMantenimientos" cache-view="false">
+<ion-view title="Mantenimientos" id="page3" ng-controller="DBControllerMantenimientos" cache-view="false">
 <ion-nav-buttons side="left" class="has-header">
     <button ui-sref="tabsController.listaDeVehiculos()" class="button back-button buttons button-clear header-item">
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
@@ -26,11 +26,11 @@
     	  <div class="item item-text-wrap">
     	    <ul class = "list">
     	    	<li class="item">
-    	    		<a ui-sref="infoServicio()"><div style="margin-bottom: 5px">{{item.nombre}}</div></a>
+    	    		<div style="margin-bottom: 5px" style="font-weight: bold;">{{item.nombre}}</div>
     	    		<ul class = "list">
     			    	<li class="item">
-    			    		<a><div style="margin-bottom: 5px">$ {{item.precio}}</div></a>
-                  <a><div style="margin-bottom: 5px">{{item.detalle}}</div></a>
+    			    		<p style="margin-bottom: 5px">Precio: ${{item.precio}}</p>
+                  <p style="margin-bottom: 5px">Observacion: {{item.detalle}}</p>
     			    	</li>
     			    </ul>
     	    	</li>
@@ -39,6 +39,5 @@
     	</div>
       </div>
     </div>
-
   </ion-content>
 </ion-view>

@@ -56,7 +56,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
             if (res.rows.length > 0){
               for (var j=0; j<res.rows.length; j++){
                 $rootScope.selectedVehicleServices.push({
-                  idServ: res.rows.item(j).id,
+                  id: res.rows.item(j).id,
                   idTipo: res.rows.item(j).idTipo,
                   idTipoIntervalo: res.rows.item(j).idTipoIntervalo,
                   idVehiculo: res.rows.item(j).idVehiculo,

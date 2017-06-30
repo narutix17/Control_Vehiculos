@@ -18,6 +18,17 @@ angular.module('app.controllers')
     }
   });
 
+
+  $scope.editarServicio = function(nombre, servTipo, intervalo, ultimoRealizado){
+      $rootScope.chosenService = [];
+      $rootScope.chosenService.push({
+        nombre: nombre,
+        servTipo: servTipo,
+        intervalo: intervalo,
+        ultimoRealizado: ultimoRealizado
+      });
+  }
+
   /**
    * Create Vehicle method. Recieve the form model located in "agregarVehiculo.html"
    */

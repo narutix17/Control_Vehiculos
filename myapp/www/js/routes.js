@@ -136,6 +136,11 @@ angular.module('app.routes', [])
     templateUrl: 'templates/infoServicio.html'
   })
 
+  .state('editarServicioNuevo', {
+    url: '/editarServicioNuevo',
+    templateUrl: 'templates/editarServicioNuevo.html'
+  })
+
 $urlRouterProvider.otherwise('/inicio')
 
 

@@ -22,11 +22,17 @@ app.controller("DBEditarServicioNuevo", ['$scope', '$cordovaSQLite', '$rootScope
     });
 
     $scope.editarServicioParaAgregar = function(){
+      console.log("Editando servicio");
       for (var i = 0; i < $rootScope.serviciosParaAgregar.length ; i++){
+        console.log($rootScope.serviciosParaAgregar[i].nombre);
+        console.log($rootScope.chosenService[0].nombre);
         if ($rootScope.serviciosParaAgregar[i].nombre == $rootScope.chosenService[0].nombre){
-            $rootScope.serviciosParaAgregar[i].tipo_intervalo = $scope.servicioEditado[0].tipo_intervalo;
-            $rootScope.serviciosParaAgregar[i].intervalo = $scope.servicioEditado[0].intervalo;
-            $rootScope.serviciosParaAgregar[i].ultimoRealizado = $scope.servicioEditado[0].ultimoRealizado;
+            console.log("EDITANDOOOOOOOOOOOOO");
+            $rootScope.serviciosParaAgregar[i].tipo_intervalo = $scope.servicioEditado.tipo_intervalo;
+            $rootScope.serviciosParaAgregar[i].intervalo = $scope.servicioEditado.intervalo;
+            $rootScope.serviciosParaAgregar[i].ultimoRealizado = $scope.servicioEditado.ultimoRealizado;
+            console.log($scope.servicioEditado.ultimoRealizado);
+            console.log($rootScope.serviciosParaAgregar[i].ultimoRealizado);
             break;
         }
       }

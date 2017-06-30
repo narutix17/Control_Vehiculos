@@ -19,14 +19,19 @@ angular.module('app.controllers')
   });
 
 
-  $scope.editarServicio = function(nombre, servTipo, intervalo, ultimoRealizado){
+  $scope.editarServicio = function(nombre){
       $rootScope.chosenService = [];
-      $rootScope.chosenService.push({
-        nombre: nombre,
-        servTipo: servTipo,
-        intervalo: intervalo,
-        ultimoRealizado: ultimoRealizado
-      });
+      for (var i =0; i <  $rootScope.serviciosParaAgregar.length; i++){
+          if ( $rootScope.serviciosParaAgregar[i].nombre == nombre){
+            $rootScope.chosenService.push({
+              nombre: nombre,
+              servTipo: $rootScope.serviciosParaAgregar[i].servTipo,
+              intervalo: $rootScope.serviciosParaAgregar[i].intervalo,
+              ultimoRealizado: $rootScope.serviciosParaAgregar[i].ultimoRealizado
+            });
+          }
+      }
+
   }
 
   /**

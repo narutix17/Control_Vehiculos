@@ -26,6 +26,22 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     });
   }
 
+  $scope.eliminarServicio = function(idServicio){
+    var query = "DELETE FROM servicio WHERE id = ?";
+    $cordovaSQLite.execute(db, query, [idServicio]).then(function(result) {
+      for (var i = 0; i < $rootScope.selectedVehicleServices.length; i ++){
+          var servicio = $rootScope.selectedVehicleServices[i];
+          if (servicio.id == idServicio){
+              $rootScope.selectedVehicleServices.splice(i, 1);
+              break;
+          }
+      }
+      console.log("Servicio Eliminado");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
   /**
    * We use a listener to wait the selected vehicle to be retrieved from the database.
    */

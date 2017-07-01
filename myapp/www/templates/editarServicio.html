@@ -1,0 +1,42 @@
+<ion-view title="Editar Servicio Personalizado" id="editarServicio" ng-controller="EditarServicio" cache-view="false">
+  <ion-nav-buttons side="left" class="has-header">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item">
+      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right" class="has-header">
+    <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
+      <i class="icon ion-android-home"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header" ng-repeat = "item in chosenService">
+    <div id="agregarServicioPersonalizado-markdown17" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Nombre:</p> <h4> {{item.nombre}} </h4>
+    </div>
+    <div id="agregarServicioPersonalizado-markdown18" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">El ciclo de los mantenimientos se realizará por:</p>
+    </div>
+    <form id="editarNuevoServicioPersonalizado" class="list">
+      <label class="item item-select" id="agregarServicioPersonalizado-select3">
+        <span class="input-label"></span>
+        <select style="text-align: left;" ng-model="servicioEditado.servTipo">
+          <option>Kilometraje</option>
+          <option>Fecha</option>
+        </select>
+      </label>
+      <div id="agregarServicioPersonalizado-markdown19" class="show-list-numbers-and-dots">
+        <p style="color:#000000;">Se realiza cada:</p>
+      </div>
+        <label class="item item-input" id="agregarServicioPersonalizado-input11">
+          <input type="number" placeholder="{{item.intervalo}}" ng-model="servicioEditado.intervalo">
+        </label>
+      <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots">
+        <p style="color:#000000;">Kilometraje de ultimo mantenimiento:</p>
+      </div>
+        <label class="item item-input" id="agregarServicioPersonalizado-input12">
+          <input type="number" placeholder="{{item.ultimoRealizado}}" ng-model="servicioEditado.ultimoRealizado">
+        </label>
+    <button id="agregarServicioPersonalizado-button5" class="button button-positive button-block" ng-click="editarServicio()" ui-sref="tabsController2.informaciN()">Editar Servicio</button>
+    </form>
+  </ion-content>
+</ion-view>

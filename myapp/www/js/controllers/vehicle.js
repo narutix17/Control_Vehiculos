@@ -42,6 +42,17 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     });
   }
 
+  $scope.editarServicio = function(id, nombre, servTipo, intervalo, ultimoRealizado){
+      $rootScope.chosenService = [];
+      $rootScope.chosenService.push({
+        id: id,
+        nombre: nombre,
+        servTipo: servTipo,
+        intervalo: intervalo,
+        ultimoRealizado: ultimoRealizado
+      });
+  }
+
   /**
    * We use a listener to wait the selected vehicle to be retrieved from the database.
    */

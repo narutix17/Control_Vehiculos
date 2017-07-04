@@ -1,11 +1,19 @@
 <ion-view title="Inicio" hide-nav-bar="true" id="page8">
-  <ion-content padding="true" class="manual-ios-statusbar-padding" style="height: 100%">
-    <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
-      <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+  <ion-content padding="true" class="manual-ios-statusbar-padding" style="height: 100%; background: rgba(189,189,189,1);
+background: -moz-linear-gradient(top, rgba(189,189,189,1) 0%, rgba(181,181,181,1) 0%, rgba(181,181,181,1) 26%, rgba(107,107,107,1) 50%, rgba(107,107,107,1) 74%, rgba(107,107,107,1) 82%, rgba(107,107,107,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(189,189,189,1)), color-stop(0%, rgba(181,181,181,1)), color-stop(26%, rgba(181,181,181,1)), color-stop(50%, rgba(107,107,107,1)), color-stop(74%, rgba(107,107,107,1)), color-stop(82%, rgba(107,107,107,1)), color-stop(100%, rgba(107,107,107,1)));
+background: -webkit-linear-gradient(top, rgba(189,189,189,1) 0%, rgba(181,181,181,1) 0%, rgba(181,181,181,1) 26%, rgba(107,107,107,1) 50%, rgba(107,107,107,1) 74%, rgba(107,107,107,1) 82%, rgba(107,107,107,1) 100%);
+background: -o-linear-gradient(top, rgba(189,189,189,1) 0%, rgba(181,181,181,1) 0%, rgba(181,181,181,1) 26%, rgba(107,107,107,1) 50%, rgba(107,107,107,1) 74%, rgba(107,107,107,1) 82%, rgba(107,107,107,1) 100%);
+background: -ms-linear-gradient(top, rgba(189,189,189,1) 0%, rgba(181,181,181,1) 0%, rgba(181,181,181,1) 26%, rgba(107,107,107,1) 50%, rgba(107,107,107,1) 74%, rgba(107,107,107,1) 82%, rgba(107,107,107,1) 100%);
+background: linear-gradient(to bottom, rgba(189,189,189,1) 0%, rgba(181,181,181,1) 0%, rgba(181,181,181,1) 26%, rgba(107,107,107,1) 50%, rgba(107,107,107,1) 74%, rgba(107,107,107,1) 82%, rgba(107,107,107,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bdbdbd', endColorstr='#6b6b6b', GradientType=0 );">
+    <div style="margin: 0px; line-height: 250px; text-align: center; padding-top: 30px">
+      <img src="img/logo_vehiculo.png" style="font-size: 64px; vertical-align: middle;">
     </div>
-    <h1 id="inicio-heading1" style="color:#000000;text-align:center;">Nombre App</h1>
+    
     <div class="spacer" style="width: 300px; height: 22px;"></div>
-    <button ui-sref="login()" id="inicio-button9" class="button button-positive button-block button-clear">Ingresar con cuenta premium</button>
-    <a href="#/tabs/tabs/vehiculos" id="inicio-button10" class="button button-positive button-block button-clear">Continuar con la aplicación</a>
+    <button ui-sref="login()" id="inicio-button9" class="button button-positive button-block" style="background-color: #652A22; line-height: 60px">Ingresar con cuenta premium</button>
+    <div class="spacer" style="width: 300px; height: 5px;"></div>
+    <a href="#/tabs/tabs/vehiculos" id="inicio-button10" class="button button-positive button-block " style="background-color: #0E3D5B; line-height: 60px">Continuar con la aplicación</a>
   </ion-content>
 </ion-view>

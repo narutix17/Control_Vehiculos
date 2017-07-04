@@ -5,8 +5,8 @@
       <i class="icon ion-android-home"></i> <span class="back-text"></span>
     </button>
   </ion-nav-buttons>
-    <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
-      <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+    <div style="margin: 0px; text-align: center;">
+      <img src="img/car_agregar.png" style="height: 150px; width: 150px; vertical-align: middle;">
     </div>
     <form id="agregarVehiculo-form1" class="list" name="newVehicleForm" novalidate>
       <label class="item item-input" id="agregarVehiculo-input2">
@@ -46,14 +46,14 @@
       <h3 id="agregarVehiculo-heading1" style="color:#000000;">Servicios del Vehiculo</h3>
       <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosParaAgregar">
             <div class="row">
-              <div class = "col col-80">
+              <div class = "col col-75">
                 <h5>{{serv.nombre}}</h5>
               </div>
-              <div class = "col col-10">
-                <button ui-sref="editarServicioNuevo()" class="icon ion-android-settings" style="font-size: 25px; vertical-align: middle;" ng-click="editarServicio('{{serv.nombre}}')"></button>
+              <div class = "col col-12">
+                <button ui-sref="editarServicioNuevo()" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666" ng-click="editarServicio('{{serv.nombre}}')"></button>
               </div>
-              <div class = "col col-10">
-                <button class="icon ion-android-remove-circle" style="font-size: 25px; vertical-align: middle;" ng-click="eliminarServicioDeLaLista('{{serv.nombre}}')"></button>
+              <div class = "col col-12">
+                <button class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="eliminarServicioDeLaLista('{{serv.nombre}}')"></button>
               </div>
             </div>
         </div id="nuevoVehiculoServicios">

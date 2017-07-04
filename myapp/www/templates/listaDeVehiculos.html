@@ -17,7 +17,7 @@
       <a ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button1" style="font-weight:300;border-radius:200px 200px 200px 200px; text-align: center; display: block; " class="button button-balanced icon ion-plus"></a><br>
     </div>
     <div class="col col-20">
-       <i ui-sref="configuraciNDeVisualizaciN()" class="icon ion-android-settings" style="font-size: 50px; vertical-align: middle;"></i>
+       <i ui-sref="configuraciNDeVisualizaciN()" class="icon ion-android-settings" style="font-size: 50px; vertical-align: middle; color:#666666"></i>
 
     </div>
 
@@ -30,14 +30,21 @@
       <div class="list" ng-repeat="item in registrosVehiculos">
 
         <ion-item class="item-thumbnail-left item" id="listaDeVehiculos-list-item">
-          <div>
-            <h2>{{item.alias}}</h2>
-            <p>Placa: {{item.placa}}</p>
-            <p>Marca: {{item.marca}}</p>
-              <div>
-                <ion-button ng-click="setVehicle('{{item.alias}}', '{{item.idVehiculo}}', '{{item.placa}}')" ui-sref="tabsController2.informaciN()" id="listaDeVehiculos-button3" style="text-align: center;" class="button button-stable icon icon-right ion-android-car">Ver</button><br>
-              </div>
+          
+          <img src="img/car_agregar.png" style="vertical-align: middle;">
+          
+          <div class="row"> 
+            <div class="col col-60">
+              <h2>{{item.alias}}</h2>
+              <p>Placa: {{item.placa}}</p>
+              <p>Marca: {{item.marca}}</p>
+            </div>
+            <div class="col col-40" style="vertical-align: middle">
+              <ion-button ng-click="setVehicle('{{item.alias}}', '{{item.idVehiculo}}', '{{item.placa}}')" ui-sref="tabsController2.informaciN()" id="listaDeVehiculos-button3" style="text-align: center;" class="button button-stable icon icon-right ion-android-car">Ver</button><br>
+            </div>
+              
           </div>
+
         </ion-item>
       </div>
     </ion-list>

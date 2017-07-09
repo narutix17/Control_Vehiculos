@@ -3,10 +3,16 @@ angular.module('app.controllers')
 /**
  * Controller for an specific Vehicle operations
  */
-app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
+app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
 
 
-  $scope.updatedKm = {};
+  $scope.updatedplaca = $rootScope.chosenVehicle.placa;
+  $scope.updatedalias = $rootScope.chosenVehicle.alias;
+  $scope.updatedmarca = $rootScope.chosenVehicle.marca;
+  $scope.updatedyear = $rootScope.chosenVehicle.year;
+  $scope.updatedcolor = $rootScope.chosenVehicle.color;
+
+ 
 
   // We use a loading screen to wait the selected vehicle to be loaded from the database
   $ionicLoading.show({
@@ -17,45 +23,6 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     showDelay: 0
   });
 
-
-  
-
-
-  $scope.eliminarVehiculo = function(placa){
-    var query = "DELETE FROM vehiculo WHERE placa = ?";
-    $cordovaSQLite.execute(db, query, [placa]).then(function(result) {
-      console.log("Vehiculo Eliminado");
-    }, function(error){
-      console.log(error);
-    });
-  }
-
-  $scope.eliminarServicio = function(idServicio){
-    var query = "DELETE FROM servicio WHERE id = ?";
-    $cordovaSQLite.execute(db, query, [idServicio]).then(function(result) {
-      for (var i = 0; i < $rootScope.selectedVehicleServices.length; i ++){
-          var servicio = $rootScope.selectedVehicleServices[i];
-          if (servicio.id == idServicio){
-              $rootScope.selectedVehicleServices.splice(i, 1);
-              break;
-          }
-      }
-      console.log("Servicio Eliminado");
-    }, function(error){
-      console.log(error);
-    });
-  }
-
-  $scope.editarServicio = function(id, nombre, servTipo, intervalo, ultimoRealizado){
-      $rootScope.chosenService = [];
-      $rootScope.chosenService.push({
-        id: id,
-        nombre: nombre,
-        servTipo: servTipo,
-        intervalo: intervalo,
-        ultimoRealizado: ultimoRealizado
-      });
-  }
 
   /**
    * We use a listener to wait the selected vehicle to be retrieved from the database.
@@ -99,9 +66,11 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
             }
           });
         }
+
       }else{
         console.log("No hay Registros de Vehiculos");
       }
+      
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
       $ionicLoading.hide();
@@ -111,23 +80,26 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   });
 
 
-  /**
-   * Update a vehicle Km
-   */
-  $scope.actualizarKilometraje = function(alias){
+  
+ 
+
+
+  $scope.actualizarAlias = function(id){
     console.log($scope);
-    console.log($scope.updatedKm.km);
+    alias = document.getElementById("updatedalias").value;
+    placa = document.getElementById("updatedplaca").value;
+    marca = document.getElementById("updatedmarca").value;
+    year = document.getElementById("updatedyear").value;
+    color = document.getElementById("updatedcolor").value;
     console.log(alias);
-    var query = "UPDATE vehiculo SET kilometraje=? WHERE alias=?";
+    var query = "UPDATE vehiculo SET alias=?, placa=?, marca=?, año=?, color=? WHERE id=?";
     console.log(query);
-    $cordovaSQLite.execute(db, query, [$scope.updatedKm.km, alias]).then(function(result) {
+    $cordovaSQLite.execute(db, query, [alias, placa, marca, year, color, id]).then(function(result) {
       console.log("Km Actualizado");
     }, function(error){
       console.log(error);
     });
 
   }
-
-
 
 }]);

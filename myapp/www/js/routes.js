@@ -56,6 +56,7 @@ angular.module('app.routes', [])
 
       .state('tabsController2.informaciN', {
     url: '/informacion',
+
     views: {
       'tab1': {
         templateUrl: 'templates/informaciN.html'
@@ -144,6 +145,11 @@ angular.module('app.routes', [])
   .state('editarServicio', {
     url: '/editarServicio',
     templateUrl: 'templates/editarServicio.html'
+  })
+
+  .state('modificarInformacion', {
+    url: '/modificarInformacion',
+    templateUrl: 'templates/modificarInformacion.html'
   })
 
 $urlRouterProvider.otherwise('/inicio')

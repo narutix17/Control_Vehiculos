@@ -1,0 +1,40 @@
+{
+  "name": "angular-keep-values",
+  "version": "0.1.12",
+  "authors": [
+    "Emilio Blanco <emilioeduardob@gmail.com>",
+    "Jaime Bunzli <jpbunzli@gmail.com>",
+    "René Morales <rene.morales.sanchez@gmail.com>"
+  ],
+  "description": "Keep your input values in your ngModels",
+  "license": "MIT",
+  "homepage": "https://github.com/platanus/angular-keep-values",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/platanus/angular-keep-values.git"
+  },
+  "main": "./dist/angular-keep-values.min.js",
+  "ignore": [
+    "**/.*",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "package.json",
+    "test",
+    "src",
+    ".travis.yml"
+  ],
+  "devDependencies": {
+    "angular": "~1.2.27",
+    "angular-mocks": "~1.2.27"
+  },
+  "_release": "0.1.12",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.12",
+    "commit": "63db2acd73cc62f3e1a813b06d461033b6a570b0"
+  },
+  "_source": "https://github.com/platanus/angular-keep-values.git",
+  "_target": "^0.1.12",
+  "_originalSource": "angular-keep-values",
+  "_direct": true
+}

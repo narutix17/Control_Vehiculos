@@ -28,11 +28,15 @@ angular.module('app.controllers')
   /**
    * Set onto a $scope variable the selected vehicle identifier.
    */
-  $scope.setVehicle = function(alias, id, placa){
+  $scope.setVehicle = function(alias, id, placa, marca, año, color){
     $rootScope.chosenVehicle = {}
     $rootScope.chosenVehicle.alias = alias;
     $rootScope.chosenVehicle.id = id;
     $rootScope.chosenVehicle.placa = placa;
+    $rootScope.chosenVehicle.marca = marca;
+    $rootScope.chosenVehicle.year = año;
+    $rootScope.chosenVehicle.color = color;
+
   }
 
 
@@ -54,7 +58,7 @@ angular.module('app.controllers')
             placa: res.rows.item(i).placa,
             marca: res.rows.item(i).marca,
             alias: res.rows.item(i).alias,
-            año: res.rows.item(i).año,
+            year: res.rows.item(i).año,
             kilometraje: res.rows.item(i).kilometraje,
             imagen: res.rows.item(i).imagen,
           });

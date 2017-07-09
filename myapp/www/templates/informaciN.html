@@ -4,19 +4,22 @@
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
     </button>
   </ion-nav-buttons>
-  <ion-content padding="true" class="has-header"  ng-repeat="item in selectedVehicle" style="margin-left: 10px; margin-right: 10px; padding-bottom: 10px">
+  <ion-content padding="true" class="has-header"  ng-repeat="item in selectedVehicle" style="margin-left: 15px; margin-right: 10px; padding-bottom: 10px">
     <div class="row">
-      <div class = "col-60" style="margin: 0px; text-align: center;">
-        <img src="img/car_agregar.png" style="vertical-align: middle;">
+      <div class = "col col-50" style="margin: 0px; padding-top: 20px">
+        <img src="img/car_agregar.png" style="vertical-align: left; height: 120px; width: 120px">
       </div>
-      <div class = "col-30">
-        <div style="padding-top: 15px; padding-left: 20px">
+      <div class = "col col-35">
+        <div style="padding-top: 15px; padding-left: 5px">
           <p><strong> Alias: </strong> {{item.alias}} </p>
           <p><strong> Placa: </strong> {{item.placa}} </p>
           <p><strong> Marca: </strong> {{item.marca}} </p>
           <p><strong> Año: </strong> {{item.year}} </p>
           <p><strong> Color: </strong> {{item.color}} </p>
         </div>
+      </div>
+      <div class="col col-10" style="padding-top: 20px">
+        <button ui-sref="modificarInformacion()" id="modInfo" class="icon ion-edit" style="font-size: 22px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666"></button>
       </div>
     </div>
     <div id="informaciN-markdown1" class="show-list-numbers-and-dots">
@@ -70,7 +73,9 @@
 
 
       <button ui-sref="agregarServicioPersonalizado()" id="informaciN-button1" class="button button-positive button-block">Agregar Servicio Perzonalizado</button>
-      <button ui-sref="tabsController.listaDeVehiculos()" id="informaciN-button2" class="button button-positive button-block" ng-click="eliminarVehiculo('{{item.placa}}')" style="background-color: #A51D1D; margin-bottom: 10px">Eliminar Vehículo</button>
+        <button ui-sref="tabsController.listaDeVehiculos()" id="informaciN-button2" class="button button-positive button-block" ng-click="eliminarVehiculo()" style="background-color: #A51D1D; margin-bottom: 10px">Eliminar Vehículo</button>
+  
+      
       
   </ion-content>
 </ion-view>

@@ -1,5 +1,5 @@
 
-<ion-view title="nueva contraseña" id="page11">
+<ion-view title="Nueva Contraseña" id="page11" ng-controller="showPopUpCtrl">
 
   <ion-content padding="true" class="manual-ios-statusbar-padding" >
     <div style="margin: 0px; text-align: center;">
@@ -29,7 +29,7 @@
         <input type="password" placeholder="">
       </label>
     </form>
-    <button id="nuevaContraseA-button13" class="button button-positive button-block" style="margin-bottom: 20px">Reestrablecer</button>
+    <button id="nuevaContraseA-button13" ng-click="puContrasena()" class="button button-positive button-block" style="margin-bottom: 20px">Reestrablecer</button>
   </ion-content>
   
 </ion-view>

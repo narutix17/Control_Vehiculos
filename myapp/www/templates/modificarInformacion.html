@@ -1,0 +1,57 @@
+<ion-view title="Modificar Informacion" id="pageMI" ng-controller= "DBControllerModificarInfo" cache-view="false">
+  <ion-nav-buttons side="left" class="has-header">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item">
+      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right" class="has-header">
+    <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
+      <i class="icon ion-android-home"></i> <span class="back-text"></span>
+    </button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header" ng-repeat="item in selectedVehicle" style="margin: 10px;"">
+    <div id="modificarInfo-markdown17" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Alias:</p>
+    </div>
+    <form id="formalias" class="list">
+      <label class="item item-input" id="labelalias">
+        <input type="text" value="hola" ng-model="updatedalias" name="updatedalias" id="updatedalias" >
+      </label>
+    </form>
+    <div id="modificarInfo-markdown17" class="show-list-numbers-and-dots">
+      <p style="color:#00000 0;">Placa:</p>
+    </div>
+    <form id="modificarInfo-form18" class="list">
+      <label class="item item-input" id="modificarInfo-input30">
+        <input ng-model="updatedplaca" name="updatedplaca" id="updatedplaca" type="text"  >
+      </label>
+    </form>
+    <div id="modificarInfo-markdown19" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Marca:</p>
+    </div>
+    <form id="modificarInfo-form15" class="list">
+      <label class="item item-input" id="modificarInfo-input11">
+        <input type="text" ng-model="updatedmarca" name="updatedmarca" id="updatedmarca">
+      </label>
+    </form>
+    <div id="modificarInfo-markdown20" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Año:</p>
+    </div>
+    <form id="modificarInfo-form16" class="list">
+      <label class="item item-input" id="modificarInfo-input12">
+        <input type="text" ng-model="updatedyear" id="updatedyear">
+      </label>
+    </form>
+    <div id="modificarInfo-markdown21" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Color:</p>
+    </div>
+    <form id="modificarInfo-form17" class="list">
+      <label class="item item-input" id="modificarInfo-input13">
+        <input type="text" placeholder="{{item.color}}" ng-model="updatedcolor" id="updatedcolor">
+      </label>
+    </form>
+    <button id="modificarInfo-button5" class="button button-positive button-block" ng-click="actualizarAlias('{{item.idVehiculo}}')" ui-sref="tabsController2.informaciN()">Actualizar</button>
+    
+  </ion-content>
+</ion-view>
+

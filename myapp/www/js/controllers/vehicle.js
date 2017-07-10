@@ -3,8 +3,9 @@ angular.module('app.controllers')
 /**
  * Controller for an specific Vehicle operations
  */
-app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
+app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state){
 
+  
 
   $scope.updatedKm = {};
 
@@ -16,7 +17,6 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     maxWidth: 200,
     showDelay: 0
   });
-
 
   
 
@@ -128,6 +128,17 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
 
   }
 
-
+  function ConfirmDemo() {
+  //Ingresamos un mensaje a mostrar
+  var mensaje = confirm("¿Te gusta Desarrollo Geek?");
+  //Detectamos si el usuario acepto el mensaje
+  if (mensaje) {
+    alert("¡Gracias por aceptar!");
+  }
+  //Detectamos si el usuario denegó el mensaje
+  else {
+   alert("¡Haz denegado el mensaje!");
+  }
+}
 
 }]);

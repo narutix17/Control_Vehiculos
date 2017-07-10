@@ -1,11 +1,22 @@
 angular.module('app.controllers')
 
+.controller('showPopUpCtrl', function($scope, $cordovaSQLite, $rootScope, $ionicPopup, $timeout, $state){
 
-.controller('showPopUpCtrl', function($scope, $ionicPopup, $timeout, $state) {
+
+  $scope.eliminarVehiculo = function(placa){
+    var query = "DELETE FROM vehiculo WHERE placa = ?";
+    $cordovaSQLite.execute(db, query, [placa]).then(function(result) {
+      console.log("Vehiculo Eliminado");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
+  placa = $rootScope.chosenVehicle.placa;
 
   // PopUp para el boton registrarse en registrarse.html
   $scope.puRegistrarse = function() {
-    var alertPopup = $ionicPopup.alert({
+    var alertPopup = $ionicPopup.confirm({
       title: 'Registrarse', //titulo
       template: 'Cuenta Registrada exitosamente', //mensaje
       buttons: [
@@ -23,8 +34,11 @@ angular.module('app.controllers')
   };
 
   // PopUp para el boton restablecer en nuevaContraseña.html
+  
   $scope.puContrasena = function() {
-    var alertPopup = $ionicPopup.alert({
+    
+
+    var alertaPopup = $ionicPopup.confirm({
       title: 'Nueva Contraseña',
       template: 'Contraseña cambiada exitosamente',
       buttons: [
@@ -36,49 +50,38 @@ angular.module('app.controllers')
          }
       ]
     });
-    alertPopup.then(function(res) {
+    alertaPopup.then(function(res) {
       console.log('popup contraseña');
     });
   };
 
-  $scope.puEliminarVehiculo = function() {
-    var alertPopup = $ionicPopup.alert({
-      title: 'Eliminar Vehiculo',
-      template: 'Está seguro que desea eliminar este vehículo?',
-      buttons:[
-        {
-          text: 'Aceptar'
-          onTap: function(e){
-            $scope.eliminarVehiculo('{{item.placa}}');
-          }
-        },
-        {
-          text: 'Cancelar'
-        }             
+  $scope.puEVehiculo = function() {
+    
+
+    var alertasPopup = $ionicPopup.confirm({
+      title: 'Eliminar Vehículo',
+      template: 'Esta seguro que desea eliminar este vehículo?',
+      buttons: [
+         {
+            text: 'Aceptar',
+            onTap: function(e){
+               $scope.eliminarVehiculo(placa);
+               $state.go('tabsController.listaDeVehiculos');  //al presionar el boton redirige a la pagina login
+            }
+         },
+         {
+          text: 'cancelar'
+         }
       ]
     });
-    alertPopup.then(function(res) {
-      console.log('popup eliminar vehiculo');
+    alertasPopup.then(function(res) {
+      console.log('popup contraseña');
     });
   };
 
-  $scope.puEliminarServicio = function() {
-    var alertPopup = $ionicPopup.alert({
-      title: 'Eliminar Servicio',
-      template: 'Está seguro que desea eliminar este servicio?',
-      buttons:[
-        {
-          text: 'Aceptar'
-        },
-        {
-          text: 'Cancelar'
-        }             
-      ]
-    });
-    alertPopup.then(function(res) {
-      console.log('popup eliminar servicio');
-    });
-  };
+
+
+  
 
 
 });

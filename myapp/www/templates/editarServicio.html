@@ -1,4 +1,4 @@
-<ion-view title="Editar Servicio Personalizado" id="editarServicio" ng-controller="EditarServicio" cache-view="false">
+<ion-view title="Editar Servicio Personalizado" id="editarServicio"  cache-view="false">
   <ion-nav-buttons side="left" class="has-header">
     <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item">
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
@@ -9,7 +9,9 @@
       <i class="icon ion-android-home"></i> <span class="back-text"></span>
     </button>
   </ion-nav-buttons>
-  <ion-content padding="true" class="has-header" ng-repeat = "item in chosenService">
+  <ion-content padding="true" class="has-header" >
+    <div ng-controller="EditarServicio">
+    <div ng-repeat = "item in chosenService">
     <div id="agregarServicioPersonalizado-markdown17" class="show-list-numbers-and-dots">
       <p style="color:#000000;">Nombre:</p> <h4> {{item.nombre}} </h4>
     </div>
@@ -38,5 +40,7 @@
         </label>
     <button id="agregarServicioPersonalizado-button5" class="button button-positive button-block" ng-click="editarServicio()" ui-sref="tabsController2.informaciN()">Editar Servicio</button>
     </form>
+    </div>
+    </div>
   </ion-content>
 </ion-view>

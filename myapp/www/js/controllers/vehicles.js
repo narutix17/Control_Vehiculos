@@ -2,7 +2,7 @@ angular.module('app.controllers')
 /**
  * Controller for Vehicle operations
  */
-.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
+.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading','$ionicPopup',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup){
 
   $rootScope.serviciosParaAgregar = [];
   /**
@@ -102,4 +102,45 @@ angular.module('app.controllers')
       console.log(error);
     });
   }
+
+  $scope.eliminarVehiculo=function(idVehiculo){
+    console.log("INTENTANDO ELIMINAR VEHICULO CON ID: "+idVehiculo);
+    var query="DELETE FROM vehiculo WHERE id="+idVehiculo;
+    $cordovaSQLite.execute(db,query).then(
+      function(res){
+        console.log("VEHICULO CON "+idVehiculo+" ELIMINADO DE LA BASE DE DATOS");
+    },function(error){
+      console.log("ERROR ELIMINANDO VEHICULO DE LA BASE DE DATOS");
+      alert(error);
+      console.log(error);
+
+    });
+
+
+  }
+  
+   $scope.showConfirmEliminarVehiculo2 = function(idVehiculo,alias) {
+    console.log('MOSTRANDO POPUP DE CONFIRMACION DE ELIMINACION DE VEHICULO');
+     var confirmPopup = $ionicPopup.confirm({
+       title: 'Eliminar Vehiculo',
+       template: "Seguro que quieres eliminar a "+alias
+     });
+     confirmPopup.then(function(res) {
+       if(res) {
+        //console.log("EL PADRE ES:"+padre.attr("id"));
+        //console.log(angular.element($("#1")).attr("class"));
+         angular.element($("#"+idVehiculo)).remove();
+        //console.log(angular.element($("#1")).attr("class"));
+         console.log('CONFIRMO POSITIVO');
+         $scope.eliminarVehiculo(idVehiculo);
+
+       } else {
+         console.log('CONFIRMO NEGATIVO');
+       }
+     });
+   };
+
+
 }]);
+
+

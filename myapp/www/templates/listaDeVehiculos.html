@@ -27,9 +27,9 @@
 
     <ion-list id="listaDeVehiculos-list2" class="disable-user-behavior">
 
-      <div class="list" ng-repeat="item in registrosVehiculos">
+      <div class="list" >
 
-        <ion-item class="item-thumbnail-left item" id="listaDeVehiculos-list-item">
+        <ion-item class="item-thumbnail-left item" id="{{item.id}}" ng-repeat="item in registrosVehiculos">
           
           <img src="img/car_agregar.png" style="vertical-align: middle;">
           
@@ -39,9 +39,19 @@
               <p>Placa: {{item.placa}}</p>
               <p>Marca: {{item.marca}}</p>
             </div>
-            <div class="col col-40" style="vertical-align: middle">
-              <ion-button  ng-click="setVehicle('{{item.alias}}', '{{item.id}}', '{{item.placa}}', '{{item.marca}}', '{{item.year}}', '{{item.color}}')" ui-sref="tabsController2.informaciN()" id="listaDeVehiculos-button3" style="text-align:;" class="button button-stable icon icon-right ion-android-car">Ver</button>
+            <div class="col col-40">
+              <div style="vertical-align: text-top;">
+                <ion-button  ng-click="setVehicle('{{item.alias}}', '{{item.id}}', '{{item.placa}}', '{{item.marca}}', '{{item.year}}', '{{item.color}}')" ui-sref="tabsController2.informaciN()" id="listaDeVehiculos-button3" style="text-align:;" class="button button-stable icon icon-right ion-android-car">Ver</button>
+              
+              </div>
+              <div style="vertical-align: text-bottom;">
+                <button  class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#A51D1D" ng-click="showConfirmEliminarVehiculo2('{{item.id}}','{{item.alias}}')"></button>
+              </div>
+              
             </div>
+            
+            
+            
               
           </div>
 

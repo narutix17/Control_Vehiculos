@@ -13,9 +13,11 @@
         <span class="input-label">Placa</span>
         <input ng-maxlength="10" ng-minlength="5" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input2b" ng-model="newVehicle.newPlaca" name="newPlaca">
       </label>
-      <label class="item item-input" id="agregarVehiculo-input3">
+      <label class="item item-select" id="agregarVehiculo-input3">
         <span class="input-label">Marca</span>
-        <input ng-maxlength="20" ng-minlength="3" ng-required="false" type="text" placeholder="" id="agregarVehiculo-input3b" ng-model="newVehicle.newMarca" name="newMarca">
+        <select ng-model="newVehicle.idMarca">
+          <option  ng-repeat="marca in registrosPlacasVehiculos" value="{{marca.id}}">{{marca.nombre}}</option>
+        </select>
       </label>
       <label class="item item-input" id="agregarVehiculo-input5">
         <span class="input-label">Alias</span>
@@ -27,12 +29,8 @@
       </label>
       <label class="item item-select" id="agregarVehiculo-select1">
         <span class="input-label">Tipo</span>
-        <select ng-model="newTipo" name="newTipo" ng-required="true">
-          <option value="automovil" selected>Automovil</option>
-          <option value="motocicleta">Motocicleta</option>
-          <option value="bicicleta">Bicicleta</option>
-          <option value="camion">Camion</option>
-          <option value="otro">Otro</option>
+        <select ng-model="newVehicle.idTipo" name="newTipo" ng-required="true">
+          <option  ng-repeat="tipo in registrosTiposVehiculos" value="{{tipo.id}}">{{tipo.nombre}}</option>
         </select>
       </label>
       <label class="item item-input" id="agregarVehiculo-input6">
@@ -66,7 +64,6 @@
         <p ng-show="newVehicleForm.newPlaca.$error.minlength || newVehicleForm.newPlaca.$error.maxlength">* La placa debe tener entre 10 y 5 caracteres </p>
         <p ng-show="newVehicleForm.alias.$error.minlength || newVehicleForm.alias.$error.maxlength">* El alias debe tener entre 20 y 3 caracteres </p>
         <p ng-show="newVehicleForm.newYear.$error.minlength || newVehicleForm.newYear.$error.maxlength">* El año debe tener 4 digitos </p>
-        <p ng-show="newVehicleForm.newMarca.$error.minlength || newVehicleForm.newMarca.$error.maxlength">* La marca debe tener entre 20 y 3 caracteres </p>
         <p ng-show="newVehicleForm.newColor.$error.minlength || newVehicleForm.newColor.$error.maxlength">* El color debe tener entre 20 y 3 caracteres </p>
         <p ng-show="newVehicleForm.newTipo.$error.required">* Seleccione el Tipo </p>
       </div>

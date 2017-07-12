@@ -10,42 +10,55 @@
     </button>
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
-    <div id="agregarServicioPersonalizado-markdown17" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">Nombre:</p>
-    </div>
-    <form id="agregarServicioPersonalizado-form13" class="list">
-      <label class="item item-input" id="agregarServicioPersonalizado-input10">
-        <input type="text" placeholder="" ng-model="newService.nombre">
-      </label>
-    </form>
-    <div id="agregarServicioPersonalizado-markdown18" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">El ciclo de los mantenimientos se realizará por:</p>
-    </div>
-    <form id="agregarServicioPersonalizado-form14" class="list">
-      <label class="item item-select" id="agregarServicioPersonalizado-select3">
-        <span class="input-label"></span>
-        <select style="text-align: left;" ng-model="newService.servTipo">
+    
+    <form id="agregarServicioPersonalizado-form13" class="list" name="form13">
+      <div id="agregarServicioPersonalizado-markdown17" class="show-list-numbers-and-dots" >
+        <p style="color:#000000;">Nombre:</p>
+      </div>
+      <div class="item item-input" id="agregarServicioPersonalizado-input10">
+        <input type="text" placeholder="nombre servicio" ng-model="newService.nombre" name="nombreServicio" ng-required="true" ng-maxlength="20" ng-minlength="3" value="">
+      </div>
+      
+      <div id="agregarServicioPersonalizado-markdown18" class="show-list-numbers-and-dots" style="margin-bottom:5px;margin-top:30px">
+        <p style="color:#000000;">El ciclo de los mantenimientos se realizará por:</p>
+      </div>
+      <div class="item item-select" id="agregarServicioPersonalizado-select3" >
+        <span class="input-label">tipo ciclo:</span>
+        <select style="text-align: left;" ng-model="newService.servTipo" name="tipoCiclo" ng-required="true">
           <option>Kilometraje</option>
           <option>Fecha</option>
         </select>
-      </label>
+      </div>
+      <div id="agregarServicioPersonalizado-markdown19" class="show-list-numbers-and-dots" style="margin-bottom:5px;margin-top:30px">
+        <p style="color:#000000;">Se realiza cada:</p>
+      </div>
+
+      <div class="item item-input" id="agregarServicioPersonalizado-input11">
+        <input name="intervalo" type="number" placeholder="intervalo" ng-model="newService.intervalo" ng-required="true" ng-maxlength="10" >
+      </div>
+   
+      <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots" style="margin-bottom:5px;margin-top:30px">
+        <p style="color:#000000;">Kilometraje de ultimo mantenimiento:</p>
+      </div>
+      
+      <div class="item item-input" id="agregarServicioPersonalizado-input12">
+        <input name="ultimoMantenimiento" type="number" placeholder="ultimo mantenimiento" ng-model="newService.ultimoRealizado" ng-required="true" ng-maxlength="10">
+      </div>
+      
+      <button ng-disabled="form13.$invalid" id="agregarServicioPersonalizado-button5" class="button button-positive button-block" ng-click="agregarServicioALista()" ui-sref="tabsController.agregarVehiculo()" style="margin-bottom:5px;margin-top:30px">Agregar Servicio</button>
     </form>
-    <div id="agregarServicioPersonalizado-markdown19" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">Se realiza cada:</p>
+    <div ng-show="form13.$invalid">
+      <h5 ng-show="form13.nombreServicio.$error.required">* campo "nombre servicio" requerido</h5>
+      <h5 ng-show="form13.nombreServicio.$error.minlength || form13.nombreServicio.$error.maxlength">* Nombre de servicio debe de tener entre 20  y 3 caracteres</h5>
+
+      <h5 ng-show="form13.tipoCiclo.$error.required">* campo "tipo ciclo" requerido</h5>
+
+      <h5 ng-show="form13.intervalo.$error.required">* campo "intervalo" requerido</h5>
+      <h5 ng-show="form13.intervalo.$error.maxlength">* campo "intervalo" debe de tener maximo 10 digitos</h5>
+
+      <h5 ng-show="form13.ultimoMantenimiento.$error.required">* campo "ultimo mantenimiento" requerido</h5>
+      <h5 ng-show="form13.ultimoMantenimiento.$error.maxlength">* campo "ultimo mantenimiento" debe de tener maximo 10 digitos</h5>
+
     </div>
-    <form id="agregarServicioPersonalizado-form15" class="list">
-      <label class="item item-input" id="agregarServicioPersonalizado-input11">
-        <input type="number" placeholder="" ng-model="newService.intervalo">
-      </label>
-    </form>
-    <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">Kilometraje de ultimo mantenimiento:</p>
-    </div>
-    <form id="agregarServicioPersonalizado-form16" class="list">
-      <label class="item item-input" id="agregarServicioPersonalizado-input12">
-        <input type="number" placeholder="" ng-model="newService.ultimoRealizado">
-      </label>
-    </form>
-    <button id="agregarServicioPersonalizado-button5" class="button button-positive button-block" ng-click="agregarServicioALista()" ui-sref="tabsController.agregarVehiculo()">Agregar Servicio</button>
   </ion-content>
 </ion-view>

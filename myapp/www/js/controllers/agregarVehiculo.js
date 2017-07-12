@@ -38,8 +38,8 @@ angular.module('app.controllers')
    */
   $scope.crearVehiculo = function(){
     var servicios = $rootScope.serviciosParaAgregar;
-    var query = "INSERT INTO vehiculo (idTipo, color, placa, marca, alias, año, kilometraje, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    $cordovaSQLite.execute(db, query, [1, $scope.newVehicle.newColor, $scope.newVehicle.newPlaca, $scope.newVehicle.newMarca, $scope.newVehicle.newAlias, $scope.newVehicle.newYear, $scope.newVehicle.newKilometraje, ""]).then(function(result) {
+    var query = "INSERT INTO vehiculo (idTipo,idMarca, color, placa, alias, año, kilometraje, imagen) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
+    $cordovaSQLite.execute(db, query, [$scope.newVehicle.idTipo,$scope.newVehicle.idMarca, $scope.newVehicle.newColor, $scope.newVehicle.newPlaca, $scope.newVehicle.newAlias, $scope.newVehicle.newYear, $scope.newVehicle.newKilometraje, ""]).then(function(result) {
       console.log("Vehiculo Agregado");
       console.log(servicios);
       var query2 = "SELECT * FROM vehiculo WHERE placa = ? "
@@ -54,6 +54,7 @@ angular.module('app.controllers')
           }
       });
     }, function(error){
+      console.log("ERROR INSERTANDO UN NUEVO VEHICULO")
       console.log(error);
     });
   }
@@ -96,6 +97,59 @@ angular.module('app.controllers')
     $ionicLoading.hide();
 
   }
+
+
+  //CARGA PLACAS DE TODOS LOS VEHICULOS
+  $scope.cargarPlacas = function(){
+    //$rootScope.serviciosParaAgregar = [];
+    // Hardcoded vehicle for web testing
+    $scope.registrosPlacasVehiculos=[];
+    var query = "select * from marca";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      if (res.rows.length > 0){
+        for (var i=0; i<res.rows.length; i++) {
+          $scope.registrosPlacasVehiculos.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          });
+
+        }
+      }else{
+        console.log("No hay Registros de Marcas");
+      }
+      console.log("SE CARGARON : "+ res.rows.length + " Marcas");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
+  //CARGA LOS TIPOS DE VEHICULOS QUE EXISTEN EN LA TABLA tipo_vehiculo
+  $scope.cargarTiposVehiculos = function(){
+    //$rootScope.serviciosParaAgregar = [];
+    // Hardcoded vehicle for web testing
+    $scope.registrosTiposVehiculos=[];
+    var query = "select * from tipo_vehiculo";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      if (res.rows.length > 0){
+        for (var i=0; i<res.rows.length; i++) {
+          $scope.registrosTiposVehiculos.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          });
+
+        }
+      }else{
+        console.log("No hay Registros de Tipos de Vehiculos");
+      }
+      console.log("SE CARGARON : "+ res.rows.length + " TIPOS DE VEHICULOS");
+    }, function(error){
+      console.log("PROBLEMA AL CARGAR TIPOS DE VEHICULOS");
+      console.log(error);
+    });
+  }
+
+  $scope.cargarPlacas();
+  $scope.cargarTiposVehiculos();
 
 
 }]);

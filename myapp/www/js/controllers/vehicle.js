@@ -18,8 +18,6 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     showDelay: 0
   });
 
-  
-
 
   $scope.eliminarVehiculo = function(placa){
     var query = "DELETE FROM vehiculo WHERE placa = ?";
@@ -67,12 +65,18 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     $scope.selectedVehicle = [];
     $rootScope.selectedVehicleServices = [];
     $scope.actualid = $rootScope.chosenVehicle.id;
-    var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
-     $cordovaSQLite.execute(db, query).then(function(res){
+    //var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
+    var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id WHERE vehiculo.id=?";
+
+     console.log("idVehiculo: "+$scope.actualid);
+     $cordovaSQLite.execute(db, query,[$scope.actualid]).then(function(res){
+      console.log("res.length: "+res.length);
+      console.log("res.rows.item(0): "+res.rows.item(0));
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
           $scope.selectedVehicle.push({
-            idVehiculo: res.rows.item(i).id,
+            id: res.rows.item(i).id,
+            idMarca:res.rows.item(i).idMarca,
             idTipo: res.rows.item(i).idTipo,
             color: res.rows.item(i).color,
             placa: res.rows.item(i).placa,

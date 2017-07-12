@@ -47,12 +47,13 @@ angular.module('app.controllers')
     $rootScope.serviciosParaAgregar = [];
     // Hardcoded vehicle for web testing
     $scope.registrosVehiculos=[];
-    var query = "SELECT * FROM vehiculo";
+    var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id";
     $cordovaSQLite.execute(db, query).then(function(res){
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
           $scope.registrosVehiculos.push({
-            idVehiculo: res.rows.item(i).id,
+            id: res.rows.item(i).id,
+            idMarca:res.rows.item(i).idMarca,
             idTipo: res.rows.item(i).idTipo,
             color: res.rows.item(i).color,
             placa: res.rows.item(i).placa,

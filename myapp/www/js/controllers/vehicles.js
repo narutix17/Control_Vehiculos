@@ -103,26 +103,24 @@ angular.module('app.controllers')
     });
   }
 
+
+  //ELIMINA EL VEHICULO Y TODAS SUS REFERENCIAS EN LA BASE DE DATOS A PARTIR DEL VEHICULO SELECCIONADO EN LA VISTA EL CUAL TIENE EL ID RESPECTIVO
   $scope.eliminarVehiculo=function(idVehiculo){
-    console.log("INTENTANDO ELIMINAR VEHICULO CON ID: "+idVehiculo);
-    
     // query2="DELETE FROM servicio WHERE idVehiculo="+idVehiculo
-    var query="select * from servicio where idVehiculo="+idVehiculo;
-    alert("EL QUERY QUE ESTOY MANDANDO SELECT:"+query);
     var query1="select * from servicio where idVehiculo=?";
 
     $cordovaSQLite.execute(db,query1,[idVehiculo]).then(
       function(res){
-        var res1=res;
+        var registrosMantenimientos=res.rows;
         for (var i = 0; i < res1.rows.length; i++) {  
-          var query2="DELETE FROM mantenimiento where idServicio="+res1.rows.item(i).id;
+          var query2="DELETE FROM mantenimiento where idServicio="+registrosMantenimientos.item(i).id;
           $cordovaSQLite.execute(db,query2).then(
             function(res){
             console.log(res.rowsAffected+" Mantenimiento eliminado");             
             },
             function(error){
               alert(error);
-              console.log(error);
+              console.log("ERROR AL ELIMINAR MANTENIMIETOS DE CADA SERVICIO:"+error);
             });
         }
         var query3="delete from servicio where idVehiculo="+idVehiculo;
@@ -131,7 +129,7 @@ angular.module('app.controllers')
             console.log(res.rowsAffected+"SERVICIOS ELEIMINADOS DEL VEHICULO:"+idVehiculo);
           }
           ,function(error){
-            console.log(error);
+            console.log("ERROR AL ELIMINAR SERVICIOS DEL VEHICULO:"+error);
           });
         var query4="DELETE FROM vehiculo WHERE id="+idVehiculo;
         $cordovaSQLite.execute(db,query4).then(
@@ -139,7 +137,7 @@ angular.module('app.controllers')
             console.log(res.rowsAffected+"VEHICULOS ELEIMINADOS");
           }
           ,function(error){
-            console.log(error);
+            console.log("ERROR AL ELIMINAR VEHICULO:"error);
           });
 
 
@@ -153,7 +151,9 @@ angular.module('app.controllers')
 
 
   }
+
   //PRIMERA FORMA PASANDO EL EVENTO PARA SACAR EL CURRENT ELEMENTO
+  //POPUP PARA CONFIRMACION DE LA ELIMINACION DE VEHICULO DESDE LA VISTA Y LA ELIMINACION RESPECTIVA DESDE LA VISTA.
   $scope.showConfirmEliminarVehiculo = function(idVehiculo,alias,event) {
     console.log('MOSTRANDO POPUP DE CONFIRMACION DE ELIMINACION DE VEHICULO');
     var currentElement=angular.element(event.currentTarget);
@@ -178,7 +178,8 @@ angular.module('app.controllers')
        }
      });
    };
-   //AQUI ME ASEGURE DE PONER en id del elemento html el id del vehiculo por lo tanto solo paso el mismo id del vehiculo
+   //SEGUNDA FORMA:AQUI ME ASEGURE DE PONER en id del elemento html el id del vehiculo por lo tanto solo paso el mismo id del vehiculo
+   //POPUP PARA CONFIRMACION DE LA ELIMINACION DE VEHICULO DESDE LA VISTA Y LA ELIMINACION RESPECTIVA DESDE LA VISTA.
    $scope.showConfirmEliminarVehiculo2 = function(idVehiculo,alias) {
     console.log('MOSTRANDO POPUP DE CONFIRMACION DE ELIMINACION DE VEHICULO');
      var confirmPopup = $ionicPopup.confirm({

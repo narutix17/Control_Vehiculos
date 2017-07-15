@@ -1,12 +1,8 @@
 angular.module('app.controllers')
 
-/**
- * Controller for an specific Vehicle operations
- */
-app.controller("DBControllerMantenimientos", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
+.controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
 
-
-    $ionicLoading.show({
+  $ionicLoading.show({
       content: 'Loading',
       animation: 'fade-in',
       showBackdrop: true,
@@ -14,7 +10,8 @@ app.controller("DBControllerMantenimientos", ['$scope', '$cordovaSQLite', '$root
       showDelay: 0
     });
 
-    var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
+
+  var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
     //var query = "SELECT * FROM mantenimiento";
     console.log(query);
     $scope.selectedVehicleMantenimientos = [];
@@ -22,12 +19,15 @@ app.controller("DBControllerMantenimientos", ['$scope', '$cordovaSQLite', '$root
     $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
         if (res.rows.length > 0){
           for (var i=0; i<res.rows.length; i++) {
+            $scope.fehcaRealiz = res.rows.item(i).fechaRealizado;
+            $scope.fecha = new Date($scope.fehcaRealiz);
             $scope.selectedVehicleMantenimientos.push({
               nombre: res.rows.item(i).nombre,
               id: res.rows.item(i).id,
               idServicio: res.rows.item(i).idServicio,
               detalle: res.rows.item(i).detalle,
               precio: res.rows.item(i).precio,
+              fecha: $scope.fecha,
               fechaRealizado: res.rows.item(i).fechaRealizado.substring(0, 15)
             });
           }
@@ -37,4 +37,21 @@ app.controller("DBControllerMantenimientos", ['$scope', '$cordovaSQLite', '$root
         console.log("Hola");
         $ionicLoading.hide();
     });
-}]);
+
+  
+ 
+    $scope.toggleGroup = function(group) {
+      if ($scope.isGroupShown(group)) {
+        $scope.shownGroup = null;
+      } else {
+        $scope.shownGroup = group;
+      }
+    };
+    $scope.isGroupShown = function(group) {
+      return $scope.shownGroup === group;
+    };
+  
+});
+
+
+

@@ -2,7 +2,7 @@ angular.module('app.controllers')
 /**
  * Controller for Adding Vehicle operations
  */
-.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
+.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state){
 
   $scope.newService = {}
   $scope.newVehicle = {}
@@ -18,6 +18,10 @@ angular.module('app.controllers')
     }
   });
 
+
+  $("label input").on("show-invalid",function(){
+    $(this).parent().toggleClass("focused");
+  });
 
   $scope.editarServicio = function(nombre){
       $rootScope.chosenService = [];
@@ -87,15 +91,38 @@ angular.module('app.controllers')
         showDelay: 0
     });
     console.log($scope.newService.nombre);
+    $rootScope.predeterminadosAgregados = true;
     $rootScope.serviciosParaAgregar.push({
         nombre: $scope.newService.nombre,
         tipo_intervalo: $scope.newService.servTipo,
         intervalo: $scope.newService.intervalo,
         ultimoRealizado: $scope.newService.ultimoRealizado
     })
-
     $ionicLoading.hide();
-
+    $scope.lastViewTitle = $ionicHistory.backTitle();
+    console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
+    if ($scope.lastViewTitle == "Informacion"){
+      $scope.serviciosAgregar = [];
+      $scope.serviciosAgregar.push({
+        nombre: $scope.newService.nombre,
+        tipo_intervalo: $scope.newService.servTipo,
+        intervalo: $scope.newService.intervalo,
+        ultimoRealizado: $scope.newService.ultimoRealizado
+      })
+      var services = $scope.serviciosAgregar;
+      var idV = $rootScope.chosenVehicle.id;
+      console.log(idV);
+      //for (i = 0; i < services.length; i++){
+        var servi = services[0];
+        var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
+        $cordovaSQLite.execute(db, servQuery, [2, servi.tipo_intervalo, idV, servi.nombre, servi.intervalo, servi.ultimoRealizado ]).then(function(result) {
+                  console.log("Servicio Agregado"+ servi.nombre);
+                  $state.go('tabsController2.informaciN');
+        });
+      //}
+    }else{
+      $state.go('tabsController.agregarVehiculo');
+    }
   }
 
 
@@ -151,5 +178,16 @@ angular.module('app.controllers')
   $scope.cargarPlacas();
   $scope.cargarTiposVehiculos();
 
+  
+  
+  $scope.onChanged = function(){
+    var ciclo = $("#ciclo").val();
+    console.log("ACAAAAAA:" + ciclo);
+    if (ciclo == "Kilometraje"){
+      document.getElementById("km").innerHTML = "kilometros";
+    }else{
+      document.getElementById("km").innerHTML = "dias";
+    } 
+  }
 
 }]);

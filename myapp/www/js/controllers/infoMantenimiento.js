@@ -28,5 +28,4 @@ app.controller("infoMantenimiento", ['$scope', '$cordovaSQLite', '$rootScope', '
       $ionicLoading.hide();
     });
 
-
-}
+}]);

@@ -24,6 +24,7 @@ angular.module('app.controllers')
     $scope.selectedVehicleMantenimientos = [];
     $scope.vehicleMantenimientos = [];
     $scope.vehicleInfoMantenimientos = [];
+    $scope.temporalSave = [];
     console.log($rootScope.chosenVehicle.id);
     $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
         console.log("TAMAÑOOOOOO: "+res.rows.length);
@@ -124,7 +125,7 @@ angular.module('app.controllers')
             }
           }
         }
-
+        $scope.temporalSave = $scope.vehicleMantenimientos;
         console.log("Hola");
         $ionicLoading.hide();
     });
@@ -141,8 +142,33 @@ angular.module('app.controllers')
     $scope.isGroupShown = function(group) {
       return $scope.shownGroup === group;
     };
+
+
+    $scope.buscar = function(){
+      $scope.vehicleMantenimientos = $scope.temporalSave;
+      fecha = document.getElementById("fecha").value;
+      $scope.fecha = new Date(fecha.replace(/-/g, '\/'));
+      $scope.arrayTemporal = [];
+      //$scope.arrayTemporal = $scope.vehicleMantenimientos;
+      for(var i=0; i<$scope.vehicleMantenimientos.length; i++){
+        if($scope.fecha.toString().substring(0, 15) == $scope.vehicleMantenimientos[i].fechaRealizado){
+          $scope.arrayTemporal.push({
+            nombre: $scope.vehicleMantenimientos[i].nombre,
+            id: $scope.vehicleMantenimientos[i].id,
+            idServicio: $scope.vehicleMantenimientos[i].idServicio,
+            detalle: $scope.vehicleMantenimientos[i].detalle,
+            precio: $scope.vehicleMantenimientos[i].precio,
+            //fecha: $scope.fecha,
+            fechaRealizado: $scope.vehicleMantenimientos[i].fechaRealizado
+          });
+        }
+      }
+      $scope.vehicleMantenimientos = "";
+      $scope.vehicleMantenimientos = $scope.arrayTemporal;
+
+
+
+    } 
   
 });
-
-
 

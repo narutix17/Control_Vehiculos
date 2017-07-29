@@ -2,7 +2,7 @@ angular.module('app.controllers')
 /**
  * Controller for Adding Vehicle operations
  */
-.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state){
+.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state','$cordovaLocalNotification', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state,$cordovaLocalNotification){
 
   $scope.newService = {}
   $scope.newVehicle = {}
@@ -54,6 +54,11 @@ angular.module('app.controllers')
               var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
               $cordovaSQLite.execute(db, servQuery, [2, serv.tipo_intervalo, idVehiculo, serv.nombre, serv.intervalo, serv.ultimoRealizado ]).then(function(result) {
                   console.log("Servicio Agregado");
+
+
+
+
+
               });
           }
       });
@@ -188,6 +193,79 @@ angular.module('app.controllers')
     }else{
       document.getElementById("km").innerHTML = "dias";
     } 
+  }
+
+
+//notifica cada desde la fecha indicada hasta la misma fecha sumando la variable dias como dias del calendario dentro del mes.
+  //fecha  de tipo date
+  //dias de tipo entero entre el rango 1 -31
+  //idVehiculo de tipo entero corresponde al id del vehiculo que necesita mantenimiento.
+  $scope.notificarDias=function (idVehiculo,fecha,dias) {
+    // body...
+    var fechaPost=new Date(fecha);
+    fechaPost.setDate(fechaPost.getDate()+dias-1);
+    console.log("se va a setear notificacion");
+    $cordovaLocalNotification.add({
+      id: idVehiculo,
+      title: 'Se acercan mantenientos a realizar',
+      text: 'Revisa tu vehiculo con id'+idVehiculo,
+      data: { mydata: 'data' },
+      at: fechaPost
+
+    }).then(function() {
+      // body...
+      console.log("la notificacion ha sido seteada");
+    });
+
+  }
+
+
+//Notifica cada mes estableciendo el id del vehiculo, la fecha del ultimo realizado y la frecuencia en mes.
+
+
+  $scope.notificarMes=function (idVehiculo,fecha,meses) {
+    // body...
+    var fechaPost=new Date(fecha);
+    fechaPost.setMonth(fechaPost.getMonth()+meses);
+    fechaPost.setDate(fechaPost.getDate()-7);
+    console.log("se va a setear notificacion");
+    $cordovaLocalNotification.add({
+      id: idVehiculo,
+      title: 'Se acercan mantenientos a realizar',
+      text: 'Revisa tu vehiculo con id'+idVehiculo,
+      data: { mydata: 'data' },
+      at: fechaPost
+    }).then(function() {
+      // body...
+      console.log("la notificacion ha sido seteada");
+    });
+
+  }
+
+  $scope.notificarAnio=function (idVehiculo,fecha,anios) {
+    // body...
+    var fechaPost=new Date(fecha);
+    fechaPost.setYear(fechaPost.getYear()+anios);
+    if (fechaPost.getMonth()!=0) 
+    {
+          fechaPost.setMonth(fechaPost.getMonth()-1);
+
+    }
+    else{
+          fechaPost.setMonth(11);
+    }
+    console.log("se va a setear notificacion");
+    $cordovaLocalNotification.add({
+      id: idVehiculo,
+      title: 'Se acercan mantenientos a realizar',
+      text: 'Revisa tu vehiculo con id'+idVehiculo,
+      data: { mydata: 'data' },
+      at: fechaPost
+    }).then(function() {
+      // body...
+      console.log("la notificacion ha sido seteada");
+    });
+
   }
 
 }]);

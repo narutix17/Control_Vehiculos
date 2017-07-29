@@ -2,7 +2,7 @@ angular.module('app.controllers')
 /**
  * Controller for Vehicle operations
  */
-.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading','$ionicPopup',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup){
+.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading','$ionicPopup','$cordovaLocalNotification',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup,$cordovaLocalNotification){
 
   $rootScope.serviciosParaAgregar = [];
   /**
@@ -103,27 +103,88 @@ angular.module('app.controllers')
     });
   }
 
+
+  //ELIMINA EL VEHICULO Y TODAS SUS REFERENCIAS EN LA BASE DE DATOS A PARTIR DEL VEHICULO SELECCIONADO EN LA VISTA EL CUAL TIENE EL ID RESPECTIVO
   $scope.eliminarVehiculo=function(idVehiculo){
-    console.log("INTENTANDO ELIMINAR VEHICULO CON ID: "+idVehiculo);
-    var query="DELETE FROM vehiculo WHERE id="+idVehiculo;
-    $cordovaSQLite.execute(db,query).then(
+    // query2="DELETE FROM servicio WHERE idVehiculo="+idVehiculo
+    var query1="select * from servicio where idVehiculo=?";
+
+    $cordovaSQLite.execute(db,query1,[idVehiculo]).then(
       function(res){
-        console.log("VEHICULO CON "+idVehiculo+" ELIMINADO DE LA BASE DE DATOS");
+        var registrosMantenimientos=res.rows;
+        for (var i = 0; i < res1.rows.length; i++) {  
+          var query2="DELETE FROM mantenimiento where idServicio="+registrosMantenimientos.item(i).id;
+          $cordovaSQLite.execute(db,query2).then(
+            function(res){
+            console.log(res.rowsAffected+" Mantenimiento eliminado");             
+            },
+            function(error){
+              alert(error);
+              console.log("ERROR AL ELIMINAR MANTENIMIETOS DE CADA SERVICIO:"+error);
+            });
+        }
+        var query3="delete from servicio where idVehiculo="+idVehiculo;
+        $cordovaSQLite.execute(db,query3).then(
+          function(res){
+            console.log(res.rowsAffected+"SERVICIOS ELEIMINADOS DEL VEHICULO:"+idVehiculo);
+          }
+          ,function(error){
+            console.log("ERROR AL ELIMINAR SERVICIOS DEL VEHICULO:"+error);
+          });
+        var query4="DELETE FROM vehiculo WHERE id="+idVehiculo;
+        $cordovaSQLite.execute(db,query4).then(
+          function(res){
+            console.log(res.rowsAffected+"VEHICULOS ELEIMINADOS");
+          }
+          ,function(error){
+            console.log("ERROR AL ELIMINAR VEHICULO:"error);
+          });
+
+
+
     },function(error){
-      console.log("ERROR ELIMINANDO VEHICULO DE LA BASE DE DATOS");
       alert(error);
       console.log(error);
 
     });
+    
 
 
   }
-  
+
+  //PRIMERA FORMA PASANDO EL EVENTO PARA SACAR EL CURRENT ELEMENTO
+  //POPUP PARA CONFIRMACION DE LA ELIMINACION DE VEHICULO DESDE LA VISTA Y LA ELIMINACION RESPECTIVA DESDE LA VISTA.
+  $scope.showConfirmEliminarVehiculo = function(idVehiculo,alias,event) {
+    console.log('MOSTRANDO POPUP DE CONFIRMACION DE ELIMINACION DE VEHICULO');
+    var currentElement=angular.element(event.currentTarget);
+    //console.log("current target:"+angular.element(event.currentTarget).parent().parent().parent().parent().attr("id"));
+     var confirmPopup = $ionicPopup.confirm({
+       title: 'Eliminar Vehiculo',
+       template: "Seguro que quieres eliminar a "+alias+"?"
+     });
+     confirmPopup.then(function(res) {
+       if(res) {
+        var padre=currentElement.parent().parent().parent().parent();
+        //console.log("EL PADRE ES:"+padre.attr("id"));
+        //console.log(angular.element($("#1")).attr("class"));
+        //angular.element($("#1")).remove();
+        //console.log(angular.element($("#1")).attr("class"));
+         padre.remove();
+         console.log('CONFIRMO POSITIVO');
+         $scope.eliminarVehiculo(idVehiculo);
+
+       } else {
+         console.log('CONFIRMO NEGATIVO');
+       }
+     });
+   };
+   //SEGUNDA FORMA:AQUI ME ASEGURE DE PONER en id del elemento html el id del vehiculo por lo tanto solo paso el mismo id del vehiculo
+   //POPUP PARA CONFIRMACION DE LA ELIMINACION DE VEHICULO DESDE LA VISTA Y LA ELIMINACION RESPECTIVA DESDE LA VISTA.
    $scope.showConfirmEliminarVehiculo2 = function(idVehiculo,alias) {
     console.log('MOSTRANDO POPUP DE CONFIRMACION DE ELIMINACION DE VEHICULO');
      var confirmPopup = $ionicPopup.confirm({
        title: 'Eliminar Vehiculo',
-       template: "Seguro que quieres eliminar a "+alias
+       template: "Seguro que quieres eliminar a "+alias+"?"
      });
      confirmPopup.then(function(res) {
        if(res) {
@@ -141,6 +202,22 @@ angular.module('app.controllers')
    };
 
 
+ $scope.add =function(){
+  var alarmTime=new Date();
+  alarmTime.setMinutes(alarmTime.getMinutes()+1);
+  console.log("se va a setear notificacion");
+  $cordovaLocalNotification.add({
+    id: 1,
+    title: 'Attention',
+    text: 'Simons Notification',
+    data: { mydata: 'My hidden message this is' },
+    at: new Date(new Date().getTime() + 5 * 1000)
+
+  }).then(function() {
+    // body...
+    console.log("la notificacion ha sido seteada");
+  });
+
+ }
+
 }]);
-
-

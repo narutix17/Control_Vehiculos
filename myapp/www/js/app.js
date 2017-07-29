@@ -178,7 +178,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
           console.log(error);
       });
 
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS mantenimiento (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,idServicio INTEGER REFERENCES servicio (id) ON DELETE CASCADE,detalle TEXT, precio DECIMAL (5, 2),fechaRealizado DATE);");
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS mantenimiento (id_m INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,idServicio INTEGER REFERENCES servicio (id) ON DELETE CASCADE,detalle TEXT, precio DECIMAL (5, 2),fechaRealizado DATE);");
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS notificacion (id INTEGER PRIMARY KEY AUTOINCREMENT,idServicio INTEGER REFERENCES servicio (id) ON DELETE CASCADE,cuandoRealizar INTEGER (10));");
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS region (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre VARCHAR (20) UNIQUE);");
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS publicidad (id INTEGER PRIMARY KEY AUTOINCREMENT, idRegion INTEGER REFERENCES region (id) ON DELETE CASCADE,nombre VARCHAR (30),url VARCHAR (50) );");

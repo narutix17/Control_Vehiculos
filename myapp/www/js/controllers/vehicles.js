@@ -2,7 +2,7 @@ angular.module('app.controllers')
 /**
  * Controller for Vehicle operations
  */
-.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading','$ionicPopup',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup){
+.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading','$ionicPopup','$cordovaLocalNotification',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup,$cordovaLocalNotification){
 
   $rootScope.serviciosParaAgregar = [];
   /**
@@ -201,5 +201,23 @@ angular.module('app.controllers')
      });
    };
 
+
+ $scope.add =function(){
+  var alarmTime=new Date();
+  alarmTime.setMinutes(alarmTime.getMinutes()+1);
+  console.log("se va a setear notificacion");
+  $cordovaLocalNotification.add({
+    id: 1,
+    title: 'Attention',
+    text: 'Simons Notification',
+    data: { mydata: 'My hidden message this is' },
+    at: new Date(new Date().getTime() + 5 * 1000)
+
+  }).then(function() {
+    // body...
+    console.log("la notificacion ha sido seteada");
+  });
+
+ }
 
 }]);

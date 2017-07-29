@@ -9,7 +9,8 @@
       <i class="icon ion-android-home"></i> <span class="back-text"></span>
     </button>
   </ion-nav-buttons>
-  <ion-content padding="true" class="has-header" ng-repeat = "item in chosenService">
+  <ion-content padding="true" class="has-header" >
+    <div ng-repeat = "item in chosenService">
     <div id="agregarServicioPersonalizado-markdown17" class="show-list-numbers-and-dots">
       <p style="color:#000000;">Nombre:</p> <h4> {{item.nombre}} </h4>
     </div>
@@ -38,5 +39,6 @@
         </label>
     <button id="agregarServicioPersonalizado-button5" class="button button-positive button-block" ng-click="editarServicioParaAgregar()" ui-sref="tabsController.agregarVehiculo()">Editar Servicio</button>
     </form>
+    </div>
   </ion-content>
 </ion-view>

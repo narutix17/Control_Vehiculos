@@ -9,7 +9,7 @@
 var db = null;
 
 
-var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova'])
+var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova', 'chart.js'])
 
 app.config(function($ionicConfigProvider, $sceDelegateProvider){
 

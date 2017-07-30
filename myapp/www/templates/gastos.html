@@ -1,3 +1,4 @@
+
 <ion-view title="Gastos" id="page4" ng-controller="gastosController" cache-view="false">
   <ion-nav-buttons side="left" class="has-header">
     <button ui-sref="tabsController.listaDeVehiculos()" class="button back-button buttons button-clear header-item">
@@ -6,6 +7,7 @@
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
     <form id="gastos-form5" class="list">
+      <button class="button" ng-click="add()">notification</button>
       <label class="item item-select" id="gastos-select1">
 
         <select ng-model="actGastos.intervalo" name="intervalo">

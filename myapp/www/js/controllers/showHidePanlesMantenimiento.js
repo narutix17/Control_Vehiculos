@@ -1,4 +1,3 @@
-
 angular.module('app.controllers')
 
 .controller('showHide', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
@@ -33,6 +32,7 @@ angular.module('app.controllers')
 		var query = "SELECT * FROM mantenimiento";
 	    $scope.selectedVehicleAlias = [];
 	    $scope.nom = [];
+	    $scope.temporalSave = [];
 	    $scope.vehicleInfoMantenimientos = [];
 	    $scope.selectedVehicleMantenimientos = [];
 	    var cont = 0;
@@ -163,6 +163,7 @@ angular.module('app.controllers')
 	          
 	          
 	        }
+	        $scope.temporalSave = $scope.selectedVehicleMantenimientos;
 	        console.log("fin");
 	        $ionicLoading.hide();
 	    });
@@ -193,7 +194,36 @@ angular.module('app.controllers')
 	};
 
 
-	
+	$scope.buscar = function(){
+      $scope.selectedVehicleMantenimientos = $scope.temporalSave;
+      fecha = document.getElementById("fecha").value;
+      console.log(fecha);
+      $scope.fecha = new Date(fecha.replace(/-/g, '\/'));
+      $scope.arrayTemporal = [];
+      //$scope.arrayTemporal = $scope.vehicleMantenimientos;
+
+      for(var i=0; i<$scope.selectedVehicleMantenimientos.length; i++){
+      	console.log("fecha1: "+$scope.fecha.toString().substring(0, 15));
+      	console.log("fecha2: "+$scope.selectedVehicleMantenimientos[i].fechaRealizado);
+        if($scope.fecha.toString().substring(0, 15) == $scope.selectedVehicleMantenimientos[i].fechaRealizado){
+          $scope.arrayTemporal.push({
+            nombre: $scope.selectedVehicleMantenimientos[i].nombre,
+            id: $scope.selectedVehicleMantenimientos[i].id,
+            idServicio: $scope.selectedVehicleMantenimientos[i].idServicio,
+            detalle: $scope.selectedVehicleMantenimientos[i].detalle,
+            precio: $scope.selectedVehicleMantenimientos[i].precio,
+            //fecha: $scope.fecha,
+            aliass: $scope.selectedVehicleMantenimientos[i].aliass,
+            fechaRealizado: $scope.selectedVehicleMantenimientos[i].fechaRealizado
+          });
+        }
+      }
+      $scope.selectedVehicleMantenimientos = "";
+      $scope.selectedVehicleMantenimientos = $scope.arrayTemporal;
+
+
+
+    } 
 
 	  
 });

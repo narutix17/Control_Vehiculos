@@ -1,25 +1,41 @@
+
+/**
+ * Controlador utilizado para manejar los gastos.
+ * Utilizado en: gastos.html
+ * Version: 1.0
+ * Creador: Leonardo Kuffo
+ * Editores: //
+ */
+
 angular.module('app.controllers')
 
 .controller('gastosController', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
 
+
+  // Arreglos de agrupaciones de mantenimientos
   var byweek = {};
   var bymonth = {};
+
   function groupweek(value, index, array){
       d = new Date(value.fechaEntera);
       d = Math.floor(d.getTime()/(1000*60*60*24*7));
       byweek[d]=byweek[d]||[];
       byweek[d].push(value);
   }
-  function groupmonth(value, index, array)
-  {
+  // Agrupar por mes
+  function groupmonth(value, index, array){
       d = new Date(value.fechaEntera);
       d = (d.getFullYear()-1970)*12 + d.getMonth();
       bymonth[d]=bymonth[d]||[];
       bymonth[d].push(value);
   }
 
+  // Objeto que tendra los valores del modelo del HTML
   $scope.actGastos = {};
 
+  /**
+   * Grafica una serie de tiempo poniendo los datos requeridos y filtrados en los arreglos utilizados por el <canvas>
+   */
   $scope.graficar = function(){
     bymonth = {};
     byweek = {};
@@ -34,6 +50,8 @@ angular.module('app.controllers')
     ];
 
     $scope.graph.labels = [];
+
+    // Obtengo los mantenimientos
 
     $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
       if (res.rows.length > 0){
@@ -54,6 +72,7 @@ angular.module('app.controllers')
         }
       }
 
+      // Ordeno los mantenimientos por fecha ascendentemente
       $scope.selectedVehicleMantenimientos.sort(function(a,b){
         a = new Date(a.fechaEntera);
         b = new Date(b.fechaEntera);
@@ -116,8 +135,6 @@ angular.module('app.controllers')
           $scope.graph.labels.push(month);
         }
       }
-
-
     });
   }
 
@@ -128,6 +145,8 @@ angular.module('app.controllers')
       maxWidth: 200,
       showDelay: 0
   });
+
+  // Carga Inicial de los datos a los arreglos requeridos por el <canvas>
 
   var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
 
@@ -177,5 +196,4 @@ angular.module('app.controllers')
 
       $ionicLoading.hide();
     });
-
 });

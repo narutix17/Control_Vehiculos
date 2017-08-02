@@ -1,15 +1,22 @@
+/**
+ * Controlador utilizado para 
+ * Utilizado en:
+ * Version: 1.0
+ * Creador: Jose Cedeno
+ * Editores:
+ */
 angular.module('app.controllers')
 
 .controller('showHide', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
-	
+
 
 	$scope.$on('$ionicView.beforeEnter', function () {
     	$scope.CurrentDate = new Date();
     	$scope.cargarvehiculos();
     	$scope.cargarServicios();
   	});
-	
-	
+
+
 	$scope.cargarvehiculos = function(){
 		$scope.misvehiculos = [];
 		var querys = "SELECT * FROM vehiculo";
@@ -44,40 +51,38 @@ angular.module('app.controllers')
 
 	    $cordovaSQLite.execute(db, query).then(function(res){
 	        if (res.rows.length > 0){
-	    		for(var i=0; i<res.rows.length; i++){
-	    			//console.log(res.rows.item(i).idTipoIntervalo);
-	    			//console.log(res.rows.item(i).intervalo);
-	    			if (res.rows.item(i).idTipoIntervalo == "Fecha"){
+            for(var i=0; i<res.rows.length; i++){
+              //console.log(res.rows.item(i).idTipoIntervalo);
+              //console.log(res.rows.item(i).intervalo);
+              if (res.rows.item(i).idTipoIntervalo == "Fecha"){
 
-	    				$scope.fecha = new Date(res.rows.item(i).ultimoRealizado);
-	    				console.log("fechaa1: "+$scope.CurrentDate.toString().substring(0, 15));
-	    				console.log("fechaa2: "+$scope.fecha.toString().substring(0, 15));
-	    				console.log("fecha3: "+sumarDias($scope.fecha, res.rows.item(i).intervalo));
-	    				if ($scope.CurrentDate < $scope.fecha){
+                $scope.fecha = new Date(res.rows.item(i).ultimoRealizado);
+                console.log("fechaa1: "+$scope.CurrentDate.toString().substring(0, 15));
+                console.log("fechaa2: "+$scope.fecha.toString().substring(0, 15));
+                console.log("fecha3: "+sumarDias($scope.fecha, res.rows.item(i).intervalo));
+                if ($scope.CurrentDate < $scope.fecha){
 
-	    					for(var j=0; j<$scope.misvehiculos.length; j++){
-	    						if ($scope.misvehiculos[j].id == res.rows.item(i).idVehiculo){
-	    							console.log("entraaaaaaaa");
-	    							$scope.selectedVehicleMantenimientos.push({
-	    								fecha: $scope.fecha,
-	    								alias: $scope.misvehiculos[j].alias,
-	    								placa: $scope.misvehiculos[j].placa,
-	    								fechaRealizado: $scope.fecha.toString().substring(0, 15),
-	    								nombre: res.rows.item(i).nombre
-	    							});
-	    						}
-	    					}
+                  for(var j=0; j<$scope.misvehiculos.length; j++){
+                    if ($scope.misvehiculos[j].id == res.rows.item(i).idVehiculo){
+                      console.log("entraaaaaaaa");
+                      $scope.selectedVehicleMantenimientos.push({
+                        fecha: $scope.fecha,
+                        alias: $scope.misvehiculos[j].alias,
+                        placa: $scope.misvehiculos[j].placa,
+                        fechaRealizado: $scope.fecha.toString().substring(0, 15),
+                        nombre: res.rows.item(i).nombre
+                      });
+                    }
+                  }
 
-	    				}
-	    			}
-	    		}    	
-	          
-	          
+                }
+              }
+            }    	
 	        }
 	       	$scope.temporalSave = $scope.selectedVehicleMantenimientos;
 	        $ionicLoading.hide();
 	    });
-	    
+
 	}
 
 
@@ -88,7 +93,7 @@ angular.module('app.controllers')
     	$rootScope.setInfoMant.detalle = detalle;
     }
 
-  
+
 	$scope.toggleGroup = function(group) {
 	    if ($scope.isGroupShown(group)) {
 	      $scope.shownGroup = null;
@@ -131,7 +136,7 @@ angular.module('app.controllers')
 
 
 
-    } 
+    }
 
-	  
+
 });

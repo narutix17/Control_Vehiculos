@@ -1,7 +1,10 @@
-//Mantenimientos.js
-//controlador para mostrar y buscar los mantenimientos de los vehiculos 
-
-
+/**
+ * Controlador utilizado para realizar operaciones que conciernen a los mantenimientos de un vehiculo.
+ * Utilizado en: mantenimiento.html
+ * Version: 1.0
+ * Creador: Jose Cedeno
+ * Editores: //
+ */
 angular.module('app.controllers')
 
 .controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
@@ -13,8 +16,7 @@ angular.module('app.controllers')
       maxWidth: 200,
       showDelay: 0
     });
-  
-  //
+
   var query2 = "SELECT * FROM mantenimiento";
   $cordovaSQLite.execute(db, query2).then(function(res){
     for (var f=0; f<res.rows.length; f++) {
@@ -22,8 +24,10 @@ angular.module('app.controllers')
     }
   });
 
-  //query para obtener los mantenimientos y servicios de un vehiculo en especifico por id
+  // Obtener todos los mantenimientos con su servicio relacionado
   var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
+    console.log(query);
+
     $scope.selectedVehicleMantenimientos = [];
     $scope.vehicleMantenimientos = []; //arreglo para los mantenimientos no repetidos por fehca
     $scope.vehicleInfoMantenimientos = []; //arreglo para los mantenimientos repetidos por fecha
@@ -133,8 +137,8 @@ angular.module('app.controllers')
 
     });
 
-  
-    // funcion usada para el despliegue de los items por fecha
+
+    // Agrupa los mantenimientos
     $scope.toggleGroup = function(group) {
       if ($scope.isGroupShown(group)) {
         $scope.shownGroup = null;
@@ -146,7 +150,8 @@ angular.module('app.controllers')
       return $scope.shownGroup === group;
     };
 
-    // funcion para buscar un mantenimiento por fecha
+
+    // Buscar mantenimientos
     $scope.buscar = function(){
       $scope.vehicleMantenimientos = $scope.temporalSave; 
       fecha = document.getElementById("fecha").value;
@@ -171,7 +176,6 @@ angular.module('app.controllers')
 
 
 
-    } 
-  
-});
+    }
 
+});

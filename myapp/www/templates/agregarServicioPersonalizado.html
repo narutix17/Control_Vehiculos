@@ -56,15 +56,13 @@
       </span>
    
       <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots" style="margin-bottom:5px;margin-top:30px">
-        <p style="color:#000000;">Kilometraje de ultimo mantenimiento:</p>
+        <p id="kof" style="color:#000000;">Kilometraje de ultimo servicio:</p>
       </div>
       <div class="item item-input" id="agregarServicioPersonalizado-input12">
-        <input name="ultimoMantenimiento" type="number" placeholder="ultimo mantenimiento" ng-model="newService.ultimoRealizado" ng-required="true" ng-maxlength="10">
+        <input id="kilfec" name="ultimoRealizado" type="date" placeholder="ultimo mantenimiento" ng-model="newService.ultimoRealizado" ng-required="false" ng-minlength ="1">
       </div>
-      <span class="messages" ng-show="form13.$submitted || form13.ultimoMantenimiento.$touched">
-        <span ng-show="form13.ultimoMantenimiento.$error.required">  * El Ultimo Mantenimiento es un campo requerido.</span>
-        <span ng-show="form13.ultimoMantenimiento.$error.maxlength">  * El Ultimo Mantenimiento debe tener máximo 10 digitos.</span>
-      </span>
+      
+
       
       <button ng-disabled="form13.$invalid" id="agregarServicioPersonalizado-button5" class="button button-positive button-block" ng-click="agregarServicioALista()" style="margin-bottom:5px;margin-top:30px">Agregar Servicio</button>
     </form>

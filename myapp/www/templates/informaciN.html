@@ -9,7 +9,7 @@
     <div ng-repeat="item in selectedVehicle">
     <div class="row">
       <div class = "col col-50" style="margin: 0px; padding-top: 20px">
-        <img src="img/car_agregar.png" style="vertical-align: left; height: 120px; width: 120px">
+        <img id="foto" src="{{item.imagen}}" style="vertical-align: left; height: 120px; width: 120px; border-radius: 60px">
       </div>
       <div class = "col col-35">
         <div style="padding-top: 15px; padding-left: 5px">
@@ -24,6 +24,7 @@
         <button ui-sref="modificarInformacion()" id="modInfo" class="icon ion-edit" style="font-size: 22px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666"></button>
       </div>
     </div>
+    
     <div id="informaciN-markdown1" class="show-list-numbers-and-dots">
       <p style="color:#000000;">
         <strong>Kilometraje:</strong>

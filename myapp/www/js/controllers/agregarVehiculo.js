@@ -7,11 +7,11 @@ angular.module('app.controllers')
 /**
  * Controller for Adding Vehicle operations
  */
-.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state){
+.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile){
 
   $scope.newService = {}
   $scope.newVehicle = {}
-
+  $scope.img = "img/car_agregar.png";
   /**
    * Scope methods excecuted before entering the view that implements the controller
    */
@@ -25,9 +25,9 @@ angular.module('app.controllers')
   });
 
 
-  $("label input").on("show-invalid",function(){
-    $(this).parent().toggleClass("focused");
-  });
+  //$("label input").on("show-invalid",function(){
+    //$(this).parent().toggleClass("focused");
+  //});
 
   $scope.editarServicio = function(nombre){
       $rootScope.chosenService = [];
@@ -47,9 +47,10 @@ angular.module('app.controllers')
    * Create Vehicle method. Recieve the form model located in "agregarVehiculo.html"
    */
   $scope.crearVehiculo = function(){
+    console.log("nativeURL: "+$scope.img);
     var servicios = $rootScope.serviciosParaAgregar;
     var query = "INSERT INTO vehiculo (idTipo,idMarca, color, placa, alias, año, kilometraje, imagen) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
-    $cordovaSQLite.execute(db, query, [$scope.newVehicle.idTipo,$scope.newVehicle.idMarca, $scope.newVehicle.newColor, $scope.newVehicle.newPlaca, $scope.newVehicle.newAlias, $scope.newVehicle.newYear, $scope.newVehicle.newKilometraje, ""]).then(function(result) {
+    $cordovaSQLite.execute(db, query, [$scope.newVehicle.idTipo,$scope.newVehicle.idMarca, $scope.newVehicle.newColor, $scope.newVehicle.newPlaca, $scope.newVehicle.newAlias, $scope.newVehicle.newYear, $scope.newVehicle.newKilometraje, $scope.img]).then(function(result) {
       console.log("Vehiculo Agregado");
       console.log(servicios);
       var query2 = "SELECT * FROM vehiculo WHERE placa = ? "
@@ -108,17 +109,20 @@ angular.module('app.controllers')
 
     $scope.lastViewTitle = $ionicHistory.backTitle();
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
+    console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
+    
     if ($scope.lastViewTitle == "Informacion"){
       $scope.serviciosAgregar = [];
       $scope.serviciosAgregar.push({
         nombre: $scope.newService.nombre,
         tipo_intervalo: $scope.newService.servTipo,
         intervalo: $scope.newService.intervalo,
-        ultimoRealizado: $scope.newService.ultimoRealizado
+        ultimoRealizado: $scope.newService.ultimoRealizado.toString().substring(0, 15)
       })
       var services = $scope.serviciosAgregar;
       var idV = $rootScope.chosenVehicle.id;
       console.log(idV);
+      console.log("fechaaaa: "+$scope.newService.ultimoRealizado.toString().substring(0, 15));
       //for (i = 0; i < services.length; i++){
         var servi = services[0];
         var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
@@ -192,8 +196,144 @@ angular.module('app.controllers')
     console.log("ACAAAAAA:" + ciclo);
     if (ciclo == "Kilometraje"){
       document.getElementById("km").innerHTML = "kilometros";
+      document.getElementById("kof").innerHTML = "Kilometraje de ultimo servicio:"; 
+      var km = document.getElementById("kilfec");
+      km.type = "number"; 
     }else{
       document.getElementById("km").innerHTML = "dias";
+      document.getElementById("kof").innerHTML = "Fecha de ultimo servicio:";
+      var date = document.getElementById("kilfec");
+      date.type = "date"; 
+    } 
+  }
+
+  $scope.fotoGaleria = function() {
+    $scope.images = [];
+    navigator.camera.getPicture(onSuccess, onFail,
+      {
+        sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+        correctOrientation: true,
+        allowEdit: true,
+        quality: 75,
+        popoverOptions: CameraPopoverOptions,
+        targetWidth: 200,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        encodingType: Camera.EncodingType.PNG,
+        saveToPhotoAlbum:false
+      });
+    function onSuccess(sourcePath) {
+      $scope.image = document.getElementById('foto');
+      document.getElementById('foto').src = sourcePath;
+      var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
+      var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
+      console.log("Copying from : " + sourceDirectory + sourceFileName);
+      console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
+      window.resolveLocalFileSystemURL(sourcePath, copyFile, fail);
+
+      function copyFile(fileEntry) {
+        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+        var newName = makeid() + name;
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
+          fileEntry.copyTo(
+            fileSystem2,
+            newName,
+            onCopySuccess,
+            fail
+          );
+        },
+        fail);
+      }
+      function onCopySuccess(entry) {
+        $scope.$apply(function () {
+          $scope.images.push(entry.nativeURL);
+        });
+        $scope.img = entry.nativeURL;
+      }
+   
+      function fail(error) {
+        console.log("fail: " + error.code);
+      }
+   
+      function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+   
+        for (var i=0; i < 5; i++) {
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+      }
+    }
+
+    function onFail(message) {
+      if (appConstants.debug) {
+        alert('Failed because: ' + message);
+      }
+    }
+  }
+
+  $scope.tomarFoto = function() {
+    $scope.images = [];
+    navigator.camera.getPicture(onSuccess, onFail,
+      {
+        sourceType : Camera.PictureSourceType.CAMERA,
+        correctOrientation: true,
+        allowEdit: true,
+        quality: 75,
+        popoverOptions: CameraPopoverOptions,
+        targetWidth: 200,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        encodingType: Camera.EncodingType.PNG,
+        saveToPhotoAlbum:false
+      });
+    function onSuccess(sourcePath) {
+      $scope.image = document.getElementById('foto');
+      document.getElementById('foto').src = sourcePath;
+      var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
+      var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
+      console.log("Copying from : " + sourceDirectory + sourceFileName);
+      console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
+      window.resolveLocalFileSystemURL(sourcePath, copyFile, fail);
+
+      function copyFile(fileEntry) {
+        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+        var newName = makeid() + name;
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
+          fileEntry.copyTo(
+            fileSystem2,
+            newName,
+            onCopySuccess,
+            fail
+          );
+        },
+        fail);
+      }
+      function onCopySuccess(entry) {
+        $scope.$apply(function () {
+          $scope.images.push(entry.nativeURL);
+        });
+        $scope.img = entry.nativeURL;
+      }
+   
+      function fail(error) {
+        console.log("fail: " + error.code);
+      }
+   
+      function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+   
+        for (var i=0; i < 5; i++) {
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+      }
+    }
+
+    function onFail(message) {
+      if (appConstants.debug) {
+        alert('Failed because: ' + message);
+      }
     }
   }
 

@@ -10,6 +10,19 @@
     </button>
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header" ng-repeat="item in selectedVehicle" style="margin: 10px;"">
+
+    <div class="row">
+      <div class="col col-50">
+        <div style="margin: 0px; text-align: center;">
+          <img id="fotos" src="{{item.imagen}}" style="height: 120px; width: 120px; vertical-align: middle; border-radius: 60px">
+        </div>
+      </div>
+      <div class="col col-40">
+        <p>Subir foto de:</p>
+        <button class="button button-full button-positive" ng-click="tomarFoto()">Camara</button>
+        <button class="button button-full button-positive" ng-click="fotoGaleria()">Galeria</button>
+      </div>
+    </div>
     
     <form id="formalias" class="list">
 

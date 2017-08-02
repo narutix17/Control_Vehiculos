@@ -5,8 +5,10 @@
  * Creador: Leonardo Kuffo
  * Editores: Jose Cedeno, Ruben Suarez
  */
+
 angular.module('app.controllers')
-.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading','$ionicPopup',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup){
+
+.controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading', '$ionicPopup', '$ionicModal',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup, $ionicModal){
 
 
   $rootScope.serviciosParaAgregar = [];
@@ -162,5 +164,37 @@ angular.module('app.controllers')
      });
    };
 
+
+   $ionicModal.fromTemplateUrl('image-modal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+    $scope.openModal = function() {
+      $scope.modal.show();
+    };
+
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+
+    $scope.imageSrc = 'https://ionicframework.com/img/ionic-logo-blog.png';
+
+    $scope.showImage = function(index) {
+      for(var l=0; l<$scope.registrosVehiculos.length; l++){
+        console.log("INDEX: "+index);
+        console.log("registro: "+$scope.registrosVehiculos[l].id);
+        if ($scope.registrosVehiculos[l].id == index){
+          $scope.imageSrc = $scope.registrosVehiculos[l].imagen;
+        }
+
+      }
+          //console.log("URL: "+$scope.registrosVehiculos[0].imagen);
+          //$scope.imageSrc = $scope.registrosVehiculos[0].imagen;
+        
+      $scope.openModal();
+    }
 
 }]);

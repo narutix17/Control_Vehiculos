@@ -1,3 +1,4 @@
+
 /**
  * Controlador utilizado para manejar los gastos.
  * Utilizado en: gastos.html
@@ -5,22 +6,22 @@
  * Creador: Leonardo Kuffo
  * Editores: //
  */
+
 angular.module('app.controllers')
 
 .controller('gastosController', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
+
 
   // Arreglos de agrupaciones de mantenimientos
   var byweek = {};
   var bymonth = {};
 
-  // Agrupar por semana
   function groupweek(value, index, array){
       d = new Date(value.fechaEntera);
       d = Math.floor(d.getTime()/(1000*60*60*24*7));
       byweek[d]=byweek[d]||[];
       byweek[d].push(value);
   }
-
   // Agrupar por mes
   function groupmonth(value, index, array){
       d = new Date(value.fechaEntera);
@@ -51,6 +52,7 @@ angular.module('app.controllers')
     $scope.graph.labels = [];
 
     // Obtengo los mantenimientos
+
     $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
@@ -76,7 +78,6 @@ angular.module('app.controllers')
         b = new Date(b.fechaEntera);
         return a - b;
       });
-
 
       if (tipo === "Diario"){
         for (var i = 0; i < $scope.selectedVehicleMantenimientos.length; i++){
@@ -146,6 +147,7 @@ angular.module('app.controllers')
   });
 
   // Carga Inicial de los datos a los arreglos requeridos por el <canvas>
+
   var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
 
     console.log(query);
@@ -194,5 +196,4 @@ angular.module('app.controllers')
 
       $ionicLoading.hide();
     });
-
 });

@@ -36,16 +36,17 @@
               </div>
 
           </ion-item>
-          <div ng-repeat="items in vehicleInfoMantenimientos | filter : {id: item.id}"">
+          <div>
           <ion-item  class="item-accordion" ng-show="isGroupShown(item)" style="background-color: #e8e8e8; border-color: rgba(121, 57, 52, 0.90); border-width: 2px" >
             <div >
-              {{items.aliass}}<br>
+              {{item.nombre}}<br>
             </div>
              
             
             <ul class = "list">
 			    	<li class="item" style="background-color: #e8e8e8; border: none;" ng-click="setInfo('{{items.fechaRealizado}}', '{{items.precio}}', '{{items.detalle}}')" ui-sref="infoServicio()">
-			    		<p style="margin-bottom: 5px">{{items.nombre}} </p>
+			    		<p style="margin-bottom: 5px">Alias: {{item.alias}} </p>
+              <p style="margin-bottom: 5px">Placa: {{item.placa}} </p>
 			    	</li>
 			    </ul>
           </ion-item>

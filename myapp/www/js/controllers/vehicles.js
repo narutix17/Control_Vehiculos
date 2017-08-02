@@ -37,22 +37,23 @@ angular.module('app.controllers')
    */
   $scope.setVehicle = function(alias, id, placa, marca, año, color){
     if (typeof $rootScope.chosenVehicle == "undefined"){
-      $rootScope.chosenVehicle = {
-        alias: alias,
-        id: id,
-        placa: placa,
-        marca: marca,
-        year: año,
-        color: color
+
+        $rootScope.chosenVehicle = {
+          alias: alias,
+          id: id,
+          placa: placa,
+          marca: marca,
+          year: año,
+          color: color
+        }
+      } else {
+        $rootScope.chosenVehicle.alias = alias;
+        $rootScope.chosenVehicle.id = id;
+        $rootScope.chosenVehicle.placa = placa;
+        $rootScope.chosenVehicle.marca = marca;
+        $rootScope.chosenVehicle.year = año;
+        $rootScope.chosenVehicle.color = color;
       }
-    } else {
-      $rootScope.chosenVehicle.alias = alias;
-      $rootScope.chosenVehicle.id = id;
-      $rootScope.chosenVehicle.placa = placa;
-      $rootScope.chosenVehicle.marca = marca;
-      $rootScope.chosenVehicle.year = año;
-      $rootScope.chosenVehicle.color = color;
-    }
 
 
   }

@@ -77,6 +77,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   $scope.$watch(function(){
     return $rootScope.chosenVehicle.id;
   }, function(){
+
     // Esto se ejecuta, cuando el parametro de id de vehiculo se carga.
     if ($scope.called == true){
       return;
@@ -86,6 +87,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     $scope.selectedVehicle = [];
     $rootScope.selectedVehicleServices = [];
     $scope.actualid = $rootScope.chosenVehicle.id;
+
     // Query para obtener un vehiculo
     var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id WHERE vehiculo.id=? LIMIT 1";
      console.log("idVehiculo: "+$scope.actualid);
@@ -113,6 +115,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
             console.log(res.rows.length);
             if (res.rows.length > 0){
               for (var j=0; j<res.rows.length; j++){
+
                 // Condicion para evitar duplicados
                 if (res.rows.length != $rootScope.selectedVehicleServices.length){
                   console.log($rootScope.selectedVehicleServices.length);

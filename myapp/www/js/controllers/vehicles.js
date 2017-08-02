@@ -1,8 +1,13 @@
-angular.module('app.controllers')
 /**
- * Controller for Vehicle operations
+ * Controlador para la lista de vehiculos.
+ * Utilizado en: listaDeVehiculos.html
+ * Version: 1.3
+ * Creador: Leonardo Kuffo
+ * Editores: Jose Cedeno, Ruben Suarez
  */
+angular.module('app.controllers')
 .controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading','$ionicPopup',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup){
+
 
   $rootScope.serviciosParaAgregar = [];
   /**
@@ -86,7 +91,7 @@ angular.module('app.controllers')
   }
 
   /**
-   * Load all the default_services.
+   * Load all the default_services from the db.
    */
   $scope.cargarPredeterminados = function(){
     console.log("NO ESTA DEFINIDO. LO VOY A DEFINIR");
@@ -114,6 +119,9 @@ angular.module('app.controllers')
     });
   }
 
+  /**
+   * Eliminar un vehiculo desde la lista de vehiculos
+   */
   $scope.eliminarVehiculo=function(idVehiculo){
     console.log("INTENTANDO ELIMINAR VEHICULO CON ID: "+idVehiculo);
     var query="DELETE FROM vehiculo WHERE id="+idVehiculo;
@@ -130,6 +138,9 @@ angular.module('app.controllers')
 
   }
 
+  /**
+   * Mensaje de confirmacion al eliminar un vehiculo de la lista de vehiculos
+   */
    $scope.showConfirmEliminarVehiculo2 = function(idVehiculo,alias) {
     console.log('MOSTRANDO POPUP DE CONFIRMACION DE ELIMINACION DE VEHICULO');
      var confirmPopup = $ionicPopup.confirm({

@@ -1,3 +1,10 @@
+/**
+ * Controlador utilizado para realizar operaciones que conciernen a los mantenimientos de un vehiculo.
+ * Utilizado en: mantenimiento.html
+ * Version: 1.0
+ * Creador: Jose Cedeno
+ * Editores: //
+ */
 angular.module('app.controllers')
 
 .controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
@@ -9,7 +16,6 @@ angular.module('app.controllers')
       maxWidth: 200,
       showDelay: 0
     });
-  
 
   var query2 = "SELECT * FROM mantenimiento";
   $cordovaSQLite.execute(db, query2).then(function(res){
@@ -18,8 +24,8 @@ angular.module('app.controllers')
     }
   });
 
+  // Obtener todos los mantenimientos con su servicio relacionado
   var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
-    //var query = "SELECT * FROM mantenimiento";
     console.log(query);
     $scope.selectedVehicleMantenimientos = [];
     $scope.vehicleMantenimientos = [];
@@ -130,8 +136,8 @@ angular.module('app.controllers')
         $ionicLoading.hide();
     });
 
-  
- 
+
+    // Agrupa los mantenimientos
     $scope.toggleGroup = function(group) {
       if ($scope.isGroupShown(group)) {
         $scope.shownGroup = null;
@@ -143,7 +149,7 @@ angular.module('app.controllers')
       return $scope.shownGroup === group;
     };
 
-
+    // Buscar mantenimientos
     $scope.buscar = function(){
       $scope.vehicleMantenimientos = $scope.temporalSave;
       fecha = document.getElementById("fecha").value;
@@ -168,7 +174,6 @@ angular.module('app.controllers')
 
 
 
-    } 
-  
-});
+    }
 
+});

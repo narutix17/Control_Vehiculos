@@ -1,3 +1,8 @@
+/**
+ * Controlador utilizado para realizar operaciones que conciernen a agregar un vehiculo
+ * o agregar servicios al mismo.
+ * Utilizado en: agregarVehiculo.html, agregarServicioPersonalizado.html
+ */
 angular.module('app.controllers')
 /**
  * Controller for Adding Vehicle operations

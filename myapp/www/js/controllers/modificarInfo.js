@@ -1,18 +1,19 @@
-angular.module('app.controllers')
-
 /**
- * Controller for an specific Vehicle operations
+ * Controlador utilizado en la modificacion de la informacion de un vehiculo.
+ * Utilizado en: modificarInformacion.html
+ * Version: 1.0
+ * Creador: Jose Cedeno.
  */
+angular.module('app.controllers')
 app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
 
-
+  // Informacion ya existente del vehiculo
   $scope.updatedplaca = $rootScope.chosenVehicle.placa;
   $scope.updatedalias = $rootScope.chosenVehicle.alias;
   $scope.updatedmarca = $rootScope.chosenVehicle.marca;
   $scope.updatedyear = $rootScope.chosenVehicle.year;
   $scope.updatedcolor = $rootScope.chosenVehicle.color;
 
- 
 
   // We use a loading screen to wait the selected vehicle to be loaded from the database
   $ionicLoading.show({
@@ -70,7 +71,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
       }else{
         console.log("No hay Registros de Vehiculos");
       }
-      
+
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
       $ionicLoading.hide();
@@ -79,11 +80,9 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
       });
   });
 
-
-  
- 
-
-
+  /**
+   * Modificar informacion de un vehiculo.
+   */
   $scope.actualizarAlias = function(id){
     console.log($scope);
     alias = document.getElementById("updatedalias").value;

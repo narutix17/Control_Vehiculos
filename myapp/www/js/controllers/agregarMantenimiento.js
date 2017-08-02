@@ -1,5 +1,10 @@
+/**
+ * Controlador utilizado para agregar mantenimientos a un vehiculo
+ * Utilizado en: nuevoMantenimiento.html
+ * Version: 1.0
+ * Creador: Leonardo Kuffo
+ */
 angular.module('app.controllers')
-
 /**
  * Controller for an specific Vehicle operations
  */
@@ -30,7 +35,7 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
     }
 
 
-   
+
     //$(document).ready(function(){
         //$("#boton").click(function(){
             //var serv = $('#servRealizado option:selected').text();

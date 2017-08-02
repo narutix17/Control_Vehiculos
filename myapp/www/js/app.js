@@ -11,10 +11,10 @@ var db = null;
 
 var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova'])
 
-app.config(function($ionicConfigProvider, $sceDelegateProvider){
+app.config(function($ionicConfigProvider, $sceDelegateProvider, $compileProvider){
 
   $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
-
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile|content):|data:image\//);
 })
 
 /**
@@ -173,7 +173,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
           });
       });
 
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER REFERENCES tipo_servicio (id) ON DELETE CASCADE, idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id) ON DELETE CASCADE, idVehiculo INTEGER REFERENCES vehiculo (id) ON DELETE CASCADE, nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado INTEGER (10) );").then(
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER REFERENCES tipo_servicio (id) ON DELETE CASCADE, idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id) ON DELETE CASCADE, idVehiculo INTEGER REFERENCES vehiculo (id) ON DELETE CASCADE, nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado VARCHAR (15) );").then(
         function(result){
           console.log("TABLA SERVICIO CREADA")
         },function(error){

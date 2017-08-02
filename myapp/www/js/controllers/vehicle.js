@@ -3,7 +3,7 @@ angular.module('app.controllers')
 /**
  * Controller for an specific Vehicle operations
  */
-app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state){
+app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$cordovaImagePicker', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $cordovaImagePicker, $cordovaCamera){
 
   
 
@@ -135,5 +135,66 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     });
 
   }
+
+
+
+  $scope.tomarFoto = function(){
+
+    var options = {
+      quality: 50,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      allowEdit: true,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 100,
+      targetHeight: 100,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false,
+      correctOrientation:true
+    };
+
+    navigator.camera.getPicture(options).then(function(imageData) {
+      console.log("ingresoOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+      var image = document.getElementById('myImage');
+      image.src = "data:image/jpeg;base64," + imageData;
+    }, function(err) {
+      // error
+    });
+  };
+
+  $scope.changePicture = function() {
+
+    navigator.camera.getPicture(onSuccess, onFail,
+      {
+        sourceType : Camera.PictureSourceType.CAMERA,
+        correctOrientation: true,
+        allowEdit: true,
+        quality: 75,
+        popoverOptions: CameraPopoverOptions,
+        targetWidth: 200,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        encodingType: Camera.EncodingType.PNG,
+        saveToPhotoAlbum:false
+      });
+    function onSuccess(imageData) {
+            //$scope.user.picture = "data:image/png;base64," + imageData;
+            //$scope.$apply();
+      console.log("ingresoOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+      $state.go('tabsController2.informaciN');
+      $scope.image = document.getElementById('foto');
+      //console.log("imageData: "+imageData);
+      console.log("imageData: "+imageData);
+      //$scope.image.src = imageData;
+      document.getElementById('foto').src = imageData;
+    }
+
+    function onFail(message) {
+      if (appConstants.debug) {
+        alert('Failed because: ' + message);
+      }
+    }
+  };
+
+ 
 
 }]);

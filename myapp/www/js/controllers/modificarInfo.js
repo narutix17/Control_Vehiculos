@@ -1,11 +1,13 @@
+//modificar Informacion
+//controlador usado para editar la informacion de un vehiculo y actualizar dichos datos 
+
+
 angular.module('app.controllers')
 
-/**
- * Controller for an specific Vehicle operations
- */
+
 app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
 
-
+  //cargo los datos de el vehiculo seleccionado en la lista de vehiculos 
   $scope.updatedplaca = $rootScope.chosenVehicle.placa;
   $scope.updatedalias = $rootScope.chosenVehicle.alias;
   $scope.updatedmarca = $rootScope.chosenVehicle.marca;
@@ -31,14 +33,14 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
     return $rootScope.chosenVehicle.id;
   }, function(){
     console.log("LOADING")
-    $scope.selectedVehicle = [];
-    $rootScope.selectedVehicleServices = [];
+    $scope.selectedVehicle = []; //arreglo para los datos del vehiculo 
+    $rootScope.selectedVehicleServices = []; //arreglo para los datos del servicio del vehiculo
     $scope.actualid = $rootScope.chosenVehicle.id;
-    var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
+    var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'"; //query para obtener los datos de un vehiculo especifico por id
      $cordovaSQLite.execute(db, query).then(function(res){
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
-          $scope.selectedVehicle.push({
+          $scope.selectedVehicle.push({ // se guardan los datos del vehiculo en el arreglo selectedVehicle
             idVehiculo: res.rows.item(i).id,
             idTipo: res.rows.item(i).idTipo,
             color: res.rows.item(i).color,
@@ -49,11 +51,12 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
             kilometraje: res.rows.item(i).kilometraje,
             imagen: res.rows.item(i).imagen,
           });
-          var servQuery = "SELECT * FROM servicio WHERE idVehiculo = ?"
+
+          var servQuery = "SELECT * FROM servicio WHERE idVehiculo = ?" //query para obtener los servicios del vehiculos seleccionado por id
           $cordovaSQLite.execute(db, servQuery, [res.rows.item(i).id]).then(function(res){
             if (res.rows.length > 0){
               for (var j=0; j<res.rows.length; j++){
-                $rootScope.selectedVehicleServices.push({
+                $rootScope.selectedVehicleServices.push({ //se guarda los datos de servicios en el arreglo selectedVehicleServices
                   id: res.rows.item(j).id,
                   idTipo: res.rows.item(j).idTipo,
                   idTipoIntervalo: res.rows.item(j).idTipoIntervalo,
@@ -66,6 +69,8 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
             }
           });
         }
+ 
+        $scope.img = $scope.selectedVehicle[0].imagen; //guardo la imagen actual del vehiculo en un scope para que no haya problema si el usuario no actualiza la imagen 
 
       }else{
         console.log("No hay Registros de Vehiculos");
@@ -83,7 +88,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
   
  
 
-
+  //funcion para actualizar los datos del vehiculo 
   $scope.actualizarAlias = function(id){
     console.log($scope);
     alias = document.getElementById("updatedalias").value;
@@ -92,14 +97,147 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
     year = document.getElementById("updatedyear").value;
     color = document.getElementById("updatedcolor").value;
     console.log(alias);
-    var query = "UPDATE vehiculo SET alias=?, placa=?, marca=?, año=?, color=? WHERE id=?";
+    var query = "UPDATE vehiculo SET alias=?, placa=?, marca=?, año=?, color=?, imagen=? WHERE id=?";
     console.log(query);
-    $cordovaSQLite.execute(db, query, [alias, placa, marca, year, color, id]).then(function(result) {
+    $cordovaSQLite.execute(db, query, [alias, placa, marca, year, color, $scope.img, id]).then(function(result) {
       console.log("Km Actualizado");
     }, function(error){
       console.log(error);
     });
 
+  }
+
+  $scope.fotoGaleria = function() {
+    $scope.images = [];
+    navigator.camera.getPicture(onSuccess, onFail,
+      {
+        sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+        correctOrientation: true,
+        allowEdit: true,
+        quality: 75,
+        popoverOptions: CameraPopoverOptions,
+        targetWidth: 200,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        encodingType: Camera.EncodingType.PNG,
+        saveToPhotoAlbum:false
+      });
+    function onSuccess(sourcePath) {
+      $scope.image = document.getElementById('fotos');
+      console.log("IAMGEEENN: "+$scope.image);
+      document.getElementById('fotos').src = sourcePath;
+      var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
+      var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
+      console.log("Copying from : " + sourceDirectory + sourceFileName);
+      console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
+      console.log("IAMGEEENN: "+$scope.image);
+      console.log("IAMGEEENN: "+document.getElementById('fotos'));
+      window.resolveLocalFileSystemURL(sourcePath, copyFile, fail);
+
+      function copyFile(fileEntry) {
+        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+        var newName = makeid() + name;
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
+          fileEntry.copyTo(
+            fileSystem2,
+            newName,
+            onCopySuccess,
+            fail
+          );
+        },
+        fail);
+      }
+      function onCopySuccess(entry) {
+        $scope.$apply(function () {
+          $scope.images.push(entry.nativeURL);
+        });
+        $scope.img = entry.nativeURL;
+      }
+   
+      function fail(error) {
+        console.log("fail: " + error.code);
+      }
+   
+      function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+   
+        for (var i=0; i < 5; i++) {
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+      }
+    }
+
+    function onFail(message) {
+      if (appConstants.debug) {
+        alert('Failed because: ' + message);
+      }
+    }
+  }
+
+  $scope.tomarFoto = function() {
+    $scope.images = [];
+    navigator.camera.getPicture(onSuccess, onFail,
+      {
+        sourceType : Camera.PictureSourceType.CAMERA,
+        correctOrientation: true,
+        allowEdit: true,
+        quality: 75,
+        popoverOptions: CameraPopoverOptions,
+        targetWidth: 200,
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        encodingType: Camera.EncodingType.PNG,
+        saveToPhotoAlbum:false
+      });
+    function onSuccess(sourcePath) {
+      $scope.image = document.getElementById('fotos');
+      document.getElementById('fotos').src = sourcePath;
+      var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
+      var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
+      console.log("Copying from : " + sourceDirectory + sourceFileName);
+      console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
+      window.resolveLocalFileSystemURL(sourcePath, copyFile, fail);
+
+      function copyFile(fileEntry) {
+        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+        var newName = makeid() + name;
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
+          fileEntry.copyTo(
+            fileSystem2,
+            newName,
+            onCopySuccess,
+            fail
+          );
+        },
+        fail);
+      }
+      function onCopySuccess(entry) {
+        $scope.$apply(function () {
+          $scope.images.push(entry.nativeURL);
+        });
+        $scope.img = entry.nativeURL;
+      }
+   
+      function fail(error) {
+        console.log("fail: " + error.code);
+      }
+   
+      function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+   
+        for (var i=0; i < 5; i++) {
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+      }
+    }
+
+    function onFail(message) {
+      if (appConstants.debug) {
+        alert('Failed because: ' + message);
+      }
+    }
   }
 
 }]);

@@ -6,13 +6,18 @@
     </button>
   </ion-nav-buttons>
     <div class="row">
-      <div class="col col-40">
+      <div class="col col-50">
         <div style="margin: 0px; text-align: center;">
-          <img src="img/car_agregar.png" style="height: 120px; width: 120px; vertical-align: middle;">
+          <img id="foto" src="img/car_agregar.png" style="height: 120px; width: 120px; vertical-align: middle; border-radius: 60px">
         </div>
       </div>
+      <div class="col col-40">
+        <p>Subir foto de:</p>
+        <button class="button button-full button-positive" ng-click="tomarFoto()">Camara</button>
+        <button class="button button-full button-positive" ng-click="fotoGaleria()">Galeria</button>
+      </div>
     </div>
-
+  
     <form id="agregarVehiculo-form1" class="list" name="newVehicleForm" novalidate ng-model="formulario">
 
       <label class="item item-input" id="agregarVehiculo-input2" style="margin-top: 8px">

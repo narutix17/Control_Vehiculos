@@ -1,7 +1,11 @@
+//Mantenimientos.js
+//controlador para mostrar y buscar los mantenimientos de los vehiculos 
+
+
 angular.module('app.controllers')
 
 .controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
-
+  //funcion para esperar mientras cargan los datos de la pagina 
   $ionicLoading.show({
       content: 'Loading',
       animation: 'fade-in',
@@ -10,7 +14,7 @@ angular.module('app.controllers')
       showDelay: 0
     });
   
-
+  //
   var query2 = "SELECT * FROM mantenimiento";
   $cordovaSQLite.execute(db, query2).then(function(res){
     for (var f=0; f<res.rows.length; f++) {
@@ -18,23 +22,21 @@ angular.module('app.controllers')
     }
   });
 
+  //query para obtener los mantenimientos y servicios de un vehiculo en especifico por id
   var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
-    //var query = "SELECT * FROM mantenimiento";
-    console.log(query);
     $scope.selectedVehicleMantenimientos = [];
-    $scope.vehicleMantenimientos = [];
-    $scope.vehicleInfoMantenimientos = [];
-    $scope.temporalSave = [];
-    console.log($rootScope.chosenVehicle.id);
+    $scope.vehicleMantenimientos = []; //arreglo para los mantenimientos no repetidos por fehca
+    $scope.vehicleInfoMantenimientos = []; //arreglo para los mantenimientos repetidos por fecha
+    $scope.temporalSave = []; //arreglo para guardar temporalmente mi arreglo de mantenimientos no repetidos por fecha
+    $scope.prueba = [];
+    //se ejecuta el query con el id del vehiculo en el que se haya ingresado de la lista de vehiculos
     $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
-        console.log("TAMAÑOOOOOO: "+res.rows.length);
-        if (res.rows.length > 0){
-          for (var i=0; i<res.rows.length; i++) {
-            $scope.fehcaRealiz = res.rows.item(i).fechaRealizado;
-            $scope.fecha = new Date($scope.fehcaRealiz);
-            console.log("i: "+i);
-            console.log("ids: "+res.rows.item(i).id_m);
-            $scope.selectedVehicleMantenimientos.push({
+        if (res.rows.length > 0){ 
+          for (var i=0; i<res.rows.length; i++) { //se recorre todo el arreglo que dio como resultado el query
+            $scope.fehcaRealiz = res.rows.item(i).fechaRealizado; 
+            $scope.fecha = new Date($scope.fehcaRealiz); //se transforma la fecha(de string) a tipo Date
+
+            $scope.selectedVehicleMantenimientos.push({ //se pone en un arreglo los datos del mantenimiento
               nombre: res.rows.item(i).nombre,
               id: res.rows.item(i).id_m,
               idServicio: res.rows.item(i).idServicio,
@@ -46,10 +48,10 @@ angular.module('app.controllers')
           }
           var cont = 0;
           var n = 0;
-          //$scope.ident = n;
+          // se introduce los primeros items(esto para posteriormente comparar si se repiten las fechas) de mantenimiento a los arreglos 
           $scope.fehcaRealiz = res.rows.item(0).fechaRealizado;
           $scope.fecha = new Date($scope.fehcaRealiz);
-          $scope.vehicleMantenimientos.push({
+          $scope.vehicleMantenimientos.push({  
             nombre: res.rows.item(0).nombre,
             id: res.rows.item(0).id_m,
             idServicio: res.rows.item(0).idServicio,
@@ -59,7 +61,6 @@ angular.module('app.controllers')
             fecha: $scope.fecha,
             fechaRealizado: res.rows.item(0).fechaRealizado.substring(0, 15)
           });
-          console.log("ID DE 0: "+res.rows.item(0).id_m);
           $scope.vehicleInfoMantenimientos.push({
             nombre: res.rows.item(0).nombre,
             id: res.rows.item(0).id_m,
@@ -69,19 +70,15 @@ angular.module('app.controllers')
             fecha: $scope.fecha,
             fechaRealizado: res.rows.item(0).fechaRealizado.substring(0, 15)
           });
-          for(var j=0; j<res.rows.length; j++){
-            cont = cont + 1;
-            var num = 0;
-            console.log("cont: "+cont);
+          for(var j=0; j<res.rows.length; j++){ //recorro nuevamente la respuesta del query para buscar repetidos por fecha
+            cont = cont + 1; //variable usada ya ue el "for" se ejecuta asincronicamente
+            var num = 0; // variable usada para saber si no hay fecha repetida al comparar todas
+
             if (res.rows.length > cont){
-              for(var k=0; k<cont; k++){
-                console.log("k: "+k);
-                console.log("fehcaRea1: "+res.rows.item(cont).fechaRealizado.substring(0, 15));
-                console.log("fechaRea2: "+res.rows.item(k).fechaRealizado.substring(0, 15));
+              for(var k=0; k<cont; k++){ 
+
                 if((res.rows.item(cont).fechaRealizado.substring(0, 15)) == (res.rows.item(k).fechaRealizado.substring(0, 15))){
-                  console.log("ENTRA IF VERDADERO");
-                  console.log("ID: "+res.rows.item(k).id_m);
-                  //$scope.ident = n;
+
                   $scope.vehicleInfoMantenimientos.push({
                     nombre: res.rows.item(cont).nombre,
                     id: res.rows.item(k).id_m,
@@ -93,14 +90,12 @@ angular.module('app.controllers')
                     fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
                   });
                 }else{
-                  console.log("ENTRA IF FALSO");
                   num = num + 1;
                 }
               }
             }
-            if(num == cont){
-              console.log("ENTRA NUM: "+num);
-              console.log("ENTRA CONT: "+cont);
+            if(num == cont){ //se ingresa si no se ha repetido la fecha para guardar los datos en su respectivo arreglo
+
               $scope.fehcaRealiz = res.rows.item(cont).fechaRealizado;
               $scope.fecha = new Date($scope.fehcaRealiz);
               $scope.vehicleMantenimientos.push({
@@ -112,7 +107,7 @@ angular.module('app.controllers')
                 fecha: $scope.fecha,
                 fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
               });
-              console.log("ID: "+res.rows.item(cont).id);
+
               $scope.vehicleInfoMantenimientos.push({
                 nombre: res.rows.item(cont).nombre,
                 id: res.rows.item(cont).id_m,
@@ -122,16 +117,24 @@ angular.module('app.controllers')
                 fecha: $scope.fecha,
                 fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
               });
+              $scope.prueba.push({
+                fecha: $scope.fecha
+              });
             }
           }
         }
         $scope.temporalSave = $scope.vehicleMantenimientos;
-        console.log("Hola");
+
         $ionicLoading.hide();
+        //funcion para ordenar las fechas 
+        $scope.prueba.sort(function(a,b){
+          return new Date(a.fecha) - new Date(b.fecha);
+        });
+
     });
 
   
- 
+    // funcion usada para el despliegue de los items por fecha
     $scope.toggleGroup = function(group) {
       if ($scope.isGroupShown(group)) {
         $scope.shownGroup = null;
@@ -143,11 +146,11 @@ angular.module('app.controllers')
       return $scope.shownGroup === group;
     };
 
-
+    // funcion para buscar un mantenimiento por fecha
     $scope.buscar = function(){
-      $scope.vehicleMantenimientos = $scope.temporalSave;
+      $scope.vehicleMantenimientos = $scope.temporalSave; 
       fecha = document.getElementById("fecha").value;
-      $scope.fecha = new Date(fecha.replace(/-/g, '\/'));
+      $scope.fecha = new Date(fecha.replace(/-/g, '\/')); 
       $scope.arrayTemporal = [];
       //$scope.arrayTemporal = $scope.vehicleMantenimientos;
       for(var i=0; i<$scope.vehicleMantenimientos.length; i++){

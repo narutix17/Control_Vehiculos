@@ -31,19 +31,16 @@
 
         <ion-item class="item-thumbnail-left item" id="{{item.id}}" ng-repeat="item in registrosVehiculos">
           
-          <img src="img/car_agregar.png" style="vertical-align: middle;">
+          <img src="{{item.imagen}}" ng-click="showImage({{item.id}})" style="vertical-align: middle; border-radius: 50px;">
           
           <div class="row"> 
-            <div class="col col-60">
+            <div class="col col-80" ng-click="setVehicle('{{item.alias}}', '{{item.id}}', '{{item.placa}}', '{{item.marca}}', '{{item.year}}', '{{item.color}}')" ui-sref="tabsController2.informaciN()">
               <h2>{{item.alias}}</h2>
               <p>Placa: {{item.placa}}</p>
               <p>Marca: {{item.marca}}</p>
             </div>
-            <div class="col col-40">
-              <div style="vertical-align: text-top;">
-                <ion-button  ng-click="setVehicle('{{item.alias}}', '{{item.id}}', '{{item.placa}}', '{{item.marca}}', '{{item.year}}', '{{item.color}}')" ui-sref="tabsController2.informaciN()" id="listaDeVehiculos-button3" style="text-align:;" class="button button-stable icon icon-right ion-android-car">Ver</button>
-              
-              </div>
+            <div class="col col-20">
+            
               <div style="vertical-align: text-bottom;">
                 <button  class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#A51D1D" ng-click="showConfirmEliminarVehiculo2('{{item.id}}','{{item.alias}}')"></button>
               </div>
@@ -58,5 +55,13 @@
         </ion-item>
       </div>
     </ion-list>
+    <div class="spacer" style="height: 5px;"></div>
   </ion-content>
+  <script id="image-modal.html" type="text/ng-template">
+              <div class="modal image-modal transparent" ng-click="closeModal()">
+                  <ion-pane class="transparent">
+                     <img ng-src="{{imageSrc}}" class="fullscreen-image"/>
+                  </ion-pane>
+              </div>
+          </script>
 </ion-view>

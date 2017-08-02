@@ -178,4 +178,6 @@ angular.module('app.controllers')
       $ionicLoading.hide();
     });
 
+
 });
+

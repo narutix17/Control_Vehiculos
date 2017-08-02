@@ -25,9 +25,63 @@ public class MainTest extends
         solo.finishOpenedActivities();
     }
  
- 
-    
+    public void testBuscarVehiculo(){
+    solo.enterText(0,"hcs189");
+    solo.enterText(1,"red");
+	solo.enterText(2,"MyCar1");
+	solo.enterText(1,"Hyundai");
+    solo.clickOnButton("Buscar");
+    assertTrue(solo.searchText("My Car1"));
+    }
+     public void testCaseModificarVehiculo() throws Exception {
+      String vResult="mycar1";
+      EditText vEditText = (EditText) solo.getView(R.id.edit1);
+      solo.clearEditText(vEditText);
+      solo.enterText(vEditText,"mycar1");
+      solo.clickOnButton("modificar");
+      assertTrue(solo.searchText(vResult));
+      TextView textField = (TextView) solo.getView(R.id.txt1);
+       assertEquals(vResult, textField.getText().toString());
+   }   
 
+     public void test3() {
+
+            solo.clickOnEditText(0); 
+
+            solo.enterText((EditText) getActivity().findViewById(
+
+                id.activity_add_new_vehiculo),
+                            "vehiculo ");
+             solo.clickOnEditText(1);
+            solo.enterText((EditText) getActivity().findViewById(
+                            id.activity_add_new_vehiculo),
+                            "Qrt123");
+             solo.clickOnEditText(2);
+            solo.enterText((EditText) getActivity().findViewById(
+                            id.activity_add_new_vehiculo),
+                            "red");
+
+          
+
+            solo.clickOnEditText(0);
+            solo.searchText(getActivity().getResources().getString(R.string.activity_add_new_vehiculo_color));
+            solo.clickOnView(solo.getCurrentEditTexts().get(0));
+            solo.enterText(0, "mycar1");
+            solo.clickOnView(solo.getCurrentEditTexts().get(0));
+            solo.enterText(1, "red");
+
+              solo.clickOnButton(getActivity().getResources().getString(R.string.OK));
+
+             solo.clickOnButton(getActivity().getResources().getString(R.string.OK));
+
+         
+            boolean flagOKDatabase=solo.waitForText(getActivity().getResources().getString(R.string.database_success_storing_data),1,120);
+            assertEquals("Something wrong happened with the database", true, flagOKDatabase);
+        }
+   
+   
+   
+   
 public void testOpenDrawerFromDragAction() throws InterruptedException {
     Point deviceSize = new Point();
     getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);
@@ -63,7 +117,7 @@ private void OpenDrawer() {
     solo.drag(fromX, toX, fromY, toY, 1);
 }
  
-public void test() throws InterruptedException {
+public void test4() throws InterruptedException {
     OpenDrawer();
  
     solo.waitForView(ListView.class);

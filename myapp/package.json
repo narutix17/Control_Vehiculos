@@ -3,10 +3,10 @@
     "version": "0.0.1",
     "description": "An Ionic project",
     "dependencies": {
-        "@angular/core": "^4.3.2",
-        "@ionic-native/core": "^4.1.0",
+        "@angular/core": "^4.3.1",
+        "@ionic-native/core": "^3.6.0",
         "@ionic-native/sqlite": "^3.12.1",
-        "angular-chart.js": "^1.1.1",
+        "angular-chart": "^0.5.0",
         "chart.js": "^2.6.0",
         "cordova-android": "^6.2.3",
         "cordova-plugin-app-event": "file:node_modules\\cordova-plugin-app-event",
@@ -27,9 +27,9 @@
         "gulp-rename": "^1.2.0",
         "gulp-sass": "^2.0.4",
         "ionic-plugin-keyboard": "^2.2.1",
-        "rxjs": "^5.4.2",
+        "rxjs": "^5.0.1",
         "strip-ansi": "^3.0.1",
-        "zone.js": "^0.8.16"
+        "zone.js": "^0.8.4"
     },
     "devDependencies": {
         "@ionic/cli-plugin-cordova": "1.4.0",

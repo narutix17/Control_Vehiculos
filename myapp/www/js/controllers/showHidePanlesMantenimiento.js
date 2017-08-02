@@ -1,18 +1,23 @@
-//Controlador showHide
-//Controlador usado para mostrar los proximos mantenimientos y realizar la busqueda
+/**
+ * Controlador utilizado para mostrar los proximos mantenimientos y realizar la busqueda.
+ * Utilizado en:
+ * Version: 1.0
+ * Creador: Jose Cedeno
+ * Editores:
+ */
 
 angular.module('app.controllers')
 
 
 .controller('showHide', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
-	
+
 	//funcion para ejecutar las funciones antes de entrar a la vista proximos Mantenimientos
 	$scope.$on('$ionicView.beforeEnter', function () {
     	$scope.CurrentDate = new Date();
     	$scope.cargarvehiculos();
     	$scope.cargarServicios();
   	});
-	
+
 	//funcion para cargar los vehiculos 
 	$scope.cargarvehiculos = function(){
 		$scope.misvehiculos = [];
@@ -75,12 +80,12 @@ angular.module('app.controllers')
 	    			}
 	    		}    	
 	          
-	          
+	        
 	        }
 	       	$scope.temporalSave = $scope.selectedVehicleMantenimientos;
 	        $ionicLoading.hide();
 	    });
-	    
+
 	}
 
 	// funcion para obtener la informacion de fecha precio y detalle
@@ -134,7 +139,7 @@ angular.module('app.controllers')
 
 
 
-    } 
+    }
 
-	  
+
 });

@@ -1,3 +1,8 @@
+/**
+ * Controlador utilizado para realizar operaciones que conciernen a agregar un vehiculo
+ * o agregar servicios al mismo.
+ * Utilizado en: agregarVehiculo.html, agregarServicioPersonalizado.html
+ */
 angular.module('app.controllers')
 /**
  * Controlador para agregar vehiculos con sus respectivos servicios
@@ -13,10 +18,9 @@ angular.module('app.controllers')
    */
   $scope.$on('$ionicView.beforeEnter', function () {
     console.log("INGRESANDO A LA VISTA DE AGREGAR VEHICULO");
+    console.log($rootScope.predeterminadosAgregados);
     if ($rootScope.predeterminadosAgregados == false || typeof $rootScope.predeterminadosAgregados == "undefined"){
-  
         $scope.agregarServiciosPredeterminadosALaLista();
-
         $rootScope.predeterminadosAgregados = true;
     }
   });
@@ -103,6 +107,7 @@ angular.module('app.controllers')
         ultimoRealizado: $scope.newService.ultimoRealizado
     })
     $ionicLoading.hide();
+
     $scope.lastViewTitle = $ionicHistory.backTitle();
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
     console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
@@ -185,7 +190,7 @@ angular.module('app.controllers')
   $scope.cargarPlacas();
   $scope.cargarTiposVehiculos();
 
-  
+
   // funcion para modificar el html segun la opcion escogida en el select con id "ciclo"
   $scope.onChanged = function(){
     var ciclo = $("#ciclo").val();

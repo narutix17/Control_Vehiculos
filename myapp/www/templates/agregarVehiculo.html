@@ -28,7 +28,7 @@
         <span ng-show="newVehicleForm.newPlaca.$error.required">  * La placa es un campo requerido.</span>
         <span ng-show="newVehicleForm.newPlaca.$error.minlength || newVehicleForm.newPlaca.$error.maxlength">  * La placa debe tener entre 5 y 10 caracteres.</span>
       </span>
-      
+
       <label class="item item-input" id="agregarVehiculo-input6" style="margin-top: 8px">
         <span class="input-label">Año</span>
         <input ng-maxlength="4" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newVehicle.newYear" ng-model-options="{ updateOn: 'blur' }" name="newYear">
@@ -71,7 +71,7 @@
       <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newTipo.$touched">
         <span ng-show="newVehicleForm.newTipo.$error.required">  * Seleccione el Tipo.</span>
       </span>
-      
+
       <label class="item item-input" id="agregarVehiculo-input7" style="margin-top: 8px">
         <span class="input-label">Color</span>
         <input ng-maxlength="20" ng-minlength="3" type="text" placeholder="" ng-required="false" id="agregarVehiculo-input7b" ng-model="newVehicle.newColor" ng-model-options="{ updateOn: 'blur' }" name="newColor">
@@ -96,8 +96,8 @@
         </div id="nuevoVehiculoServicios">
         </form>
       <button ui-sref="agregarServicioPersonalizado()" id="agregarVehiculo-button4" class="button button-positive button-block">Agregar Servicio Personalizado</button>
-      
-    
+
+
     <button ng-disabled="newVehicleForm.$invalid" ui-sref="tabsController.listaDeVehiculos()" id="botonAgregarVehiculo" ng-click="crearVehiculo()" class="button button-balanced button-block">Agregar Vehiculo</button>
     <div class="spacer" style="height: 5px;"></div>
   </ion-content>

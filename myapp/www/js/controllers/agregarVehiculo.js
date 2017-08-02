@@ -12,14 +12,10 @@ angular.module('app.controllers')
    */
   $scope.$on('$ionicView.beforeEnter', function () {
     console.log("INGRESANDO A LA VISTA DE AGREGAR VEHICULO");
-    if ($rootScope.predeterminadosAgregados){
-  
+    console.log($rootScope.predeterminadosAgregados);
+    if ($rootScope.predeterminadosAgregados == false || typeof $rootScope.predeterminadosAgregados == "undefined"){
         $scope.agregarServiciosPredeterminadosALaLista();
-      
-        console.log("no hago concat");
-      
-        
-        $rootScope.predeterminadosAgregados = false;
+        $rootScope.predeterminadosAgregados = true;
     }
   });
 
@@ -105,6 +101,7 @@ angular.module('app.controllers')
         ultimoRealizado: $scope.newService.ultimoRealizado
     })
     $ionicLoading.hide();
+
     $scope.lastViewTitle = $ionicHistory.backTitle();
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
     console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
@@ -187,8 +184,8 @@ angular.module('app.controllers')
   $scope.cargarPlacas();
   $scope.cargarTiposVehiculos();
 
-  
-  
+
+
   $scope.onChanged = function(){
     var ciclo = $("#ciclo").val();
     console.log("ACAAAAAA:" + ciclo);

@@ -65,12 +65,16 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   $scope.$watch(function(){
     return $rootScope.chosenVehicle.id;
   }, function(){
+    if ($scope.called == true){
+      return;
+    }
+    $scope.called = true;
     console.log("LOADING")
     $scope.selectedVehicle = [];
     $rootScope.selectedVehicleServices = [];
     $scope.actualid = $rootScope.chosenVehicle.id;
     //var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
-    var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id WHERE vehiculo.id=?";
+    var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id WHERE vehiculo.id=? LIMIT 1";
 
      console.log("idVehiculo: "+$scope.actualid);
      $cordovaSQLite.execute(db, query,[$scope.actualid]).then(function(res){
@@ -90,21 +94,27 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
             kilometraje: res.rows.item(i).kilometraje,
             imagen: res.rows.item(i).imagen,
           });
+          $rootScope.selectedVehicleServices = [];
           var servQuery = "SELECT * FROM servicio WHERE idVehiculo = ?"
           $cordovaSQLite.execute(db, servQuery, [res.rows.item(i).id]).then(function(res){
             if (res.rows.length > 0){
               for (var j=0; j<res.rows.length; j++){
-                $rootScope.selectedVehicleServices.push({
-                  id: res.rows.item(j).id,
-                  idTipo: res.rows.item(j).idTipo,
-                  idTipoIntervalo: res.rows.item(j).idTipoIntervalo,
-                  idVehiculo: res.rows.item(j).idVehiculo,
-                  nombre: res.rows.item(j).nombre,
-                  intervalo: res.rows.item(j).intervalo,
-                  ultimoRealizado: res.rows.item(j).ultimoRealizado
-                });
+                 if (res.rows.length != $rootScope.selectedVehicleServices.length){
+                    console.log($rootScope.selectedVehicleServices.length);
+                    $rootScope.selectedVehicleServices.push({
+                      id: res.rows.item(j).id,
+                      idTipo: res.rows.item(j).idTipo,
+                      idTipoIntervalo: res.rows.item(j).idTipoIntervalo,
+                      idVehiculo: res.rows.item(j).idVehiculo,
+                      nombre: res.rows.item(j).nombre,
+                      intervalo: res.rows.item(j).intervalo,
+                      ultimoRealizado: res.rows.item(j).ultimoRealizado
+                    });                  
+                  }
               }
             }
+            $scope.called = false;
+            $ionicLoading.hide();
           });
         }
       }else{
@@ -112,7 +122,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
       }
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
-      $ionicLoading.hide();
+      
       }, function(error){
         console.log(error);
       });

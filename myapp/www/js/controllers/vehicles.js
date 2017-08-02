@@ -29,13 +29,23 @@ angular.module('app.controllers')
    * Set onto a $scope variable the selected vehicle identifier.
    */
   $scope.setVehicle = function(alias, id, placa, marca, año, color){
-    $rootScope.chosenVehicle = {}
-    $rootScope.chosenVehicle.alias = alias;
-    $rootScope.chosenVehicle.id = id;
-    $rootScope.chosenVehicle.placa = placa;
-    $rootScope.chosenVehicle.marca = marca;
-    $rootScope.chosenVehicle.year = año;
-    $rootScope.chosenVehicle.color = color;
+    if (typeof $rootScope.chosenVehicle == "undefined"){
+        $rootScope.chosenVehicle = {
+          alias: alias,
+          id: id,
+          placa: placa,
+          marca: marca,
+          year: año,
+          color: color
+        }
+      } else {
+        $rootScope.chosenVehicle.alias = alias;
+        $rootScope.chosenVehicle.id = id;
+        $rootScope.chosenVehicle.placa = placa;
+        $rootScope.chosenVehicle.marca = marca;
+        $rootScope.chosenVehicle.year = año;
+        $rootScope.chosenVehicle.color = color;
+      }
 
   }
 
@@ -92,7 +102,7 @@ angular.module('app.controllers')
             intervalo: res.rows.item(i).intervalo
           });
         }
-      $rootScope.predeterminadosAgregados = true;
+      //$rootScope.predeterminadosAgregados = true;
       console.log("Se agregaron los servicios predeterminados.")
       }else{
         console.log("No hay servicios predeterminados");

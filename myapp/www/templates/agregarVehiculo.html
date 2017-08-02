@@ -81,7 +81,7 @@
       </span>
 
       <h3 id="agregarVehiculo-heading1" style="color:#000000;">Servicios del Vehiculo</h3>
-      <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosParaAgregar" >
+      <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosParaAgregar track by $index" >
             <div class="row">
               <div class = "col col-75">
                 <h5>{{serv.nombre}}</h5>

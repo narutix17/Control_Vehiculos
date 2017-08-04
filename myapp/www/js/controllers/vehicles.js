@@ -12,10 +12,12 @@ angular.module('app.controllers')
 
 
   $rootScope.serviciosParaAgregar = [];
+  $rootScope.predeterminadosAgregados = false;
   /**
    * Scope methods excecuted before entering the view that implements the controller
    */
   $scope.$on('$ionicView.beforeEnter', function () {
+    $rootScope.predeterminadosAgregados = false;
     $scope.cargarVehiculos();
     $scope.cargarPredeterminados();
   });
@@ -194,7 +196,7 @@ angular.module('app.controllers')
       }
           //console.log("URL: "+$scope.registrosVehiculos[0].imagen);
           //$scope.imageSrc = $scope.registrosVehiculos[0].imagen;
-        
+
       $scope.openModal();
     }
 

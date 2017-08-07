@@ -1,12 +1,6 @@
-/**
- * Controlador utilizado para realizar operaciones que conciernen a agregar un vehiculo
- * o agregar servicios al mismo.
- * Utilizado en: agregarVehiculo.html, agregarServicioPersonalizado.html
- */
 angular.module('app.controllers')
 /**
- * Controlador para agregar vehiculos con sus respectivos servicios
- * tambien se encuentran funciones para tomar foto desde camara o desde la galeria
+ * Controller for Adding Vehicle operations
  */
 .controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile){
 
@@ -18,10 +12,14 @@ angular.module('app.controllers')
    */
   $scope.$on('$ionicView.beforeEnter', function () {
     console.log("INGRESANDO A LA VISTA DE AGREGAR VEHICULO");
-    console.log($rootScope.predeterminadosAgregados);
-    if ($rootScope.predeterminadosAgregados == false || typeof $rootScope.predeterminadosAgregados == "undefined"){
+    if ($rootScope.predeterminadosAgregados){
+  
         $scope.agregarServiciosPredeterminadosALaLista();
-        $rootScope.predeterminadosAgregados = true;
+      
+        console.log("no hago concat");
+      
+        
+        $rootScope.predeterminadosAgregados = false;
     }
   });
 
@@ -107,7 +105,6 @@ angular.module('app.controllers')
         ultimoRealizado: $scope.newService.ultimoRealizado
     })
     $ionicLoading.hide();
-
     $scope.lastViewTitle = $ionicHistory.backTitle();
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
     console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
@@ -190,10 +187,11 @@ angular.module('app.controllers')
   $scope.cargarPlacas();
   $scope.cargarTiposVehiculos();
 
-
-  // funcion para modificar el html segun la opcion escogida en el select con id "ciclo"
+  
+  
   $scope.onChanged = function(){
     var ciclo = $("#ciclo").val();
+    console.log("ACAAAAAA:" + ciclo);
     if (ciclo == "Kilometraje"){
       document.getElementById("km").innerHTML = "kilometros";
       document.getElementById("kof").innerHTML = "Kilometraje de ultimo servicio:"; 
@@ -207,31 +205,30 @@ angular.module('app.controllers')
     } 
   }
 
-  //funcion para escoger una imagen desde la galeria
   $scope.fotoGaleria = function() {
     $scope.images = [];
     navigator.camera.getPicture(onSuccess, onFail,
       {
-        sourceType : Camera.PictureSourceType.PHOTOLIBRARY, //escoger desde galeria
+        sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
         correctOrientation: true,
-        allowEdit: true, //para poder editar
-        quality: 75, //calidad
+        allowEdit: true,
+        quality: 75,
         popoverOptions: CameraPopoverOptions,
         targetWidth: 200,
-        destinationType: navigator.camera.DestinationType.FILE_URI, //para devolver el URI donde se guardo temporalmente la imagen
-        encodingType: Camera.EncodingType.PNG, //salida en archivo png
+        destinationType: navigator.camera.DestinationType.FILE_URI,
+        encodingType: Camera.EncodingType.PNG,
         saveToPhotoAlbum:false
       });
     function onSuccess(sourcePath) {
       $scope.image = document.getElementById('foto');
-      document.getElementById('foto').src = sourcePath; //colocamos la imagen en el tag <img> del html
+      document.getElementById('foto').src = sourcePath;
       var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
       var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
       console.log("Copying from : " + sourceDirectory + sourceFileName);
       console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
       window.resolveLocalFileSystemURL(sourcePath, copyFile, fail);
 
-      function copyFile(fileEntry) { //funcion para copiar la foto a otra direccion y poder seguir usandola
+      function copyFile(fileEntry) {
         var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
         var newName = makeid() + name;
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
@@ -248,14 +245,14 @@ angular.module('app.controllers')
         $scope.$apply(function () {
           $scope.images.push(entry.nativeURL);
         });
-        $scope.img = entry.nativeURL; //guarda la nueva URL en un objeto para colocarlo en la base de datos
+        $scope.img = entry.nativeURL;
       }
    
       function fail(error) {
         console.log("fail: " + error.code);
       }
    
-      function makeid() { //se hace un id y nombre aleatorio para la imagen 
+      function makeid() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
    
@@ -272,12 +269,12 @@ angular.module('app.controllers')
       }
     }
   }
-  //funcion para tomar la foto desde la camara con un funcionamiento similar al de galeria
+
   $scope.tomarFoto = function() {
     $scope.images = [];
     navigator.camera.getPicture(onSuccess, onFail,
       {
-        sourceType : Camera.PictureSourceType.CAMERA, //foto desde camara 
+        sourceType : Camera.PictureSourceType.CAMERA,
         correctOrientation: true,
         allowEdit: true,
         quality: 75,

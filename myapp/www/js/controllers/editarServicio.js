@@ -1,11 +1,8 @@
-/**
- * Controlador utilizado para editar servicios de un vehiculo ya creado.
- * Utilizado en: editarServicio.html
- * Version: 1.0
- * Creador: Leonardo Kuffo
- */
 angular.module('app.controllers')
 
+/**
+ * Controller for an specific Vehicle operations
+ */
 app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
 
     $scope.servicioEditado = {};
@@ -24,7 +21,6 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
       $ionicLoading.hide();
     });
 
-    // Editar un servicio de la base de datos
     $scope.editarServicio = function(){
 
       console.log("Editando servicio");

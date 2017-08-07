@@ -1,6 +1,3 @@
-//controlador showPopUp
-//Controlador usado para mostrar los PopUp en la vista de Informacion del vehiculo
-
 angular.module('app.controllers')
 
 .controller('showPopUpCtrl', function($scope, $cordovaSQLite, $rootScope, $ionicPopup, $timeout, $state){

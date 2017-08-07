@@ -1,11 +1,5 @@
-/**
- * Archivo principal de la aplicacion. En este .js se instancia la base de datos.
- * Se crea la base de datos en caso de no existir, y se cargan las dependencias necesarias.
- * Version: 2.1
- * Creador: Leonardo Kuffo
- * Editores: Ruben Suarez
- */
 // Ionic Starter App
+
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -15,7 +9,7 @@
 var db = null;
 
 
-var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova', 'chart.js'])
+var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova'])
 
 app.config(function($ionicConfigProvider, $sceDelegateProvider, $compileProvider){
 
@@ -40,15 +34,17 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
       StatusBar.styleDefault();
     }
 
-    /**
-     *
-     *
-     * CREACION DE LA BASE DE DATOS
-     *
-     *
-     */
+    
+
+
+    //db = $cordovaSQLite.deleteDatabase({name: 'controlvehiculos.db', location: 'default'}, successcb, errorcb);
+
+    // Open DB
     db = $cordovaSQLite.openDB({ name: "controlvehiculos.db", iosDatabaseLocation:'default'});
 
+  /**
+   * Creating tables and default registries
+   */
     $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS tipo_vehiculo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombre VARCHAR (20) UNIQUE);").then(function(result){
         $cordovaSQLite.execute(db,"select * from tipo_vehiculo").then(function(result){
           if (result.rows.length==0) {
@@ -251,7 +247,7 @@ app.directive('hrefInappbrowser', function() {
 
 
 app.controller("ExampleController", function($scope, $cordovaLocalNotification) {
-
+ 
     $scope.add = function() {
         var alarmTime = new Date();
         alarmTime.setMinutes(alarmTime.getMinutes() + 1);
@@ -266,11 +262,11 @@ app.controller("ExampleController", function($scope, $cordovaLocalNotification) 
             console.log("The notification has been set");
         });
     };
-
+ 
     $scope.isScheduled = function() {
         $cordovaLocalNotification.isScheduled("1234").then(function(isScheduled) {
             alert("Notification 1234 Scheduled: " + isScheduled);
         });
     }
-
+ 
 });

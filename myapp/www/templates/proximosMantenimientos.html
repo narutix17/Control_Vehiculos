@@ -1,4 +1,4 @@
-<ion-view title="Proximos Mantenimientos" id="page4" ng-controller="showHide">
+<ion-view title="Proximos Mantenimientos" id="page4" ng-controller="proximosMantenimientos">
 <ion-nav-buttons side="left" class="has-header">
     <button ui-sref="inicio()" class="button back-button buttons button-clear header-item">
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
@@ -24,10 +24,11 @@
         <div ng-repeat="item in selectedVehicleMantenimientos | orderBy:'fecha'" style="margin-bottom: 10px; ">
           <ion-item class="item-stable" ng-click="toggleGroup(item)" ng-class="{active: isGroupShown(item)}" style="background-color: rgba(121, 57, 52, 0.90); color: #fff; padding-bottom: 5px; padding-top: 5px">
               <div class="row">
-              	<div class="col col-90">
+              	<div id="{{item.idtoStyle}}" class="col col-90">
               		&nbsp;
                   
-            		  {{item.fechaRealizado}} 
+            		  {{item.fechaRealizado}}
+
 
               	</div>
               	<div class="col col-20">
@@ -38,13 +39,11 @@
           </ion-item>
           <div>
           <ion-item  class="item-accordion" ng-show="isGroupShown(item)" style="background-color: #e8e8e8; border-color: rgba(121, 57, 52, 0.90); border-width: 2px" >
-            <div >
-              {{item.nombre}}<br>
+            <div id="{{item.idtoStyle2}}">
+              {{item.nombre}}
             </div>
-             
-            
             <ul class = "list">
-			    	<li class="item" style="background-color: #e8e8e8; border: none;" ng-click="setInfo('{{items.fechaRealizado}}', '{{items.precio}}', '{{items.detalle}}')" ui-sref="infoServicio()">
+			    	<li class="item" style="background-color: #e8e8e8; border: none;">
 			    		<p style="margin-bottom: 5px">Alias: {{item.alias}} </p>
               <p style="margin-bottom: 5px">Placa: {{item.placa}} </p>
 			    	</li>

@@ -1,8 +1,14 @@
+/**
+ * Controlador utilizado para realizar operaciones que conciernen a agregar un vehiculo
+ * o agregar servicios al mismo.
+ * Utilizado en: agregarVehiculo.html, agregarServicioPersonalizado.html
+ */
 angular.module('app.controllers')
 /**
- * Controller for Adding Vehicle operations
+ * Controlador para agregar vehiculos con sus respectivos servicios
+ * tambien se encuentran funciones para tomar foto desde camara o desde la galeria
  */
-.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile){
+.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', '$cordovaCamera', '$cordovaFile', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile, $timeout){
 
   $scope.newService = {}
   $scope.newVehicle = {}
@@ -12,15 +18,15 @@ angular.module('app.controllers')
    */
   $scope.$on('$ionicView.beforeEnter', function () {
     console.log("INGRESANDO A LA VISTA DE AGREGAR VEHICULO");
-    if ($rootScope.predeterminadosAgregados){
-  
+    console.log($rootScope.predeterminadosAgregados);
+    if ($rootScope.predeterminadosAgregados == false || typeof $rootScope.predeterminadosAgregados == "undefined"){
         $scope.agregarServiciosPredeterminadosALaLista();
-      
-        console.log("no hago concat");
-      
-        
-        $rootScope.predeterminadosAgregados = false;
+        $rootScope.predeterminadosAgregados = true;
     }
+  });
+
+  $scope.$on('$ionicView.afterEnter', function(){
+    $scope.putSize();
   });
 
 
@@ -80,6 +86,7 @@ angular.module('app.controllers')
       });
       $rootScope.serviciosParaAgregar = $rootScope.serviciosParaAgregar.concat($rootScope.serviciosPredeterminados);
       $ionicLoading.hide();
+      $scope.putSize();
   }
 
   $scope.eliminarServicioDeLaLista = function(servNombre){
@@ -105,6 +112,7 @@ angular.module('app.controllers')
         ultimoRealizado: $scope.newService.ultimoRealizado
     })
     $ionicLoading.hide();
+
     $scope.lastViewTitle = $ionicHistory.backTitle();
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
     console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
@@ -132,6 +140,7 @@ angular.module('app.controllers')
     }else{
       $state.go('tabsController.agregarVehiculo');
     }
+    $scope.putSize();
   }
 
 
@@ -186,49 +195,52 @@ angular.module('app.controllers')
 
   $scope.cargarPlacas();
   $scope.cargarTiposVehiculos();
+  //$scope.putSize();
 
-  
-  
+
+  // funcion para modificar el html segun la opcion escogida en el select con id "ciclo"
   $scope.onChanged = function(){
     var ciclo = $("#ciclo").val();
-    console.log("ACAAAAAA:" + ciclo);
     if (ciclo == "Kilometraje"){
       document.getElementById("km").innerHTML = "kilometros";
       document.getElementById("kof").innerHTML = "Kilometraje de ultimo servicio:"; 
       var km = document.getElementById("kilfec");
       km.type = "number"; 
+      
     }else{
       document.getElementById("km").innerHTML = "dias";
       document.getElementById("kof").innerHTML = "Fecha de ultimo servicio:";
       var date = document.getElementById("kilfec");
       date.type = "date"; 
+      //document.getElementById("input_id").attributes["type"].value = "text";
     } 
   }
 
+  //funcion para escoger una imagen desde la galeria
   $scope.fotoGaleria = function() {
     $scope.images = [];
     navigator.camera.getPicture(onSuccess, onFail,
       {
-        sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
+        sourceType : Camera.PictureSourceType.PHOTOLIBRARY, //escoger desde galeria
         correctOrientation: true,
-        allowEdit: true,
-        quality: 75,
+        allowEdit: true, //para poder editar
+        quality: 75, //calidad
         popoverOptions: CameraPopoverOptions,
         targetWidth: 200,
-        destinationType: navigator.camera.DestinationType.FILE_URI,
-        encodingType: Camera.EncodingType.PNG,
+        destinationType: navigator.camera.DestinationType.FILE_URI, //para devolver el URI donde se guardo temporalmente la imagen
+        encodingType: Camera.EncodingType.PNG, //salida en archivo png
         saveToPhotoAlbum:false
       });
     function onSuccess(sourcePath) {
       $scope.image = document.getElementById('foto');
-      document.getElementById('foto').src = sourcePath;
+      document.getElementById('foto').src = sourcePath; //colocamos la imagen en el tag <img> del html
       var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
       var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
       console.log("Copying from : " + sourceDirectory + sourceFileName);
       console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
       window.resolveLocalFileSystemURL(sourcePath, copyFile, fail);
 
-      function copyFile(fileEntry) {
+      function copyFile(fileEntry) { //funcion para copiar la foto a otra direccion y poder seguir usandola
         var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
         var newName = makeid() + name;
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
@@ -245,14 +257,14 @@ angular.module('app.controllers')
         $scope.$apply(function () {
           $scope.images.push(entry.nativeURL);
         });
-        $scope.img = entry.nativeURL;
+        $scope.img = entry.nativeURL; //guarda la nueva URL en un objeto para colocarlo en la base de datos
       }
    
       function fail(error) {
         console.log("fail: " + error.code);
       }
    
-      function makeid() {
+      function makeid() { //se hace un id y nombre aleatorio para la imagen 
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
    
@@ -269,12 +281,12 @@ angular.module('app.controllers')
       }
     }
   }
-
+  //funcion para tomar la foto desde la camara con un funcionamiento similar al de galeria
   $scope.tomarFoto = function() {
     $scope.images = [];
     navigator.camera.getPicture(onSuccess, onFail,
       {
-        sourceType : Camera.PictureSourceType.CAMERA,
+        sourceType : Camera.PictureSourceType.CAMERA, //foto desde camara 
         correctOrientation: true,
         allowEdit: true,
         quality: 75,
@@ -334,5 +346,82 @@ angular.module('app.controllers')
       }
     }
   }
+
+  //funcion para cambiar el tamaño de letra de la aplicacion
+  $scope.putSize = function () {
+    $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
+    $rootScope.sizePequeno = localStorage.getItem("sizePequeno");
+    $rootScope.sizeMediano = localStorage.getItem("sizeMediano");
+    console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
+    console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
+    console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
+    $timeout(function(){  
+      if ($rootScope.sizeGrande == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.3em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.3em");
+        }
+        var h=document.getElementsByTagName('h5');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1.3em");
+        } 
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1.3em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.3em");
+        } 
+      } else if ($rootScope.sizeMediano == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.15em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.15em");
+        }
+        var h=document.getElementsByTagName('h5');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1.15em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1.1em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.1em");
+        } 
+      } else if ($rootScope.sizePequeno == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1em");
+        }
+        var h=document.getElementsByTagName('h5');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1em");
+        } 
+      }
+      
+    }, 0);
+  };
 
 }]);

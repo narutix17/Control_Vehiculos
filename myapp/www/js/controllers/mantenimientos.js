@@ -1,10 +1,13 @@
-//Mantenimientos.js
-//controlador para mostrar y buscar los mantenimientos de los vehiculos 
-
-
+/**
+ * Controlador utilizado para realizar operaciones que conciernen a los mantenimientos de un vehiculo.
+ * Utilizado en: mantenimiento.html
+ * Version: 1.0
+ * Creador: Jose Cedeno
+ * Editores: //
+ */
 angular.module('app.controllers')
 
-.controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
+.controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $timeout) {
   //funcion para esperar mientras cargan los datos de la pagina 
   $ionicLoading.show({
       content: 'Loading',
@@ -13,8 +16,7 @@ angular.module('app.controllers')
       maxWidth: 200,
       showDelay: 0
     });
-  
-  //
+
   var query2 = "SELECT * FROM mantenimiento";
   $cordovaSQLite.execute(db, query2).then(function(res){
     for (var f=0; f<res.rows.length; f++) {
@@ -22,13 +24,17 @@ angular.module('app.controllers')
     }
   });
 
-  //query para obtener los mantenimientos y servicios de un vehiculo en especifico por id
+  // Obtener todos los mantenimientos con su servicio relacionado
   var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
+    console.log(query);
+
     $scope.selectedVehicleMantenimientos = [];
     $scope.vehicleMantenimientos = []; //arreglo para los mantenimientos no repetidos por fehca
     $scope.vehicleInfoMantenimientos = []; //arreglo para los mantenimientos repetidos por fecha
     $scope.temporalSave = []; //arreglo para guardar temporalmente mi arreglo de mantenimientos no repetidos por fecha
     $scope.prueba = [];
+    var x = 2;
+    var y = -2;
     //se ejecuta el query con el id del vehiculo en el que se haya ingresado de la lista de vehiculos
     $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
         if (res.rows.length > 0){ 
@@ -53,7 +59,9 @@ angular.module('app.controllers')
           $scope.fecha = new Date($scope.fehcaRealiz);
           $scope.vehicleMantenimientos.push({  
             nombre: res.rows.item(0).nombre,
+            idtoStyle2: y,
             id: res.rows.item(0).id_m,
+            idreal: res.rows.item(0).id_m,
             idServicio: res.rows.item(0).idServicio,
             detalle: res.rows.item(0).detalle,
             precio: res.rows.item(0).precio,
@@ -61,15 +69,21 @@ angular.module('app.controllers')
             fecha: $scope.fecha,
             fechaRealizado: res.rows.item(0).fechaRealizado.substring(0, 15)
           });
+          y=y-1;
+          console.log("IDREAL vehicleMantenimientos: "+res.rows.item(0).id_m);
           $scope.vehicleInfoMantenimientos.push({
             nombre: res.rows.item(0).nombre,
+            idtoStyle: x,
             id: res.rows.item(0).id_m,
+            idreal: res.rows.item(0).id_m,
             idServicio: res.rows.item(0).idServicio,
             detalle: res.rows.item(0).detalle,
             precio: res.rows.item(0).precio,
             fecha: $scope.fecha,
             fechaRealizado: res.rows.item(0).fechaRealizado.substring(0, 15)
           });
+          x=x+1;
+          console.log("IDREAL vehicleInfoMantenimientos: "+res.rows.item(0).id_m);
           for(var j=0; j<res.rows.length; j++){ //recorro nuevamente la respuesta del query para buscar repetidos por fecha
             cont = cont + 1; //variable usada ya ue el "for" se ejecuta asincronicamente
             var num = 0; // variable usada para saber si no hay fecha repetida al comparar todas
@@ -81,7 +95,9 @@ angular.module('app.controllers')
 
                   $scope.vehicleInfoMantenimientos.push({
                     nombre: res.rows.item(cont).nombre,
+                    idtoStyle: x,
                     id: res.rows.item(k).id_m,
+                    idreal: res.rows.item(cont).id_m,
                     idServicio: res.rows.item(cont).idServicio,
                     detalle: res.rows.item(cont).detalle,
                     precio: res.rows.item(cont).precio,
@@ -89,6 +105,8 @@ angular.module('app.controllers')
                     fecha: $scope.fecha,
                     fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
                   });
+                  x=x+1;
+                  console.log("IDREAL vehicleInfoMantenimientos: "+res.rows.item(cont).id_m);
                 }else{
                   num = num + 1;
                 }
@@ -100,23 +118,30 @@ angular.module('app.controllers')
               $scope.fecha = new Date($scope.fehcaRealiz);
               $scope.vehicleMantenimientos.push({
                 nombre: res.rows.item(cont).nombre,
+                idtoStyle2: y,
                 id: res.rows.item(cont).id_m,
+                idreal: res.rows.item(cont).id_m,
                 idServicio: res.rows.item(cont).idServicio,
                 detalle: res.rows.item(cont).detalle,
                 precio: res.rows.item(cont).precio,
                 fecha: $scope.fecha,
                 fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
               });
-
+              y=y-1;
+              console.log("IDREAL vehicleMantenimientos: "+res.rows.item(cont).id_m);
               $scope.vehicleInfoMantenimientos.push({
                 nombre: res.rows.item(cont).nombre,
+                idtoStyle: x,
                 id: res.rows.item(cont).id_m,
+                idreal: res.rows.item(cont).id_m,
                 idServicio: res.rows.item(cont).idServicio,
                 detalle: res.rows.item(cont).detalle,
                 precio: res.rows.item(cont).precio,
                 fecha: $scope.fecha,
                 fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
               });
+              x=x+1;
+              console.log("IDREAL vehicleInfoMantenimientos: "+res.rows.item(cont).id_m);
               $scope.prueba.push({
                 fecha: $scope.fecha
               });
@@ -126,6 +151,7 @@ angular.module('app.controllers')
         $scope.temporalSave = $scope.vehicleMantenimientos;
 
         $ionicLoading.hide();
+        $scope.putSize();
         //funcion para ordenar las fechas 
         $scope.prueba.sort(function(a,b){
           return new Date(a.fecha) - new Date(b.fecha);
@@ -133,8 +159,8 @@ angular.module('app.controllers')
 
     });
 
-  
-    // funcion usada para el despliegue de los items por fecha
+
+    // Agrupa los mantenimientos
     $scope.toggleGroup = function(group) {
       if ($scope.isGroupShown(group)) {
         $scope.shownGroup = null;
@@ -146,8 +172,10 @@ angular.module('app.controllers')
       return $scope.shownGroup === group;
     };
 
-    // funcion para buscar un mantenimiento por fecha
+
+    // Buscar mantenimientos
     $scope.buscar = function(){
+      var m = 2;
       $scope.vehicleMantenimientos = $scope.temporalSave; 
       fecha = document.getElementById("fecha").value;
       $scope.fecha = new Date(fecha.replace(/-/g, '\/')); 
@@ -157,6 +185,7 @@ angular.module('app.controllers')
         if($scope.fecha.toString().substring(0, 15) == $scope.vehicleMantenimientos[i].fechaRealizado){
           $scope.arrayTemporal.push({
             nombre: $scope.vehicleMantenimientos[i].nombre,
+            idtoStyle2: m,
             id: $scope.vehicleMantenimientos[i].id,
             idServicio: $scope.vehicleMantenimientos[i].idServicio,
             detalle: $scope.vehicleMantenimientos[i].detalle,
@@ -164,14 +193,136 @@ angular.module('app.controllers')
             //fecha: $scope.fecha,
             fechaRealizado: $scope.vehicleMantenimientos[i].fechaRealizado
           });
+          m=m+1;
         }
       }
       $scope.vehicleMantenimientos = "";
       $scope.vehicleMantenimientos = $scope.arrayTemporal;
+      $ionicLoading.hide();
+      $scope.putSize();
+
+    }
+
+    //funcion para eliminar un mantenimiento
+    $scope.eliminarMantenimiento = function(id){
+      var query = "DELETE FROM mantenimiento WHERE id_m = ?";
+      $cordovaSQLite.execute(db, query, [id]).then(function(result) {
+        console.log("Mantenimiento Eliminado");
+      }, function(error){
+        console.log(error);
+      });
+    }
+
+    
+
+    $scope.showConfirmEliminarMantenimiento = function(id) {
+    
+    var alertasPopup = $ionicPopup.confirm({
+      title: 'Eliminar Mantenimiento',
+      template: "Seguro que quieres eliminar este mantenimiento?",
+      buttons: [
+         {
+            text: 'Aceptar',
+            type: 'button-positive',
+            onTap: function(e){
+              angular.element($("#"+id)).remove();
+              angular.element($("#"+id)).remove();
+              $scope.eliminarMantenimiento(id);
+            }
+         },
+         {
+          text: 'cancelar'
+         }
+      ]
+    });
+    alertasPopup.then(function(res) {
+      console.log('popup contraseña');
+    });
+  };
 
 
+  //funcion para cambiar el tamaño de letra de la aplicacion
+  $scope.putSize = function () {
+    $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
+    $rootScope.sizePequeno = localStorage.getItem("sizePequeno");
+    $rootScope.sizeMediano = localStorage.getItem("sizeMediano");
+    console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
+    console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
+    console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
+    $timeout(function(){  
+      if ($rootScope.sizeGrande == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.3em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","margin-top: 0px; font-size: 1.4em;");
+        }
+        for(var k=0;k<$scope.vehicleMantenimientos.length;k++){
+          console.log("entra");
+          var x = $scope.vehicleMantenimientos[k].idtoStyle2;
+          document.getElementById(x).setAttribute("style","font-size: 1.4em");
+        }
+        for(var l=0;l<$scope.vehicleInfoMantenimientos.length;l++){
+          console.log("entra2");
+          var y = $scope.vehicleInfoMantenimientos[l].idtoStyle;
+          console.log("y: "+y);
+          document.getElementById(y).setAttribute("style","font-size: 1.4em");
+        }  
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.3em");
+        } 
+      } else if ($rootScope.sizeMediano == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.15em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.15em");
+        }
+        for(var k=0;k<$scope.vehicleMantenimientos.length;k++){
+          var x = $scope.vehicleMantenimientos[k].idtoStyle2;
+          document.getElementById(x).setAttribute("style","font-size: 1.2em");
+        }
+        for(var l=0;l<$scope.vehicleInfoMantenimientos.length;l++){
+          var y = $scope.vehicleInfoMantenimientos[l].idtoStyle;
+          console.log("y: "+y);
+          document.getElementById(y).setAttribute("style","font-size: 1.2em");
+        }
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.1em");
+        } 
+      } else if ($rootScope.sizePequeno == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1em");
+        }
+        for(var k=0;k<$scope.vehicleMantenimientos.length;k++){
+          var x = $scope.vehicleMantenimientos[k].idtoStyle2;
+          document.getElementById(x).setAttribute("style","font-size: 1.1em");
+        }
+        for(var l=0;l<$scope.vehicleInfoMantenimientos.length;l++){
+          var y = $scope.vehicleInfoMantenimientos[l].idtoStyle;
+          console.log("y: "+y);
+          document.getElementById(y).setAttribute("style","font-size: 1.1em");
+        }
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1em");
+        } 
+      }
+      
+    }, 0);
+  };
 
-    } 
-  
+    
+
 });
-

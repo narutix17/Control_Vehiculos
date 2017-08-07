@@ -59,8 +59,11 @@
         <p id="kof" style="color:#000000;">Kilometraje de ultimo servicio:</p>
       </div>
       <div class="item item-input" id="agregarServicioPersonalizado-input12">
-        <input id="kilfec" name="ultimoRealizado" type="date" placeholder="ultimo mantenimiento" ng-model="newService.ultimoRealizado" ng-required="false" ng-minlength ="1">
+        <input id="kilfec" name="ultimoRealizado" type="text" placeholder="ultimo mantenimiento" ng-model="newService.ultimoRealizado" ng-required="true">
       </div>
+      <span class="messages" ng-show="form13.$submitted || form13.ultimoRealizado.$touched">
+        <span ng-show="form13.ultimoRealizado.$error.required">  * Campo requerido.</span>
+      </span>
       
 
       

@@ -24,10 +24,10 @@
       
       <ion-list>
         <div ng-repeat="item in vehicleMantenimientos | orderBy:'fecha'" style="margin-bottom: 10px; ">
-        <div id="1">
-          <ion-item class="item-stable" ng-click="toggleGroup(item)" ng-class="{active: isGroupShown(item)}" style="background-color: rgba(121, 57, 52, 0.90); color: #fff; padding-bottom: 5px; padding-top: 5px">
+        <div >
+          <ion-item id="{{item.idreal}}" class="item-stable" ng-click="toggleGroup(item)" ng-class="{active: isGroupShown(item)}" style="background-color: rgba(121, 57, 52, 0.90); color: #fff; padding-bottom: 5px; padding-top: 5px">
               <div class="row">
-                <div class="col col-90">
+                <div id="{{item.idtoStyle2}}" class="col col-90">
                   &nbsp;
                 {{item.fechaRealizado}}
                 </div>
@@ -38,14 +38,23 @@
 
           </ion-item>
           <div ng-repeat="items in vehicleInfoMantenimientos | filter : {id: item.id}">
-          <ion-item class="item-accordion" ng-show="isGroupShown(item)" style="background-color: #e8e8e8; border-color: rgba(121, 57, 52, 0.90); border-width: 2px" >
-            {{items.nombre}}
-            <ul class = "list">
-            <li class="item" style="background-color: #e8e8e8; border: none;">
-              <p style="margin-bottom: 5px">Precio: ${{items.precio}}</p>
-              <p style="margin-bottom: 5px">Observacion: {{items.detalle}}</p>
-            </li>
-          </ul>
+          <ion-item id="{{items.idreal}}" class="item-accordion" ng-show="isGroupShown(item)" style="background-color: #e8e8e8; border-color: rgba(121, 57, 52, 0.90); border-width: 2px" >
+          <div class="row">
+            <div id="{{items.idtoStyle}}" class="col col-80">
+              {{items.nombre}}
+              <ul class = "list">
+                <li class="item" style="background-color: #e8e8e8; border: none;">
+                  <p style="margin-bottom: 5px">Precio: ${{items.precio}}</p>
+                  <p style="margin-bottom: 5px">Observacion: {{items.detalle}}</p>
+                </li>
+              </ul>
+            </div>
+            <div class="col col-20">
+              <a class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#A51D1D; background: transparent;" ng-click="showConfirmEliminarMantenimiento({{items.idreal}})"></a>
+              <h5>Eliminar</h5>
+            </div>
+          </div>
+            
           </ion-item>
           </div>
         </div>

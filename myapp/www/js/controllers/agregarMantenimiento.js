@@ -8,10 +8,13 @@ angular.module('app.controllers')
 /**
  * Controller for an specific Vehicle operations
  */
-app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
+app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout){
 
     $scope.newMantenimiento = {};
 
+    $scope.$on('$ionicView.afterEnter', function(){
+        $scope.putSize();
+    });
 
     $scope.agregarMantenimiento = function(){
         console.log($scope.newMantenimiento.nombreServ);
@@ -32,15 +35,84 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
             console.log("Mantenimiento Agregado");
         });
 
+
+
     }
 
-
-
-    //$(document).ready(function(){
-        //$("#boton").click(function(){
-            //var serv = $('#servRealizado option:selected').text();
-            //$("#nomb").append('<div class="row"><div class="col col-80"><h5>'+serv+'</h5></div><div class="col col-10"><button class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D"></button></div></div>');
-        //});
-    //});
-
+   //funcion para cambiar el tamaño de letra de la aplicacion
+  $scope.putSize = function () {
+    $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
+    $rootScope.sizePequeno = localStorage.getItem("sizePequeno");
+    $rootScope.sizeMediano = localStorage.getItem("sizeMediano");
+    console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
+    console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
+    console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
+    $timeout(function(){  
+      if ($rootScope.sizeGrande == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.3em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.3em");
+        }
+        var h=document.getElementsByTagName('textarea');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1.3em");
+        } 
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1.3em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.3em");
+        } 
+      } else if ($rootScope.sizeMediano == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.15em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.15em");
+        }
+        var h=document.getElementsByTagName('textarea');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1.15em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1.1em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.1em");
+        } 
+      } else if ($rootScope.sizePequeno == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1em");
+        }
+        var h=document.getElementsByTagName('textarea');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1em");
+        } 
+      }
+      
+    }, 0);
+  };
 }]);

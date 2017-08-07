@@ -10,10 +10,12 @@ angular.module('app.controllers')
 /**
  * Controller for an specific Vehicle operations
  */
-app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$cordovaImagePicker', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $cordovaImagePicker, $cordovaCamera){
+app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicPopup', '$state', '$cordovaImagePicker', '$cordovaCamera', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $cordovaImagePicker, $cordovaCamera, $timeout){
 
 
   $scope.updatedKm = {};
+
+
 
   // We use a loading screen to wait the selected vehicle to be loaded from the database, so its loaded before the view.
   $ionicLoading.show({
@@ -23,6 +25,8 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     maxWidth: 200,
     showDelay: 0
   });
+
+  
 
   /**
    * Eliminar un vehiculo dada la placa
@@ -77,6 +81,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   $scope.$watch(function(){
     return $rootScope.chosenVehicle.id;
   }, function(){
+
     // Esto se ejecuta, cuando el parametro de id de vehiculo se carga.
     if ($scope.called == true){
       return;
@@ -86,6 +91,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     $scope.selectedVehicle = [];
     $rootScope.selectedVehicleServices = [];
     $scope.actualid = $rootScope.chosenVehicle.id;
+
     // Query para obtener un vehiculo
     var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id WHERE vehiculo.id=? LIMIT 1";
      console.log("idVehiculo: "+$scope.actualid);
@@ -113,6 +119,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
             console.log(res.rows.length);
             if (res.rows.length > 0){
               for (var j=0; j<res.rows.length; j++){
+
                 // Condicion para evitar duplicados
                 if (res.rows.length != $rootScope.selectedVehicleServices.length){
                   console.log($rootScope.selectedVehicleServices.length);
@@ -128,6 +135,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
                 }
               }
             }
+            $scope.putSize();
             console.log($rootScope.selectedVehicleServices.length);
             $scope.called = false;
             $ionicLoading.hide();
@@ -139,11 +147,63 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
       }
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
-
+      $scope.putSize();
       }, function(error){
         console.log(error);
       });
   });
+
+  $scope.putSize = function () {
+    $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
+    $rootScope.sizePequeno = localStorage.getItem("sizePequeno");
+    $rootScope.sizeMediano = localStorage.getItem("sizeMediano");
+    console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
+    console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
+    console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
+    $timeout(function(){  
+      if ($rootScope.sizeGrande == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.3em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.3em");
+        }
+        var h=document.getElementsByTagName('h5');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1.3em");
+        } 
+      } else if ($rootScope.sizeMediano == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.15em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.15em");
+        }
+        var h=document.getElementsByTagName('h5');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1.15em");
+        }
+      } else if ($rootScope.sizePequeno == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1em");
+        }
+        var h=document.getElementsByTagName('h5');
+        for(var k=0;k<h.length;k++){
+          h[k].setAttribute("style","font-size: 1em");
+        }
+      }
+      
+    }, 0);
+  };
 
 
   /**
@@ -220,6 +280,31 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
         alert('Failed because: ' + message);
       }
     }
+  };
+
+  $scope.puEVehiculo = function() {
+    
+    console.log("si entraaaaaa");
+    var alertasPopup = $ionicPopup.confirm({
+      title: 'Eliminar Vehículo',
+      template: 'Está seguro que desea eliminar este vehículo?',
+      buttons: [
+         {
+            text: 'Aceptar',
+            type: 'button-positive',
+            onTap: function(e){
+               $scope.eliminarVehiculo(placa);
+               $state.go('tabsController.listaDeVehiculos');  //al presionar el boton redirige a la pagina login
+            }
+         },
+         {
+          text: 'cancelar'
+         }
+      ]
+    });
+    alertasPopup.then(function(res) {
+      console.log('popup contraseña');
+    });
   };
 
  

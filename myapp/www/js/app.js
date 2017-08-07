@@ -40,6 +40,14 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
       StatusBar.styleDefault();
     }
 
+    $ionicPlatform.on('resume', function() {
+       
+       $rootScope.size12 = localStorage.getItem("size12");
+
+    });   
+
+
+    //$rootScope.size12 = localStorage.getItem("size12");
     /**
      *
      *

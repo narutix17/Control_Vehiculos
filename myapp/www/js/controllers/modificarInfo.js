@@ -6,7 +6,7 @@
  * Creador: Jose Cedeno.
  */
 angular.module('app.controllers')
-app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
+app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout){
 
   // Informacion ya existente del vehiculo
   $scope.updatedplaca = $rootScope.chosenVehicle.placa;
@@ -78,7 +78,9 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
 
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
+      
       $ionicLoading.hide();
+      $scope.putSize();
       }, function(error){
         console.log(error);
       });
@@ -237,5 +239,70 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
       }
     }
   }
+
+  //funcion para cambiar el tamaño de letra de la aplicacion
+  $scope.putSize = function () {
+    $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
+    $rootScope.sizePequeno = localStorage.getItem("sizePequeno");
+    $rootScope.sizeMediano = localStorage.getItem("sizeMediano");
+    console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
+    console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
+    console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
+    $timeout(function(){  
+      if ($rootScope.sizeGrande == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.3em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.3em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1.3em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.3em");
+        } 
+      } else if ($rootScope.sizeMediano == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.15em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.15em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1.1em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.1em");
+        } 
+      } else if ($rootScope.sizePequeno == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1em");
+        } 
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1em");
+        } 
+      }
+      
+    }, 0);
+  };
 
 }]);

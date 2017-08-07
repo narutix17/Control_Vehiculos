@@ -89,10 +89,10 @@
                 <h5>{{serv.nombre}}</h5>
               </div>
               <div class = "col col-12">
-                <button ui-sref="editarServicioNuevo()" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666" ng-click="editarServicio('{{serv.nombre}}')"></button>
+                <a ui-sref="editarServicioNuevo()" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666" ng-click="editarServicio('{{serv.nombre}}')"></a>
               </div>
               <div class = "col col-12">
-                <button class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="eliminarServicioDeLaLista('{{serv.nombre}}')"></button>
+                <a class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="eliminarServicioDeLaLista('{{serv.nombre}}')"></a>
               </div>
             </div>
         </div id="nuevoVehiculoServicios">

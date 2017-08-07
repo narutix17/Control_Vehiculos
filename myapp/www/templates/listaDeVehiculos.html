@@ -24,29 +24,29 @@
       <div class="list" >
 
         <div class="item-thumbnail-left item" id="{{item.id}}" ng-repeat="item in registrosVehiculos">
-          
+
           <img src="{{item.imagen}}" ng-click="showImage({{item.id}})" style="vertical-align: middle; border-radius: 50px;">
-          
-          <div class="row"> 
-            <div class="col col-80" ng-click="setVehicle('{{item.alias}}', '{{item.id}}', '{{item.placa}}', '{{item.marca}}', '{{item.year}}', '{{item.color}}')" ui-sref="tabsController2.informaciN()">
+
+          <div class="row">
+            <div class="col col-80" ng-click="setVehicle('{{item.alias}}', '{{item.id}}', '{{item.placa}}', '{{item.marca}}', '{{item.year}}', '{{item.color}}', '{{item.kilometraje}}')" ui-sref="tabsController2.informaciN()">
               <h2 id="titulo1">{{item.orden1}}</h2>
               <p id="titulo2">{{item.orden2}}</p>
               <p id="titulo3">{{item.orden3}}</p>
             </div>
             <div class="col col-20">
-            
+
               <div style="vertical-align: text-bottom;">
                 <button  class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#A51D1D" ng-click="showConfirmEliminarVehiculo2('{{item.id}}','{{item.alias}}')"></button>
               </div>
-              
+
             </div>
-                  
+
           </div>
 
         </div>
 
       </div>
-  
+
     <div class="spacer" style="height: 5px;"></div>
   </div>
   </ion-content>
@@ -71,5 +71,5 @@
       <ion-radio class="wrapping-list" ng-model="choice.value" ng-value="'Grande'" name="grupo2">Grande</ion-radio>
     </div>
   </script>
- 
+
 </ion-view>

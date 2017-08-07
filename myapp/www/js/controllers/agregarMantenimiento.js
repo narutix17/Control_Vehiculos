@@ -19,6 +19,20 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
     $scope.agregarMantenimiento = function(){
         console.log($scope.newMantenimiento.nombreServ);
         var nombreServicio = $scope.newMantenimiento.nombreServ;
+        var kilometraDeMantenimiento = $scope.newMantenimiento.kilometraje;
+
+        /*
+        if (kilometraDeMantenimiento > $rootScope.chosenVehicle.km){
+
+          var query = "UPDATE vehiculo SET kilometraje=? WHERE id=?";
+          console.log(query);
+          $cordovaSQLite.execute(db, query, [kilometraDeMantenimiento, $rootScope.chosenVehicle.id]).then(function(result) {
+            console.log("Km Actualizado");
+          }, function(error){
+            console.log(error);
+          });
+        }
+        */
 
         var servId = "";
         for (var i = 0; i< $rootScope.selectedVehicleServices.length; i++){
@@ -34,9 +48,6 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         $cordovaSQLite.execute(db, query, [servId, $scope.newMantenimiento.obs, $scope.newMantenimiento.valor ,$scope.newMantenimiento.fecha]).then(function(res){
             console.log("Mantenimiento Agregado");
         });
-
-
-
     }
 
    //funcion para cambiar el tamaño de letra de la aplicacion
@@ -47,7 +58,7 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -60,15 +71,15 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         var h=document.getElementsByTagName('textarea');
         for(var k=0;k<h.length;k++){
           h[k].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -85,11 +96,11 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -106,13 +117,13 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 }]);

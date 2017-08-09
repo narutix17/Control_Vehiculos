@@ -6,7 +6,7 @@ var cors = require('cors');
 var multipart = require('connect-multiparty')
 
 
-var User = require('./models/User');
+//var User = require('./models/User');
 
 
 // Configure the local strategy for use by Passport.

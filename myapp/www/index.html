@@ -23,7 +23,7 @@
     <style type="text/css">
 
       @import url('https://fonts.googleapis.com/css?family=Sedgwick+Ave');
-      
+
       .platform-ios .manual-ios-statusbar-padding{
         padding-top:20px;
       }
@@ -108,7 +108,7 @@
         opacity: 0;
       }
 
-      
+
 
 
     </style>
@@ -119,6 +119,7 @@
     <script src="js/controllers.js"></script>
     <script src="js/controllers/vehicles.js"></script>
     <script src="js/controllers/vehicle.js"></script>
+    <script src="js/controllers/mainCtrl.js"></script>
     <script src="js/controllers/agregarVehiculo.js"></script>
     <script src="js/controllers/agregarMantenimiento.js"></script>
     <script src="js/controllers/mantenimientos.js"></script>
@@ -140,7 +141,7 @@
     -->
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7" >
+  <body ng-app="app" animation="slide-left-right-ios7" ng-controller="MainCtrl">
   <div>
   <div>
     <ion-nav-bar class="bar-positive">
@@ -151,7 +152,7 @@
 </div>
 
   </body>
-  
+
   <footer>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
   </footer>

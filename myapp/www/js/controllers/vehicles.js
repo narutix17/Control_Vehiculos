@@ -26,15 +26,15 @@ angular.module('app.controllers')
     $scope.cargarPredeterminados();
     console.log("sizeGrande: "+$rootScope.size12);
   });
-  
-   
+
+
   $scope.tamano = function(opcion){
     $scope.opcion = opcion;
     console.log("opcion: "+$scope.opcion);
     //var tamano = $("#tamano").val();
   };
 
-  
+
 
 
   /**
@@ -52,7 +52,7 @@ angular.module('app.controllers')
   /**
    * Set onto a $scope variable the selected vehicle identifier.
    */
-  $scope.setVehicle = function(alias, id, placa, marca, año, color){
+  $scope.setVehicle = function(alias, id, placa, marca, año, color, km){
     if (typeof $rootScope.chosenVehicle == "undefined"){
 
         $rootScope.chosenVehicle = {
@@ -61,7 +61,8 @@ angular.module('app.controllers')
           placa: placa,
           marca: marca,
           year: año,
-          color: color
+          color: color,
+          km: km
         }
       } else {
         $rootScope.chosenVehicle.alias = alias;
@@ -70,6 +71,7 @@ angular.module('app.controllers')
         $rootScope.chosenVehicle.marca = marca;
         $rootScope.chosenVehicle.year = año;
         $rootScope.chosenVehicle.color = color;
+        $rootScope.chosenVehicle.km = km;
       }
 
 
@@ -214,9 +216,9 @@ angular.module('app.controllers')
   /**
    * Mensaje de confirmacion al eliminar un vehiculo de la lista de vehiculos
    */
-   
+
    $scope.showConfirmEliminarVehiculo2 = function(idVehiculo,alias) {
-    
+
     var alertasPopup = $ionicPopup.confirm({
       title: 'Eliminar Vehículo',
       template: 'Está seguro que desea eliminar el vehículo ' + alias,
@@ -227,7 +229,7 @@ angular.module('app.controllers')
             onTap: function(e){
               angular.element($("#"+idVehiculo)).remove();
               $scope.eliminarVehiculo(idVehiculo);
-              
+
             }
          },
          {
@@ -251,7 +253,7 @@ angular.module('app.controllers')
 
   //funcion para configurar la visualizacion
   $scope.configurarVista = function() {
-    
+
     var alertasPopup = $ionicPopup.confirm({
       title: 'Configuración',
       templateUrl: 'orderPopup.html',
@@ -297,8 +299,8 @@ angular.module('app.controllers')
         for(j=0;j<b.length;j++)
         {
             b[j].setAttribute("style","font-size: 1.35em");
-        }  
-        
+        }
+
       } else if (tamano == "Mediano"){
         localStorage.setItem("sizePequeno",false);
         localStorage.setItem("sizeMediano",true);
@@ -311,7 +313,7 @@ angular.module('app.controllers')
         for(j=0;j<b.length;j++)
         {
             b[j].setAttribute("style","font-size: 1.2em");
-        } 
+        }
       } else if (tamano == "Pequeno"){
         localStorage.setItem("sizePequeno",true);
         localStorage.setItem("sizeMediano",false);
@@ -324,12 +326,12 @@ angular.module('app.controllers')
         for(j=0;j<b.length;j++)
         {
             b[j].setAttribute("style","font-size: 1.05em");
-        } 
+        }
       }
     }, 0);
   };
 
-  //funcion para colocar el tamaño de las letras 
+  //funcion para colocar el tamaño de las letras
   $scope.putSize = function () {
     $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
     $rootScope.sizePequeno = localStorage.getItem("sizePequeno");
@@ -337,7 +339,7 @@ angular.module('app.controllers')
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){

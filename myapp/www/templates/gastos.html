@@ -5,38 +5,35 @@
     </button>
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
-    <form id="gastos-form5" class="list">
+    <form id="gastos-form5" name="gastosForm" class="list" novalidate ng-model="formularioGastos">
       <p>Elegir modo de visualizacion: </p>
       <label class="item item-select" id="gastos-select1">
-
-        <select ng-model="actGastos.intervalo" name="intervalo">
+        <select ng-model="actGastos.intervalo" ng-required="true" name="intervalo">
           <option>Diario</option>
           <option>Semanal</option>
           <option>Mensual</option>
         </select>
       </label>
+      <div id="gastos-markdown8" class="show-list-numbers-and-dots">
+        <p style="color:#000000;">Fecha inicio:</p>
+      </div>
+      <label class="item item-input" id="gastos-input7">
+        <input type="date" placeholder="" ng-required="true" ng-model="actGastos.fechaini" name="fechaini">
+      </label>
+      <div id="gastos-markdown9" class="show-list-numbers-and-dots">
+        <p style="color:#000000;">Fecha fin:</p>
+      </div>
+      <label class="item item-input" id="gastos-input8" style="margin-bottom: 15px">
+        <input type="date" placeholder="" ng-required="true" ng-model="actGastos.fechafin" name="fechafin">
+      </label>
+      <span ng-show="gastosForm.fechafin < gastosForm.fechaini">  *La fecha fin debe ser despues que la fecha inicio</span>
     </form>
-    <div style="margin: 0px; line-height: 250px;  text-align: center; margin-bottom: 10px;">
+    <div style="margin: 0px; line-height: 120px;  text-align: center; margin-bottom: 10px;">
       <canvas id="bar" class="chart chart-line" data="graph.data" labels="graph.labels" series='graph.series'></canvas>
     </div>
-    <div id="gastos-markdown8" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">Fecha inicio:</p>
-    </div>
-    <form id="gastos-form9" class="list" >
-      <label class="item item-input" id="gastos-input7">
-        <input type="date" placeholder="" ng-model="actGastos.fechaini" name="fechaini">
-      </label>
-    </form>
-    <div id="gastos-markdown9" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">Fecha fin:</p>
-    </div>
-    <form id="gastos-form10" class="list">
-      <label class="item item-input" id="gastos-input8" style="margin-bottom: 15px">
-        <input type="date" placeholder="" ng-model="actGastos.fechafin" name="fechafin">
-      </label>
-    </form>
+
     <div>
-      <button id="gastos-button-act" ng-click="graficar()" class="button button-positive button-block">Actualizar Grafico</button>
+      <button ng-disabled="gastosForm.$invalid" id="gastos-button-act" ng-click="graficar()" class="button button-positive button-block">Actualizar Grafico</button>
     </div>
     <div class="spacer" style="height: 5px;"></div>
   </ion-content>

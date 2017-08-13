@@ -6,6 +6,7 @@ angular.module('app.controllers')
 
 	$scope.$on('$ionicView.beforeEnter', function () {
     	$scope.CurrentDate = new Date();
+
     	
     	$scope.cargarMantenimientos();
   	});
@@ -89,10 +90,12 @@ angular.module('app.controllers')
 	          
 	        }
 	        
+
 	        $ionicLoading.hide();
 	    });
 	    
 	}
+
     
 
 
@@ -109,4 +112,5 @@ angular.module('app.controllers')
     return $scope.shownGroup === group;
   };
   
+
 });

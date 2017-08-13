@@ -8,11 +8,13 @@ angular.module('app.controllers')
  * Controlador para agregar vehiculos con sus respectivos servicios
  * tambien se encuentran funciones para tomar foto desde camara o desde la galeria
  */
+
 .controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', '$cordovaCamera', '$cordovaFile', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile, $timeout, $cordovaLocalNotification, $ionicPopup){
 
   $scope.newService = {}
   $scope.newVehicle = {}
   
+
   $scope.img = "img/car_agregar.png";
   /**
    * Scope methods excecuted before entering the view that implements the controller
@@ -53,7 +55,9 @@ angular.module('app.controllers')
    * Create Vehicle method. Recieve the form model located in "agregarVehiculo.html"
    */
   $scope.crearVehiculo = function(){
+    
     var x = 0;
+
     console.log("nativeURL: "+$scope.img);
     var servicios = $rootScope.serviciosParaAgregar;
     var query = "INSERT INTO vehiculo (idTipo,idMarca, color, placa, alias, año, kilometraje, imagen) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
@@ -140,7 +144,9 @@ angular.module('app.controllers')
         var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
         $cordovaSQLite.execute(db, servQuery, [2, servi.tipo_intervalo, idV, servi.nombre, servi.intervalo, servi.ultimoRealizado ]).then(function(result) {
                   console.log("Servicio Agregado"+ servi.nombre);
+
                   $scope.notificacion($rootScope.chosenVehicle.placa, $rootScope.chosenVehicle.alias, $rootScope.chosenVehicle.marca, $rootScope.chosenVehicle.id, $scope.newService.ultimoRealizado, $scope.newService.nombre, $scope.newService.intervalo);
+
                   $state.go('tabsController2.informaciN');
         });
       //}
@@ -353,6 +359,7 @@ angular.module('app.controllers')
       }
     }
   }
+
 
   //funcion para cambiar el tamaño de letra de la aplicacion
   $scope.putSize = function () {
@@ -573,6 +580,7 @@ angular.module('app.controllers')
             console.log('no existe notificacion para cancelar');
         }
     });
+
   };
 
 }]);

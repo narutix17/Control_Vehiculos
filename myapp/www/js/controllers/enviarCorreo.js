@@ -3,6 +3,7 @@
 
 angular.module('app.controllers')
 
+
 .controller('enviarCorreo', function($scope, $cordovaSQLite, $rootScope, $cordovaLocalNotification, $timeout, $state, $ionicPopup){
 
   $scope.pruebas = localStorage.getItem("tiempos");
@@ -84,6 +85,7 @@ angular.module('app.controllers')
       console.log('popup contraseña');
     });
   };
+
 
 });
 

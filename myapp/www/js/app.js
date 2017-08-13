@@ -40,11 +40,6 @@ app.run(function($ionicPlatform, $cordovaSQLite, $cordovaLocalNotification, $tim
       StatusBar.styleDefault();
     }
     
-    
-
-       
-    
-
 
     //$rootScope.size12 = localStorage.getItem("size12");
     /**

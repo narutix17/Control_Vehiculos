@@ -3,10 +3,19 @@
     "version": "0.0.1",
     "description": "An Ionic project",
     "dependencies": {
+        "@angular/core": "^4.3.1",
+        "@ionic-native/core": "^3.6.0",
         "@ionic-native/sqlite": "^3.12.1",
+        "angular-chart": "^0.5.0",
+        "chart.js": "^2.6.0",
         "cordova-android": "^6.2.3",
+        "cordova-plugin-app-event": "file:node_modules\\cordova-plugin-app-event",
+        "cordova-plugin-camera": "git+https://github.com/apache/cordova-plugin-camera.git",
+        "cordova-plugin-compat": "^1.1.0",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
+        "cordova-plugin-file": "^4.3.3",
+        "cordova-plugin-image-picker": "git+https://github.com/wymsee/cordova-imagePicker.git",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.1",
         "cordova-plugin-whitelist": "^1.3.1",
@@ -16,7 +25,11 @@
         "gulp-minify-css": "^0.3.0",
         "gulp-rename": "^1.2.0",
         "gulp-sass": "^2.0.4",
-        "ionic-plugin-keyboard": "^2.2.1"
+        "ionic-plugin-keyboard": "^2.2.1",
+        "rxjs": "^5.0.1",
+        "strip-ansi": "^3.0.1",
+        "zone.js": "^0.8.4",
+        "de.appplant.cordova.plugin.local-notification": "git+https://github.com/katzer/cordova-plugin-local-notifications.git"
     },
     "devDependencies": {
         "@ionic/cli-plugin-cordova": "1.4.0",
@@ -34,7 +47,11 @@
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {},
-            "cordova-sqlite-storage": {}
+            "cordova-sqlite-storage": {},
+            "cordova-plugin-image-picker": {},
+            "cordova-plugin-camera": {},
+            "cordova-plugin-file": {},
+            "de.appplant.cordova.plugin.local-notification": {}
         },
         "platforms": [
             "android"

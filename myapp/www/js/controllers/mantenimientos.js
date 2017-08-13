@@ -7,7 +7,9 @@
  */
 angular.module('app.controllers')
 
+
 .controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $timeout, $cordovaLocalNotification, $ionicPopup, $state) {
+
   //funcion para esperar mientras cargan los datos de la pagina 
   $ionicLoading.show({
       content: 'Loading',
@@ -204,6 +206,7 @@ angular.module('app.controllers')
     }
 
     //funcion para eliminar un mantenimiento
+
     $scope.eliminarMantenimiento = function(id, nombre){
       $cordovaLocalNotification.isPresent(nombre+$rootScope.chosenVehicle.placa).then(function (present) {
         if (present) {
@@ -214,6 +217,7 @@ angular.module('app.controllers')
             console.log('no existe notificacion para cancelar');
         }
       });
+
       var query = "DELETE FROM mantenimiento WHERE id_m = ?";
       $cordovaSQLite.execute(db, query, [id]).then(function(result) {
         console.log("Mantenimiento Eliminado");
@@ -222,10 +226,12 @@ angular.module('app.controllers')
       });
     }
 
+
     $scope.popUpEliminarMantenimiento = function(id, nombre) {
     var alertasPopup = $ionicPopup.confirm({
       title: 'Eliminar Mantenimiento',
       template: 'Esta seguro que desea eliminar este mantenimiento? se eliminaran las notificaciones automaticas del servicio: "'+nombre+'" </br> Para recibir notificaciones vuelva a agregar nuevamente un mantenimiento o servicio',
+
       buttons: [
          {
             text: 'Aceptar',
@@ -233,7 +239,9 @@ angular.module('app.controllers')
             onTap: function(e){
               angular.element($("#"+id)).remove();
               angular.element($("#"+id)).remove();
+
               $scope.eliminarMantenimiento(id, nombre);
+
             }
          },
          {

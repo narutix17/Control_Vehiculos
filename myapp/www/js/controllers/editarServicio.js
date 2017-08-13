@@ -6,7 +6,9 @@
  */
 angular.module('app.controllers')
 
+
 app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout, $cordovaLocalNotification, $ionicPopup){
+
 
     $scope.servicioEditado = {};
 
@@ -22,7 +24,7 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
       return $rootScope.chosenService[0].ultimoRealizado;
     }, function(){
       $ionicLoading.hide();
-  
+
       $scope.putSize();
     });
 
@@ -161,6 +163,7 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
     }, 0);
   };
 
+
   //funcion para restar dias a una fecha
   function restarDias(fecha, dias){
     fecha.setDate(fecha.getDate() - dias);
@@ -293,6 +296,7 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
       });
     });
   }
+
 
 
 }]);

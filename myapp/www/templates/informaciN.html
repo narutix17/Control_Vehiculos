@@ -65,15 +65,18 @@
                 <p>{{item.nombre}}</p>
               </div>
               <div class = "col col-12" >
+
                 <a ui-sref="editarServicio()" ng-click="editarServicio('{{item.id}}', '{{item.nombre}}', '{{item.idTipoIntervalo}}', '{{item.intervalo}}', '{{item.ultimoRealizado}}' )" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666"></a>
               </div>
               <div class = "col col-12">
                 <a class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="popUpEliminarServicio('{{item.id}}','{{item.nombre}}')"></a>
+
               </div>
 
             </div>
 
     </div>
+
 
     </div>
     

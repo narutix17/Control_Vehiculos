@@ -7,23 +7,27 @@
 
   <ion-content padding="true" class="has-header">
     <div class="row">
-    	<div class="col col-60">
-    		<label class="item item-input" id="mantenimiento-search1">
-		        <i class="icon ion-search placeholder-icon"></i>
-		        <input type="search" placeholder="">
-      		</label>
-    	</div>
-    	<div class="col col-40" >
-    		<a ui-sref="tabsController2.nuevoMantenimiento()" id="mantenimiento-button3" class="button button-positive button-block" style="margin-top: 0px">Agregar</a>
-    	</div>
+      <div class="col col-60">
+        <label class="item item-input" id="mantenimiento-search1">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="date" placeholder="" id="fecha">
+          </label>
+      </div>
+      <div class="col col-40" >
+        <a id="mantenimiento-button3" ng-click="buscar()" class="button button-positive button-block" style="margin-top: 0px">Buscar</a>
+      </div>
     </div>
+    <div>
+        <a ui-sref="tabsController2.nuevoMantenimiento()" id="mantenimiento-button3" class="button button-positive button-block" style="margin-top: 0px">Agregar</a>
+      </div>
     <div >
       
       <ion-list>
-        <div ng-repeat="item in selectedVehicleMantenimientos | orderBy:'fecha'" style="margin-bottom: 10px; ">
-          <ion-item class="item-stable" ng-click="toggleGroup(item)" ng-class="{active: isGroupShown(item)}" style="background-color: rgba(121, 57, 52, 0.90); color: #fff; padding-bottom: 5px; padding-top: 5px">
+        <div ng-repeat="item in vehicleMantenimientos | orderBy:'fecha'" style="margin-bottom: 10px; ">
+        <div >
+          <ion-item id="{{item.idreal}}" class="item-stable" ng-click="toggleGroup(item)" ng-class="{active: isGroupShown(item)}" style="background-color: rgba(121, 57, 52, 0.90); color: #fff; padding-bottom: 5px; padding-top: 5px">
               <div class="row">
-                <div class="col col-90">
+                <div id="{{item.idtoStyle2}}" class="col col-90">
                   &nbsp;
                 {{item.fechaRealizado}}
                 </div>
@@ -33,19 +37,29 @@
               </div>
 
           </ion-item>
-          <ion-item class="item-accordion" ng-show="isGroupShown(item)" style="background-color: #e8e8e8; border-color: rgba(121, 57, 52, 0.90); border-width: 2px" >
-            {{item.nombre}}
-            <ul class = "list">
-            <li class="item" style="background-color: #e8e8e8; border: none;">
-              <p style="margin-bottom: 5px">Precio: ${{item.precio}}</p>
-              <p style="margin-bottom: 5px">Observacion: {{item.detalle}}</p>
-            </li>
-          </ul>
+          <div ng-repeat="items in vehicleInfoMantenimientos | filter : {id: item.id}">
+          <ion-item id="{{items.idreal}}" class="item-accordion" ng-show="isGroupShown(item)" style="background-color: #e8e8e8; border-color: rgba(121, 57, 52, 0.90); border-width: 2px" >
+          <div class="row">
+            <div id="{{items.idtoStyle}}" class="col col-80">
+              {{items.nombre}}
+              <ul class = "list">
+                <li class="item" style="background-color: #e8e8e8; border: none;">
+                  <p style="margin-bottom: 5px">Precio: ${{items.precio}}</p>
+                  <p style="margin-bottom: 5px">Observacion: {{items.detalle}}</p>
+                </li>
+              </ul>
+            </div>
+            <div class="col col-20">
+              <a class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#A51D1D; background: transparent; padding-top: 5px; padding-left: 5px;" ng-click="popUpEliminarMantenimiento('{{items.idreal}}', '{{items.nombre}}')"></a>
+              <h5>Eliminar</h5>
+            </div>
+          </div>
+            
           </ion-item>
+          </div>
+        </div>
         </div>
      </ion-list> 
     </div>
   </ion-content>
 </ion-view>
-
-

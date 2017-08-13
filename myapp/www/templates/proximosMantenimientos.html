@@ -1,4 +1,4 @@
-<ion-view title="Proximos Mantenimientos" id="page4" ng-controller="showHide">
+<ion-view title="Proximos Mantenimientos" id="page4" ng-controller="proximosMantenimientos" cache-view="false">
 <ion-nav-buttons side="left" class="has-header">
     <button ui-sref="inicio()" class="button back-button buttons button-clear header-item">
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
@@ -7,44 +7,49 @@
   
   <ion-content padding="true" class="has-header" >
   
+  
     <div class="row">
-    	<div class="col col-100">
-    		<label class="item item-input" id="mantenimiento-search1">
-		        <i class="icon ion-search placeholder-icon"></i>
-		        <input type="search" placeholder="">
-      		</label>
-    	</div>
+      <div class="col col-60">
+        <label class="item item-input" id="mantenimiento-search1">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="date" placeholder="" id="fecha">
+          </label>
+      </div>
+      <div class="col col-40" >
+        <a id="mantenimiento-button3" ng-click="buscar()" class="button button-positive button-block" style="margin-top: 0px">Buscar</a>
+      </div>
     </div>
+    
     <ion-list>
         <div ng-repeat="item in selectedVehicleMantenimientos | orderBy:'fecha'" style="margin-bottom: 10px; ">
           <ion-item class="item-stable" ng-click="toggleGroup(item)" ng-class="{active: isGroupShown(item)}" style="background-color: rgba(121, 57, 52, 0.90); color: #fff; padding-bottom: 5px; padding-top: 5px">
               <div class="row">
-              	<div class="col col-90">
+              	<div id="{{item.idtoStyle}}" class="col col-90">
               		&nbsp;
                   
-            		  {{item.fechaRealizado}} 
+            		  {{item.fechaRealizado}}
+
 
               	</div>
               	<div class="col col-20">
               		<i class="icon" ng-class="isGroupShown(item) ? 'ion-android-arrow-dropup-circle' : 'ion-android-arrow-dropdown-circle'" style="font-size: 26px; text-align: right;"></i>
               	</div>
               </div>
-              
-            	
 
           </ion-item>
+          <div>
           <ion-item  class="item-accordion" ng-show="isGroupShown(item)" style="background-color: #e8e8e8; border-color: rgba(121, 57, 52, 0.90); border-width: 2px" >
-            <div >
-              {{item.aliass}}<br>
+            <div id="{{item.idtoStyle2}}">
+              {{item.nombre}}
             </div>
-             
-            
             <ul class = "list">
 			    	<li class="item" style="background-color: #e8e8e8; border: none;">
-			    		<p style="margin-bottom: 5px">{{item.nombre}} </p>
+			    		<p style="margin-bottom: 5px">Alias: {{item.alias}} </p>
+              <p style="margin-bottom: 5px">Placa: {{item.placa}} </p>
 			    	</li>
 			    </ul>
           </ion-item>
+          </div>
         </div>
      </ion-list>
     

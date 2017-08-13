@@ -1,5 +1,11 @@
+/**
+ * Archivo principal de la aplicacion. En este .js se instancia la base de datos.
+ * Se crea la base de datos en caso de no existir, y se cargan las dependencias necesarias.
+ * Version: 2.1
+ * Creador: Leonardo Kuffo
+ * Editores: Ruben Suarez
+ */
 // Ionic Starter App
-
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -9,19 +15,19 @@
 var db = null;
 
 
-var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova'])
+var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova', 'chart.js'])
 
-app.config(function($ionicConfigProvider, $sceDelegateProvider){
+app.config(function($ionicConfigProvider, $sceDelegateProvider, $compileProvider){
 
   $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
-
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile|content):|data:image\//);
 })
 
 /**
  * This method is excecuted when app starts running. Inside this function we create the Database. Every SQL execute command
  * is validated everytime the app opens, to avoid redundancy problems.
  */
-app.run(function($ionicPlatform, $cordovaSQLite) {
+app.run(function($ionicPlatform, $cordovaSQLite, $cordovaLocalNotification, $timeout, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -33,15 +39,23 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    
+    
 
-    //db = $cordovaSQLite.deleteDatabase({name: 'controlvehiculos.db', location: 'default'}, successcb, errorcb);
+       
+    
 
-    // Open DB
+
+    //$rootScope.size12 = localStorage.getItem("size12");
+    /**
+     *
+     *
+     * CREACION DE LA BASE DE DATOS
+     *
+     *
+     */
     db = $cordovaSQLite.openDB({ name: "controlvehiculos.db", iosDatabaseLocation:'default'});
 
-  /**
-   * Creating tables and default registries
-   */
     $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS tipo_vehiculo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombre VARCHAR (20) UNIQUE);").then(function(result){
         $cordovaSQLite.execute(db,"select * from tipo_vehiculo").then(function(result){
           if (result.rows.length==0) {
@@ -170,7 +184,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
           });
       });
 
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER REFERENCES tipo_servicio (id) ON DELETE CASCADE, idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id) ON DELETE CASCADE, idVehiculo INTEGER REFERENCES vehiculo (id) ON DELETE CASCADE, nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado INTEGER (10) );").then(
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER REFERENCES tipo_servicio (id) ON DELETE CASCADE, idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id) ON DELETE CASCADE, idVehiculo INTEGER REFERENCES vehiculo (id) ON DELETE CASCADE, nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado VARCHAR (15) );").then(
         function(result){
           console.log("TABLA SERVICIO CREADA")
         },function(error){
@@ -178,7 +192,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
           console.log(error);
       });
 
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS mantenimiento (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,idServicio INTEGER REFERENCES servicio (id) ON DELETE CASCADE,detalle TEXT, precio DECIMAL (5, 2),fechaRealizado DATE);");
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS mantenimiento (id_m INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,idServicio INTEGER REFERENCES servicio (id) ON DELETE CASCADE,detalle TEXT, precio DECIMAL (5, 2),fechaRealizado DATE);");
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS notificacion (id INTEGER PRIMARY KEY AUTOINCREMENT,idServicio INTEGER REFERENCES servicio (id) ON DELETE CASCADE,cuandoRealizar INTEGER (10));");
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS region (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre VARCHAR (20) UNIQUE);");
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS publicidad (id INTEGER PRIMARY KEY AUTOINCREMENT, idRegion INTEGER REFERENCES region (id) ON DELETE CASCADE,nombre VARCHAR (30),url VARCHAR (50) );");
@@ -240,4 +254,30 @@ app.directive('hrefInappbrowser', function() {
       });
     }
   };
+});
+
+
+app.controller("ExampleController", function($scope, $cordovaLocalNotification) {
+
+    $scope.add = function() {
+        var alarmTime = new Date();
+        alarmTime.setMinutes(alarmTime.getMinutes() + 1);
+        $cordovaLocalNotification.add({
+            id: "1234",
+            date: alarmTime,
+            message: "This is a message",
+            title: "This is a title",
+            autoCancel: true,
+            sound: null
+        }).then(function () {
+            console.log("The notification has been set");
+        });
+    };
+
+    $scope.isScheduled = function() {
+        $cordovaLocalNotification.isScheduled("1234").then(function(isScheduled) {
+            alert("Notification 1234 Scheduled: " + isScheduled);
+        });
+    }
+
 });

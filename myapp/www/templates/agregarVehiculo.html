@@ -5,69 +5,100 @@
       <i class="icon ion-android-home"></i> <span class="back-text"></span>
     </button>
   </ion-nav-buttons>
-    <div style="margin: 0px; text-align: center;">
-      <img src="img/car_agregar.png" style="height: 150px; width: 150px; vertical-align: middle;">
+    <div class="row">
+      <div class="col col-50">
+        <div style="margin: 0px; text-align: center;">
+          <img id="foto" src="img/car_agregar.png" style="height: 120px; width: 120px; vertical-align: middle; border-radius: 60px">
+        </div>
+      </div>
+      <div class="col col-40">
+        <p>Subir foto de:</p>
+        <button class="button button-full button-positive" ng-click="tomarFoto()">Camara</button>
+        <button class="button button-full button-positive" ng-click="fotoGaleria()">Galeria</button>
+      </div>
     </div>
-    <form id="agregarVehiculo-form1" class="list" name="newVehicleForm" novalidate>
-      <label class="item item-input" id="agregarVehiculo-input2">
+  
+    <form id="agregarVehiculo-form1" class="list" name="newVehicleForm" novalidate ng-model="formulario">
+
+      <label class="item item-input" id="agregarVehiculo-input2" style="margin-top: 8px">
         <span class="input-label">Placa</span>
-        <input ng-maxlength="10" ng-minlength="5" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input2b" ng-model="newVehicle.newPlaca" name="newPlaca">
+        <input ng-maxlength="10" ng-minlength="5" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input2b" ng-model="newVehicle.newPlaca" ng-model-options="{ updateOn: 'blur' }" name="newPlaca" >
       </label>
-      <label class="item item-select" id="agregarVehiculo-input3">
+      <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newPlaca.$touched">
+        <span ng-show="newVehicleForm.newPlaca.$error.required">  * La placa es un campo requerido.</span>
+        <span ng-show="newVehicleForm.newPlaca.$error.minlength || newVehicleForm.newPlaca.$error.maxlength">  * La placa debe tener entre 5 y 10 caracteres.</span>
+      </span>
+
+      <label class="item item-input" id="agregarVehiculo-input6" style="margin-top: 8px">
+        <span class="input-label">Año</span>
+        <input ng-maxlength="4" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newVehicle.newYear" ng-model-options="{ updateOn: 'blur' }" name="newYear">
+      </label>
+      <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newYear.$touched">
+        <span ng-show="newVehicleForm.newYear.$error.minlength || newVehicleForm.newYear.$error.maxlength">  ">* El año debe tener 4 digitos.</span>
+      </span>
+
+      <label class="item item-select" id="agregarVehiculo-input3" style="margin-top: 8px; height: 50px; padding-top: 10px">
         <span class="input-label">Marca</span>
-        <select ng-model="newVehicle.idMarca">
+        <select ng-model="newVehicle.idMarca" ng-model-options="{ updateOn: 'blur' }">
           <option  ng-repeat="marca in registrosPlacasVehiculos" value="{{marca.id}}">{{marca.nombre}}</option>
         </select>
       </label>
-      <label class="item item-input" id="agregarVehiculo-input5">
+
+      <label class="item item-input" id="agregarVehiculo-input5" style="margin-top: 8px">
         <span class="input-label">Alias</span>
-        <input ng-maxlength="20" ng-minlength="1" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input5b" ng-model="newVehicle.newAlias" name="newAlias">
+        <input ng-maxlength="20" ng-minlength="1" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input5b" ng-model="newVehicle.newAlias" ng-model-options="{ updateOn: 'blur' }" name="newAlias">
       </label>
-      <label class="item item-input" id="agregarVehiculo-input5">
+      <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newAlias.$touched">
+        <span ng-show="newVehicleForm.newAlias.$error.required">  * El Alias es un campo requerido.</span>
+        <span ng-show="newVehicleForm.newAlias.$error.minlength || newVehicleForm.newAlias.$error.maxlength">  ">* El alias debe tener entre 3 y 20 caracteres.</span>
+      </span>
+
+      <label class="item item-input" id="agregarVehiculo-input5" style="margin-top: 8px">
         <span class="input-label">Kilometraje</span>
-        <input type="number" ng-maxlength="7" ng-minlength="1" placeholder="" ng-required="true" id="agregarVehiculo-input5b" ng-model="newVehicle.newKilometraje" name="newKilometraje">
+        <input type="number" ng-maxlength="7" ng-minlength="1" placeholder="" ng-required="true" id="agregarVehiculo-input5b" ng-model="newVehicle.newKilometraje" ng-model-options="{ updateOn: 'blur' }" name="newKilometraje">
       </label>
-      <label class="item item-select" id="agregarVehiculo-select1">
+      <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newKilometraje.$touched">
+        <span ng-show="newVehicleForm.newKilometraje.$error.required">  * El Kilometraje es un campo requerido.</span>
+        <span ng-show="newVehicleForm.newKilometraje.$error.minlength || newVehicleForm.newKilometraje.$error.maxlength">  * El alias debe tener maximo 7 digitos.</span>
+      </span>
+
+      <label class="item item-select" id="agregarVehiculo-select1" style="margin-top: 8px; height: 50px; padding-top: 10px">
         <span class="input-label">Tipo</span>
-        <select ng-model="newVehicle.idTipo" name="newTipo" ng-required="true">
+        <select ng-model="newVehicle.idTipo" ng-model-options="{ updateOn: 'blur' }" name="newTipo" ng-required="true">
           <option  ng-repeat="tipo in registrosTiposVehiculos" value="{{tipo.id}}">{{tipo.nombre}}</option>
         </select>
       </label>
-      <label class="item item-input" id="agregarVehiculo-input6">
-        <span class="input-label">Año</span>
-        <input ng-maxlength="4" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newVehicle.newYear" name="newYear">
-      </label>
-      <label class="item item-input" id="agregarVehiculo-input7">
+      <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newTipo.$touched">
+        <span ng-show="newVehicleForm.newTipo.$error.required">  * Seleccione el Tipo.</span>
+      </span>
+
+      <label class="item item-input" id="agregarVehiculo-input7" style="margin-top: 8px">
         <span class="input-label">Color</span>
-        <input ng-maxlength="20" ng-minlength="3" type="text" placeholder="" ng-required="false" id="agregarVehiculo-input7b" ng-model="newVehicle.newColor" name="newColor">
+        <input ng-maxlength="20" ng-minlength="3" type="text" placeholder="" ng-required="false" id="agregarVehiculo-input7b" ng-model="newVehicle.newColor" ng-model-options="{ updateOn: 'blur' }" name="newColor">
       </label>
+      <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newColor.$touched">
+        <span ng-show="newVehicleForm.newColor.$error.minlength || newVehicleForm.newColor.$error.maxlength">  * El color debe tener entre 3 y 20 caracteres.</span>
+      </span>
+
       <h3 id="agregarVehiculo-heading1" style="color:#000000;">Servicios del Vehiculo</h3>
-      <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosParaAgregar" >
+      <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosParaAgregar track by $index" >
             <div class="row">
               <div class = "col col-75">
                 <h5>{{serv.nombre}}</h5>
               </div>
               <div class = "col col-12">
-                <button ui-sref="editarServicioNuevo()" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666" ng-click="editarServicio('{{serv.nombre}}')"></button>
+                <a ui-sref="editarServicioNuevo()" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666" ng-click="editarServicio('{{serv.nombre}}')"></a>
               </div>
               <div class = "col col-12">
-                <button class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="eliminarServicioDeLaLista('{{serv.nombre}}')"></button>
+                <a class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="eliminarServicioDeLaLista('{{serv.nombre}}')"></a>
               </div>
             </div>
         </div id="nuevoVehiculoServicios">
+        </form>
       <button ui-sref="agregarServicioPersonalizado()" id="agregarVehiculo-button4" class="button button-positive button-block">Agregar Servicio Personalizado</button>
-      <div class="padding">
-        <p ng-show="newVehicleForm.newPlaca.$error.required" >* La placa es un campo requerido </p>
-        <p ng-show="newVehicleForm.newKilometraje.$error.required">* El Kilometraje es un campo requerido </p>
-        <p ng-show="newVehicleForm.newAlias.$error.required">* El Alias es un campo requerido </p>
-        <p ng-show="newVehicleForm.newKilometraje.$error.minlength || newVehicleForm.newKilometraje.$error.maxlength">* El kilometraje debe tener maximo 7 digitos </p>
-        <p ng-show="newVehicleForm.newPlaca.$error.minlength || newVehicleForm.newPlaca.$error.maxlength">* La placa debe tener entre 10 y 5 caracteres </p>
-        <p ng-show="newVehicleForm.alias.$error.minlength || newVehicleForm.alias.$error.maxlength">* El alias debe tener entre 20 y 3 caracteres </p>
-        <p ng-show="newVehicleForm.newYear.$error.minlength || newVehicleForm.newYear.$error.maxlength">* El año debe tener 4 digitos </p>
-        <p ng-show="newVehicleForm.newColor.$error.minlength || newVehicleForm.newColor.$error.maxlength">* El color debe tener entre 20 y 3 caracteres </p>
-        <p ng-show="newVehicleForm.newTipo.$error.required">* Seleccione el Tipo </p>
-      </div>
-    </form>
+
+
     <button ng-disabled="newVehicleForm.$invalid" ui-sref="tabsController.listaDeVehiculos()" id="botonAgregarVehiculo" ng-click="crearVehiculo()" class="button button-balanced button-block">Agregar Vehiculo</button>
+    <div class="spacer" style="height: 5px;"></div>
   </ion-content>
 </ion-view>

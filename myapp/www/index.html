@@ -5,13 +5,11 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-    <script src="//code.ionicframework.com/nightly/js/ionic.bundle.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
-    
+    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave" rel="stylesheet">
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
@@ -19,9 +17,13 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
+
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
 
     <style type="text/css">
+
+      @import url('https://fonts.googleapis.com/css?family=Sedgwick+Ave');
+      
       .platform-ios .manual-ios-statusbar-padding{
         padding-top:20px;
       }
@@ -56,11 +58,63 @@
         height: 100%;
 
       }
+
       p{
         color: #000000;
       }
+
+
+      form label.ng-invalid.ng-touched{
+        border-color: #ffdddd;
+      }
+
+      .focused{
+        border-color: red;
+      }
+
+      label.error{
+        border-color: red;
+      }
+
+      .transparent {
+        background: transparent !important;
+      }
+      .image-modal {
+        width: 100% !important;
+        height: 100%;
+        top: 0 !important;
+        left: 0 !important;
+      }
+      .fullscreen-image {
+        max-width: 100%;
+        width: 90% !important;
+        height: 70%;
+        max-height: 70%;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        overflow: auto;
+        position: fixed;
+        right: 0;
+        top: 0;
+      }
+      .active .modal-backdrop-bg {
+        opacity: .5;
+      }
+      .modal-backdrop-bg {
+        -webkit-transition: opacity 300ms ease-in-out;
+        transition: opacity 300ms ease-in-out;
+        background-color: #000;
+        opacity: 0;
+      }
+
+      
+
+
     </style>
 
+    <script src="js/dependencies/Chart.min.js"></script>
+    <script src="js/dependencies/angular-chart.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/controllers/vehicles.js"></script>
@@ -70,9 +124,11 @@
     <script src="js/controllers/mantenimientos.js"></script>
     <script src="js/controllers/editarServicioNuevo.js"></script>
     <script src="js/controllers/editarServicio.js"></script>
-    <script src="js/controllers/popUpConfirmaciones.js"></script>
+    <script src="js/controllers/enviarCorreo.js"></script>
     <script src="js/controllers/modificarInfo.js"></script>
-    <script src="js/controllers/showHidePanlesMantenimiento.js"></script>
+    <script src="js/controllers/proximosMantenimientos.js"></script>
+    <script src="js/controllers/infoMantenimiento.js"></script>
+    <script src="js/controllers/gastos.js"></script>
     <script src="js/routes.js"></script>
 
     <script src="js/directives.js"></script>
@@ -95,9 +151,8 @@
 </div>
 
   </body>
-
+  
   <footer>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-  <script src="js/vehiculesList.js"></script>
   </footer>
 </html>

@@ -15,7 +15,7 @@
 var db = null;
 
 
-var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova', 'chart.js'])
+var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova', 'chart.js', 'ionic-material'])
 
 app.config(function($ionicConfigProvider, $sceDelegateProvider, $compileProvider){
 
@@ -39,7 +39,7 @@ app.run(function($ionicPlatform, $cordovaSQLite, $cordovaLocalNotification, $tim
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    
+
 
     //$rootScope.size12 = localStorage.getItem("size12");
     /**

@@ -60,7 +60,7 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
                 console.log("Servicio actualizado");
                 $scope.notificacion($rootScope.chosenVehicle.placa, $rootScope.chosenVehicle.alias, $rootScope.chosenVehicle.marca, $rootScope.chosenVehicle.id, $scope.newMantenimiento.fecha.toString().substring(0, 15), servNombre, servIntervalo);
             });
-            
+
         });
 
     }
@@ -74,7 +74,7 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
 
-    $timeout(function(){  
+    $timeout(function(){
 
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
@@ -89,15 +89,15 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         for(var k=0;k<h.length;k++){
           h[k].setAttribute("style","font-size: 1.3em");
 
-        } 
+        }
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
 
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
@@ -116,11 +116,11 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.1em");
 
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
 
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
@@ -139,13 +139,13 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1em");
 
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 
@@ -184,9 +184,9 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
     return fecha;
   }
 
-  ////  NOTIFICACIONES   
+  ////  NOTIFICACIONES
 ///////////////////////////////////////////////////////////////////////////////////////////////
-  //notificaciones creadas al registrar un nuevo servicio 
+  //notificaciones creadas al registrar un nuevo servicio
   $scope.notificacion = function(placa, alias, marca, idVehiculo, ultimoFechaServicio, nombreServicio, intervaloServicio){
     $scope.informacion = [];
     $scope.fecha = new Date(ultimoFechaServicio.replace(/-/g, '\/'));
@@ -211,15 +211,15 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
       alert("Notification Set");
     });
 
-    // Join BBM Meeting when user has clicked on the notification 
+    // Join BBM Meeting when user has clicked on the notification
     cordova.plugins.notification.local.on("click", function(state) {
       $state.go('tabsController.proximosMantenimientos');
       $scope.servicioPopUp(nombreServicio, alias, placa, marca, idVehiculo);
-      
+
     }, this);
 
     cordova.plugins.notification.local.on("trigger", function () {
-        // After 10 minutes update notification's title 
+        // After 10 minutes update notification's title
         //alert("trigeriada");
         setTimeout(function () {
             cordova.plugins.notification.local.update({
@@ -231,7 +231,7 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
   }
 
   $scope.servicioPopUp = function(servicio, alias, placa, marca, id) {
-    
+
     var alertasPopup = $ionicPopup.confirm({
       title: 'Servicio a Realizar',
       template: 'Tiene que realizar el siguiente servicio: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
@@ -242,13 +242,13 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
             onTap: function(e){
               //angular.element($("#"+idVehiculo)).remove();
               //$scope.eliminarVehiculo(idVehiculo);
-              
+
             }
          },
          {
           text: 'Posponer',
           onTap: function(e){
-            $scope.posponer(servicio, id);    
+            $scope.posponer(servicio, id);
           }
          }
       ]
@@ -312,7 +312,4 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
     });
   };
 
-
-    }, 0);
-  };
 }]);

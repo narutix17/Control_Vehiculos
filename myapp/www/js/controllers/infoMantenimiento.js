@@ -19,7 +19,7 @@ app.controller("infoMantenimiento", ['$scope', '$cordovaSQLite', '$rootScope', '
   	$ionicLoading.show({
     	content: 'Loading',
     	animation: 'fade-in',
-    	showBackdrop: true,
+    	showBackdrop: false,
     	maxWidth: 200,
     	showDelay: 0
   	});

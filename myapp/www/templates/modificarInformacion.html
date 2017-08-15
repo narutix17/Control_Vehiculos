@@ -5,25 +5,26 @@
     </button>
   </ion-nav-buttons>
   <ion-nav-buttons side="right" class="has-header">
-    <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
-      <i class="icon ion-android-home"></i> <span class="back-text"></span>
-    </button>
+
   </ion-nav-buttons>
-  <ion-content padding="true" class="has-header" ng-repeat="item in selectedVehicle" style="margin: 10px;"">
+  <ion-content padding="true" class="has-header" ng-repeat="item in selectedVehicle" style="margin: 10px;">
 
     <div class="row">
-      <div class="col col-50">
+      <div class="col col-100">
         <div style="margin: 0px; text-align: center;">
-          <img id="fotos" src="{{item.imagen}}" style="height: 120px; width: 120px; vertical-align: middle; border-radius: 60px">
+          <img id="foto" src="{{item.imagen}}" style="height: 200px; width: 200px; vertical-align: middle; border-radius: 100px">
         </div>
       </div>
-      <div class="col col-40">
-        <p>Subir foto de:</p>
-        <button class="button button-full button-positive" ng-click="tomarFoto()">Camara</button>
-        <button class="button button-full button-positive" ng-click="fotoGaleria()">Galeria</button>
+    </div>
+    <div class="row">
+      <div class="col col-50">
+        <button class="button button-full button-calm icon ion-camera" ng-click="tomarFoto()"></button>
+      </div>
+      <div class="col col-50">
+        <button class="button button-full button-calm icon ion-images" ng-click="fotoGaleria()"></button>
       </div>
     </div>
-    
+
     <form id="formalias" class="list">
 
       <label class="item item-input" id="labelalias" style="margin-top: 8px">
@@ -50,9 +51,8 @@
         <span class="input-label">Color:</span>
         <input type="text" placeholder="{{item.color}}" ng-model="updatedcolor" id="updatedcolor">
       </label>
-    
+
       <button id="modificarInfo-button5" class="button button-positive button-block" ng-click="actualizarAlias('{{item.idVehiculo}}')" ui-sref="tabsController2.informaciN()">Actualizar</button>
     </form>
   </ion-content>
 </ion-view>
-

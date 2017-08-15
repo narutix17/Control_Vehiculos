@@ -9,11 +9,11 @@ angular.module('app.controllers')
  * tambien se encuentran funciones para tomar foto desde camara o desde la galeria
  */
 
-.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', '$cordovaCamera', '$cordovaFile', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile, $timeout, $cordovaLocalNotification, $ionicPopup){
+.controller("DBControllerAgregarVehiculo", ['$scope', 'ionicMaterialInk', "$timeout" ,'ionicMaterialMotion', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', '$cordovaCamera', '$cordovaFile', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, ionicMaterialInk, $timeout, ionicMaterialMotion, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile, $timeout, $cordovaLocalNotification, $ionicPopup){
 
   $scope.newService = {}
   $scope.newVehicle = {}
-  
+
 
   $scope.img = "img/car_agregar.png";
   /**
@@ -55,7 +55,7 @@ angular.module('app.controllers')
    * Create Vehicle method. Recieve the form model located in "agregarVehiculo.html"
    */
   $scope.crearVehiculo = function(){
-    
+
     var x = 0;
 
     console.log("nativeURL: "+$scope.img);
@@ -75,7 +75,7 @@ angular.module('app.controllers')
                   if (servicios[x].tipo_intervalo == "Fecha"){
                     $scope.notificacion($scope.newVehicle.newPlaca, $scope.newVehicle.newAlias, $scope.newVehicle.idMarca, idVehiculo, serv.ultimoRealizado, serv.nombre, serv.intervalo);
                   }
-                  x = x+1;   
+                  x = x+1;
               });
           }
       });
@@ -90,7 +90,7 @@ angular.module('app.controllers')
       $ionicLoading.show({
           content: 'Loading',
           animation: 'fade-in',
-          showBackdrop: true,
+          showBackdrop: false,
           maxWidth: 200,
           showDelay: 0
       });
@@ -100,6 +100,11 @@ angular.module('app.controllers')
   }
 
   $scope.eliminarServicioDeLaLista = function(servNombre){
+      console.log(servNombre);
+      console.log("====");
+      for (var i = 0; i < $rootScope.serviciosParaAgregar.length; i++){
+        console.log($rootScope.serviciosParaAgregar[i].nombre);
+      }
       $rootScope.serviciosParaAgregar = $rootScope.serviciosParaAgregar.filter(function(serv){
           return serv.nombre !== servNombre;
       });
@@ -109,7 +114,7 @@ angular.module('app.controllers')
     $ionicLoading.show({
         content: 'Loading',
         animation: 'fade-in',
-        showBackdrop: true,
+        showBackdrop: false,
         maxWidth: 200,
         showDelay: 0
     });
@@ -126,7 +131,7 @@ angular.module('app.controllers')
     $scope.lastViewTitle = $ionicHistory.backTitle();
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
     console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
-    
+
     if ($scope.lastViewTitle == "Informacion"){
       $scope.serviciosAgregar = [];
       $scope.serviciosAgregar.push({
@@ -144,10 +149,10 @@ angular.module('app.controllers')
         var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
         $cordovaSQLite.execute(db, servQuery, [2, servi.tipo_intervalo, idV, servi.nombre, servi.intervalo, servi.ultimoRealizado ]).then(function(result) {
                   console.log("Servicio Agregado"+ servi.nombre);
-
+                  $state.go('tabsController2.informaciN');
                   $scope.notificacion($rootScope.chosenVehicle.placa, $rootScope.chosenVehicle.alias, $rootScope.chosenVehicle.marca, $rootScope.chosenVehicle.id, $scope.newService.ultimoRealizado, $scope.newService.nombre, $scope.newService.intervalo);
 
-                  $state.go('tabsController2.informaciN');
+
         });
       //}
     }else{
@@ -216,17 +221,17 @@ angular.module('app.controllers')
     var ciclo = $("#ciclo").val();
     if (ciclo == "Kilometraje"){
       document.getElementById("km").innerHTML = "kilometros";
-      document.getElementById("kof").innerHTML = "Kilometraje de ultimo servicio:"; 
+      document.getElementById("kof").innerHTML = "Kilometraje de Ultimo Mantenimiento:";
       var km = document.getElementById("kilfec");
-      km.type = "number"; 
-      
+      km.type = "number";
+
     }else{
       document.getElementById("km").innerHTML = "dias";
-      document.getElementById("kof").innerHTML = "Fecha de ultimo servicio:";
+      document.getElementById("kof").innerHTML = "Fecha de Ultimo Mantenimiento:";
       var date = document.getElementById("kilfec");
-      date.type = "date"; 
+      date.type = "date";
       //document.getElementById("input_id").attributes["type"].value = "text";
-    } 
+    }
   }
 
   //funcion para escoger una imagen desde la galeria
@@ -272,15 +277,15 @@ angular.module('app.controllers')
         });
         $scope.img = entry.nativeURL; //guarda la nueva URL en un objeto para colocarlo en la base de datos
       }
-   
+
       function fail(error) {
         console.log("fail: " + error.code);
       }
-   
-      function makeid() { //se hace un id y nombre aleatorio para la imagen 
+
+      function makeid() { //se hace un id y nombre aleatorio para la imagen
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   
+
         for (var i=0; i < 5; i++) {
           text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
@@ -299,7 +304,7 @@ angular.module('app.controllers')
     $scope.images = [];
     navigator.camera.getPicture(onSuccess, onFail,
       {
-        sourceType : Camera.PictureSourceType.CAMERA, //foto desde camara 
+        sourceType : Camera.PictureSourceType.CAMERA, //foto desde camara
         correctOrientation: true,
         allowEdit: true,
         quality: 75,
@@ -337,15 +342,15 @@ angular.module('app.controllers')
         });
         $scope.img = entry.nativeURL;
       }
-   
+
       function fail(error) {
         console.log("fail: " + error.code);
       }
-   
+
       function makeid() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   
+
         for (var i=0; i < 5; i++) {
           text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
@@ -369,7 +374,7 @@ angular.module('app.controllers')
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -382,15 +387,15 @@ angular.module('app.controllers')
         var h=document.getElementsByTagName('h5');
         for(var k=0;k<h.length;k++){
           h[k].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -407,11 +412,11 @@ angular.module('app.controllers')
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -428,13 +433,13 @@ angular.module('app.controllers')
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 
@@ -449,9 +454,9 @@ angular.module('app.controllers')
     return fecha;
   }
 
-////  NOTIFICACIONES   
+////  NOTIFICACIONES
 ///////////////////////////////////////////////////////////////////////////////////////////////
-  //notificaciones creadas al registrar un nuevo servicio 
+  //notificaciones creadas al registrar un nuevo servicio
   $scope.notificacion = function(placa, alias, marca, idVehiculo, ultimoFechaServicio, nombreServicio, intervaloServicio){
     $scope.informacion = [];
     $scope.informacion.push({
@@ -479,16 +484,16 @@ angular.module('app.controllers')
       alert("Notification Set");
     });
 
-    // Join BBM Meeting when user has clicked on the notification 
+    // Join BBM Meeting when user has clicked on the notification
     cordova.plugins.notification.local.on("click", function(state) {
       $state.go('tabsController.proximosMantenimientos');
       $scope.servicioPopUp(nombreServicio, alias, placa, marca, idVehiculo);
       console.log("si pasaaaaaaaa");
-      
+
     }, this);
 
     cordova.plugins.notification.local.on("trigger", function () {
-        // After 10 minutes update notification's title 
+        // After 10 minutes update notification's title
         //alert("trigeriada");
         setTimeout(function () {
             cordova.plugins.notification.local.update({
@@ -500,7 +505,7 @@ angular.module('app.controllers')
   }
 
   $scope.servicioPopUp = function(servicio, alias, placa, marca, id) {
-    
+
     var alertasPopup = $ionicPopup.confirm({
       title: 'Servicio a Realizar',
       template: 'Tiene que realizar el siguiente servicio: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
@@ -511,13 +516,13 @@ angular.module('app.controllers')
             onTap: function(e){
               //angular.element($("#"+idVehiculo)).remove();
               //$scope.eliminarVehiculo(idVehiculo);
-              
+
             }
          },
          {
           text: 'Posponer',
           onTap: function(e){
-            $scope.posponer(servicio, id);    
+            $scope.posponer(servicio, id);
           }
          }
       ]

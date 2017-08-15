@@ -10,11 +10,11 @@ angular.module('app.controllers')
 
 .controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $timeout, $cordovaLocalNotification, $ionicPopup, $state) {
 
-  //funcion para esperar mientras cargan los datos de la pagina 
+  //funcion para esperar mientras cargan los datos de la pagina
   $ionicLoading.show({
       content: 'Loading',
       animation: 'fade-in',
-      showBackdrop: true,
+      showBackdrop: false,
       maxWidth: 200,
       showDelay: 0
     });
@@ -39,9 +39,9 @@ angular.module('app.controllers')
     var y = -2;
     //se ejecuta el query con el id del vehiculo en el que se haya ingresado de la lista de vehiculos
     $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
-        if (res.rows.length > 0){ 
+        if (res.rows.length > 0){
           for (var i=0; i<res.rows.length; i++) { //se recorre todo el arreglo que dio como resultado el query
-            $scope.fehcaRealiz = res.rows.item(i).fechaRealizado; 
+            $scope.fehcaRealiz = res.rows.item(i).fechaRealizado;
             $scope.fecha = new Date($scope.fehcaRealiz); //se transforma la fecha(de string) a tipo Date
 
             $scope.selectedVehicleMantenimientos.push({ //se pone en un arreglo los datos del mantenimiento
@@ -56,10 +56,10 @@ angular.module('app.controllers')
           }
           var cont = 0;
           var n = 0;
-          // se introduce los primeros items(esto para posteriormente comparar si se repiten las fechas) de mantenimiento a los arreglos 
+          // se introduce los primeros items(esto para posteriormente comparar si se repiten las fechas) de mantenimiento a los arreglos
           $scope.fehcaRealiz = res.rows.item(0).fechaRealizado;
           $scope.fecha = new Date($scope.fehcaRealiz);
-          $scope.vehicleMantenimientos.push({  
+          $scope.vehicleMantenimientos.push({
             nombre: res.rows.item(0).nombre,
             idtoStyle2: y,
             id: res.rows.item(0).id_m,
@@ -91,7 +91,7 @@ angular.module('app.controllers')
             var num = 0; // variable usada para saber si no hay fecha repetida al comparar todas
 
             if (res.rows.length > cont){
-              for(var k=0; k<cont; k++){ 
+              for(var k=0; k<cont; k++){
 
                 if((res.rows.item(cont).fechaRealizado.substring(0, 15)) == (res.rows.item(k).fechaRealizado.substring(0, 15))){
 
@@ -154,7 +154,7 @@ angular.module('app.controllers')
 
         $ionicLoading.hide();
         $scope.putSize();
-        //funcion para ordenar las fechas 
+        //funcion para ordenar las fechas
         $scope.prueba.sort(function(a,b){
           return new Date(a.fecha) - new Date(b.fecha);
         });
@@ -178,9 +178,9 @@ angular.module('app.controllers')
     // Buscar mantenimientos
     $scope.buscar = function(){
       var m = 2;
-      $scope.vehicleMantenimientos = $scope.temporalSave; 
+      $scope.vehicleMantenimientos = $scope.temporalSave;
       fecha = document.getElementById("fecha").value;
-      $scope.fecha = new Date(fecha.replace(/-/g, '\/')); 
+      $scope.fecha = new Date(fecha.replace(/-/g, '\/'));
       $scope.arrayTemporal = [];
       //$scope.arrayTemporal = $scope.vehicleMantenimientos;
       for(var i=0; i<$scope.vehicleMantenimientos.length; i++){
@@ -264,7 +264,7 @@ angular.module('app.controllers')
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -284,11 +284,11 @@ angular.module('app.controllers')
           var y = $scope.vehicleInfoMantenimientos[l].idtoStyle;
           console.log("y: "+y);
           document.getElementById(y).setAttribute("style","font-size: 1.4em");
-        }  
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -310,7 +310,7 @@ angular.module('app.controllers')
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -332,12 +332,12 @@ angular.module('app.controllers')
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 
-    
+
 
 });

@@ -8,7 +8,7 @@
 
     <form id="gastos-form5" name="gastosForm" class="list" novalidate ng-model="formularioGastos">
       <p>Elegir modo de visualizacion: </p>
-      <label class="item item-select" id="gastos-select1">
+      <label class="item item-select" id="gastos-select1" style="border-bottom: solid 1px #ccc !important">
         <select ng-model="actGastos.intervalo" ng-required="true" name="intervalo">
 
           <option>Diario</option>
@@ -17,22 +17,20 @@
         </select>
       </label>
 
-      <div id="gastos-markdown8" class="show-list-numbers-and-dots">
+
+      <div id="gastos-markdown8" class="show-list-numbers-and-dots" style="padding-top: 15px;">
         <p style="color:#000000;">Fecha inicio:</p>
       </div>
-      <label class="item item-input" id="gastos-input7">
+      <label class="item item-input" id="gastos-input7" style="border-bottom: solid 1px #ccc !important; padding-top: 15px;">
         <input type="date" placeholder="" ng-required="true" ng-model="actGastos.fechaini" name="fechaini">
-
       </label>
-      <div id="gastos-markdown9" class="show-list-numbers-and-dots">
+      <div id="gastos-markdown9" class="show-list-numbers-and-dots" style="padding-top: 15px;">
         <p style="color:#000000;">Fecha fin:</p>
       </div>
-      <label class="item item-input" id="gastos-input8" style="margin-bottom: 15px">
-
+      <label class="item item-input" id="gastos-input8" style="margin-bottom: 15px; border-bottom: solid 1px #ccc !important;">
         <input type="date" placeholder="" ng-required="true" ng-model="actGastos.fechafin" name="fechafin">
-        
       </label>
-      <span ng-show="gastosForm.fechafin < gastosForm.fechaini">  *La fecha fin debe ser despues que la fecha inicio</span>
+      <span ng-show="gastosForm.fechafin < gastosForm.fechaini">La fecha fin debe ser despues que la fecha inicio</span>
     </form>
 
     <div style="margin: 0px; line-height: 120px;  text-align: center; margin-bottom: 10px;">

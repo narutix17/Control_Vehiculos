@@ -70,6 +70,8 @@ angular.module('app.controllers')
             fechaEntera: res.rows.item(i).fechaRealizado
           });
         }
+      } else {
+        alert("El vehiculo no posee mantenimientos de los cuales graficar gastos");
       }
 
       // Ordeno los mantenimientos por fecha ascendentemente
@@ -141,7 +143,7 @@ angular.module('app.controllers')
   $ionicLoading.show({
       content: 'Loading',
       animation: 'fade-in',
-      showBackdrop: true,
+      showBackdrop: false,
       maxWidth: 200,
       showDelay: 0
   });
@@ -180,6 +182,8 @@ angular.module('app.controllers')
             fechaEntera: res.rows.item(i).fechaRealizado
           });
         }
+      } else {
+        alert("El vehiculo no posee mantenimientos de los cuales graficar gastos");
       }
 
       $scope.selectedVehicleMantenimientos.sort(function(a,b){
@@ -206,7 +210,7 @@ angular.module('app.controllers')
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -219,11 +223,11 @@ angular.module('app.controllers')
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -236,11 +240,11 @@ angular.module('app.controllers')
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -253,13 +257,13 @@ angular.module('app.controllers')
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 

@@ -23,12 +23,12 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   $ionicLoading.show({
     content: 'Loading',
     animation: 'fade-in',
-    showBackdrop: true,
+    showBackdrop: false,
     maxWidth: 200,
     showDelay: 0
   });
 
-  
+
 
   /**
    * Eliminar un vehiculo dada la placa
@@ -173,7 +173,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -186,7 +186,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
         var h=document.getElementsByTagName('h5');
         for(var k=0;k<h.length;k++){
           h[k].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -214,7 +214,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
           h[k].setAttribute("style","font-size: 1em");
         }
       }
-      
+
     }, 0);
   };
 
@@ -222,21 +222,14 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   /**
    * Actualizar el kilometraje de un vehiculo
    */
-  $scope.actualizarKilometraje = function(alias){
-    console.log($scope);
-    console.log($scope.updatedKm.km);
-    console.log(alias);
-    var query = "UPDATE vehiculo SET kilometraje=? WHERE alias=?";
-    console.log(query);
-    $cordovaSQLite.execute(db, query, [$scope.updatedKm.km, alias]).then(function(result) {
-      console.log("Km Actualizado");
+  $scope.actualizarKilometraje = function(placa){
+    var query = "UPDATE vehiculo SET kilometraje=? WHERE placa=?";
+    $cordovaSQLite.execute(db, query, [$scope.updatedKm.km, placa]).then(function(result) {
+      alert("Se ha actualizado el Kilometraje del Vehiculo");
     }, function(error){
       console.log(error);
     });
-
   }
-
-
 
   $scope.tomarFoto = function(){
 
@@ -296,7 +289,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   };
 
   $scope.puEVehiculo = function() {
-    
+
     console.log("si entraaaaaa");
     var alertasPopup = $ionicPopup.confirm({
       title: 'Eliminar Vehículo',
@@ -347,6 +340,6 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   };
 
 
- 
+
 
 }]);

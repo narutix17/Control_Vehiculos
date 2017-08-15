@@ -20,7 +20,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
   $ionicLoading.show({
     content: 'Loading',
     animation: 'fade-in',
-    showBackdrop: true,
+    showBackdrop: false,
     maxWidth: 200,
     showDelay: 0
   });
@@ -33,7 +33,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
     return $rootScope.chosenVehicle.id;
   }, function(){
     console.log("LOADING")
-    $scope.selectedVehicle = []; //arreglo para los datos del vehiculo 
+    $scope.selectedVehicle = []; //arreglo para los datos del vehiculo
     $rootScope.selectedVehicleServices = []; //arreglo para los datos del servicio del vehiculo
     $scope.actualid = $rootScope.chosenVehicle.id;
     var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'"; //query para obtener los datos de un vehiculo especifico por id
@@ -69,8 +69,8 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
             }
           });
         }
- 
-        $scope.img = $scope.selectedVehicle[0].imagen; //guardo la imagen actual del vehiculo en un scope para que no haya problema si el usuario no actualiza la imagen 
+
+        $scope.img = $scope.selectedVehicle[0].imagen; //guardo la imagen actual del vehiculo en un scope para que no haya problema si el usuario no actualiza la imagen
 
       }else{
         console.log("No hay Registros de Vehiculos");
@@ -78,7 +78,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
 
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
-      
+
       $ionicLoading.hide();
       $scope.putSize();
       }, function(error){
@@ -152,15 +152,15 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         });
         $scope.img = entry.nativeURL;
       }
-   
+
       function fail(error) {
         console.log("fail: " + error.code);
       }
-   
+
       function makeid() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   
+
         for (var i=0; i < 5; i++) {
           text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
@@ -217,15 +217,15 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         });
         $scope.img = entry.nativeURL;
       }
-   
+
       function fail(error) {
         console.log("fail: " + error.code);
       }
-   
+
       function makeid() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   
+
         for (var i=0; i < 5; i++) {
           text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
@@ -248,7 +248,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -261,11 +261,11 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -278,11 +278,11 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -295,13 +295,13 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 

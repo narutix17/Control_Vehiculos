@@ -13,7 +13,7 @@ app.controller("DBEditarServicioNuevo", ['$scope', '$cordovaSQLite', '$rootScope
     $ionicLoading.show({
       content: 'Loading',
       animation: 'fade-in',
-      showBackdrop: true,
+      showBackdrop: false,
       maxWidth: 200,
       showDelay: 0
     });
@@ -47,17 +47,17 @@ app.controller("DBEditarServicioNuevo", ['$scope', '$cordovaSQLite', '$rootScope
     var ciclo = $("#ciclo").val();
     if (ciclo == "Kilometraje"){
       document.getElementById("km").innerHTML = "kilometros";
-      document.getElementById("kof").innerHTML = "Kilometraje de ultimo servicio:"; 
+      document.getElementById("kof").innerHTML = "Kilometraje de ultimo servicio:";
       var km = document.getElementById("kilfec");
-      km.type = "number"; 
-      
+      km.type = "number";
+
     }else{
       document.getElementById("km").innerHTML = "dias";
       document.getElementById("kof").innerHTML = "Fecha de ultimo servicio:";
       var date = document.getElementById("kilfec");
-      date.type = "date"; 
+      date.type = "date";
       //document.getElementById("input_id").attributes["type"].value = "text";
-    } 
+    }
     $scope.putSize();
   }
 
@@ -69,7 +69,7 @@ app.controller("DBEditarServicioNuevo", ['$scope', '$cordovaSQLite', '$rootScope
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -82,15 +82,15 @@ app.controller("DBEditarServicioNuevo", ['$scope', '$cordovaSQLite', '$rootScope
         var h=document.getElementsByTagName('h4');
         for(var k=0;k<h.length;k++){
           h[k].setAttribute("style","font-size: 1.4em");
-        } 
+        }
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -107,11 +107,11 @@ app.controller("DBEditarServicioNuevo", ['$scope', '$cordovaSQLite', '$rootScope
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -128,13 +128,13 @@ app.controller("DBEditarServicioNuevo", ['$scope', '$cordovaSQLite', '$rootScope
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 

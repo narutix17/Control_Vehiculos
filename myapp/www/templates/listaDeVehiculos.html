@@ -7,18 +7,10 @@
   <ion-content padding="true" class="has-header" id="listaVehiculos">
   <div >
   <div class="row">
-    <div class="col col-60">
-      <label class="item item-input" id="mantenimiento-search1">
-          <i class="icon ion-search placeholder-icon"></i>
-          <input type="search" placeholder="">
-      </label>
-    </div>
-    <div class="col col-20">
-      <a ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button1" style="font-size:50px; text-align: center; display: block; color: #33cd5f" class="icon ion-android-add-circle"></a>
-    </div>
-    <div class="col col-20">
-       <a ng-click="configurarVista()" class="icon ion-android-settings" style="font-size: 47px; vertical-align: middle; color:#666666"></a>
-    </div>
+
+    <button class="button button-fab button-fab-bottom-right button-balanced icon ion-android-add" ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button12"></button>
+
+       <button ng-click="configurarVista()" class="icon ion-gear-b button button-fab button-fab-bottom-left button-stable"></button>
   </div>
 
       <div class="list" >
@@ -38,7 +30,7 @@
             <div class="col col-20">
 
               <div style="vertical-align: text-bottom;">
-                <button  class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#A51D1D" ng-click="showConfirmEliminarVehiculo2('{{item.id}}','{{item.alias}}')"></button>
+                <button  class="icon ion-trash-a" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#bfbfbf;" ng-click="showConfirmEliminarVehiculo2('{{item.id}}','{{item.alias}}')"></button>
               </div>
 
             </div>
@@ -70,13 +62,14 @@
   </script>
   <script id='orderPopup.html' type='text/ng-template'>
     <div>
-    <p>Visualizar vehículo mediante:</p>
+    <p class="bold">Visualizar vehículo mediante:</p>
       <ion-radio class="wrapping-list" ng-model="choice2.value" ng-value="'Alias'" name="grupo1">Alias</ion-radio>
       <ion-radio class="wrapping-list" ng-model="choice2.value" ng-value="'Placa'" name="grupo1">Placa</ion-radio>
       <ion-radio class="wrapping-list" ng-model="choice2.value" ng-value="'Marca'" name="grupo1">Marca</ion-radio>
     </div>
     <div>
-    <p>Tamaño de letra:</p>
+    <br>
+    <p class="bold">Tamaño de letra:</p>
       <ion-radio class="wrapping-list" ng-model="choice.value" ng-value="'Pequeno'" name="grupo2">Pequeño</ion-radio>
       <ion-radio class="wrapping-list" ng-model="choice.value" ng-value="'Mediano'" name="grupo2">Mediano</ion-radio>
       <ion-radio class="wrapping-list" ng-model="choice.value" ng-value="'Grande'" name="grupo2">Grande</ion-radio>

@@ -31,11 +31,13 @@
 
       <label class="item item-input" id="agregarVehiculo-input6" style="margin-top: 8px">
         <span class="input-label">Año</span>
+
         <input ng-maxlength="4" ng-min="1950" ng-max="2017" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newVehicle.newYear" ng-model-options="{ updateOn: 'blur' }" name="newYear">
       </label>
       <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newYear.$touched">
         <span ng-show="newVehicleForm.newYear.$error.minlength || newVehicleForm.newYear.$error.maxlength">  ">* El año debe tener 4 digitos.</span>
         <span ng-show="newVehicleForm.newYear.$error.min || newVehicleForm.newYear.$error.max">  ">* El año debe ser valido.</span>
+
 
       </span>
 
@@ -61,7 +63,9 @@
       </label>
       <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newKilometraje.$touched">
         <span ng-show="newVehicleForm.newKilometraje.$error.required">  * El Kilometraje es un campo requerido.</span>
+
         <span ng-show="newVehicleForm.newKilometraje.$error.minlength || newVehicleForm.newKilometraje.$error.maxlength">  * El Kilometraje debe tener maximo 7 digitos.</span>
+
       </span>
 
       <label class="item item-select" id="agregarVehiculo-select1" style="margin-top: 8px; height: 50px; padding-top: 10px">

@@ -66,7 +66,9 @@
           <span ng-show="nuevoMantenimiento.observacion.$error.maxlength">  * La observacion debe tener maximo 100 caracteres.</span>
         </span>
 
-      <button ng-disabled="nuevoMantenimiento.$invalid" ui-sref="tabsController2.mantenimiento()" id="nuevoMantenimiento-button4" ng-click="agregarMantenimiento()" class="button button-positive button-block" style="margin-top: 10px">Aceptar</button>
+
+      <button ng-disabled="nuevoMantenimiento.$invalid" id="nuevoMantenimiento-button4" ng-click="popUpInformacion()" class="button button-positive button-block" style="margin-top: 10px">Aceptar</button>
+
   </form>
   <div class="spacer" style="height: 5px;"></div>
   </ion-content>

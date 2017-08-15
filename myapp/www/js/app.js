@@ -27,7 +27,7 @@ app.config(function($ionicConfigProvider, $sceDelegateProvider, $compileProvider
  * This method is excecuted when app starts running. Inside this function we create the Database. Every SQL execute command
  * is validated everytime the app opens, to avoid redundancy problems.
  */
-app.run(function($ionicPlatform, $cordovaSQLite) {
+app.run(function($ionicPlatform, $cordovaSQLite, $cordovaLocalNotification, $timeout, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -39,13 +39,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
-    $ionicPlatform.on('resume', function() {
-       
-       $rootScope.size12 = localStorage.getItem("size12");
-
-    });   
-
+    
 
     //$rootScope.size12 = localStorage.getItem("size12");
     /**

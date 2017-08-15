@@ -10,7 +10,9 @@ angular.module('app.controllers')
 /**
  * Controller for an specific Vehicle operations
  */
-app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicPopup', '$state', '$cordovaImagePicker', '$cordovaCamera', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $cordovaImagePicker, $cordovaCamera, $timeout){
+
+app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicPopup', '$state', '$cordovaImagePicker', '$cordovaCamera', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $cordovaImagePicker, $cordovaCamera, $timeout, $cordovaLocalNotification, $ionicPopup){
+
 
 
   $scope.updatedKm = {};
@@ -43,7 +45,18 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   /**
    * Eliminar un servicio dado el id del servicio
    */
-  $scope.eliminarServicio = function(idServicio){
+
+  $scope.eliminarServicio = function(idServicio, nombre){
+    $cordovaLocalNotification.isPresent(nombre+$rootScope.chosenVehicle.placa).then(function (present) {
+        if (present) {
+            $cordovaLocalNotification.cancel(nombre+$rootScope.chosenVehicle.placa).then(function (result) {
+                console.log('Notificacion cancelada');
+            });
+        } else {
+            console.log('no existe notificacion para cancelar');
+        }
+    });
+
     var query = "DELETE FROM servicio WHERE id = ?";
     $cordovaSQLite.execute(db, query, [idServicio]).then(function(result) {
       for (var i = 0; i < $rootScope.selectedVehicleServices.length; i ++){
@@ -293,7 +306,9 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
             text: 'Aceptar',
             type: 'button-positive',
             onTap: function(e){
-               $scope.eliminarVehiculo(placa);
+
+               $scope.eliminarVehiculo($rootScope.chosenVehicle.placa);
+
                $state.go('tabsController.listaDeVehiculos');  //al presionar el boton redirige a la pagina login
             }
          },
@@ -306,6 +321,31 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
       console.log('popup contraseña');
     });
   };
+
+
+
+  $scope.popUpEliminarServicio = function(idServicio, nombre) {
+    var alertasPopup = $ionicPopup.confirm({
+      title: 'Eliminar Servicio',
+      template: 'Está seguro que desea eliminar el servicio: "'+nombre+'"?',
+      buttons: [
+         {
+            text: 'Aceptar',
+            type: 'button-positive',
+            onTap: function(e){
+               $scope.eliminarServicio(idServicio, nombre);
+            }
+         },
+         {
+          text: 'cancelar'
+         }
+      ]
+    });
+    alertasPopup.then(function(res) {
+      console.log('popup contraseña');
+    });
+  };
+
 
  
 

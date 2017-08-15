@@ -62,7 +62,9 @@ angular.module('app.controllers')
 	    				$scope.fecha = new Date(res.rows.item(i).ultimoRealizado);
 	    				console.log("fechaa1: "+$scope.CurrentDate.toString().substring(0, 15));
 	    				console.log("fechaa2: "+$scope.fecha.toString().substring(0, 15));
-	    				console.log("fecha3: "+sumarDias($scope.fecha, res.rows.item(i).intervalo)); //se suma los dias
+
+	    				console.log("fecha3: "+sumarDias($scope.fecha, res.rows.item(i).intervalo+1)); //se suma los dias
+
 	    				if ($scope.CurrentDate < $scope.fecha){ //condicion para solo obtener los servicios de fechas proximas
 
 	    					for(var j=0; j<$scope.misvehiculos.length; j++){ //se recorre el arreglo de vehiculos para obtener sus datos 

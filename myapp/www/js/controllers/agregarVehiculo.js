@@ -8,10 +8,13 @@ angular.module('app.controllers')
  * Controlador para agregar vehiculos con sus respectivos servicios
  * tambien se encuentran funciones para tomar foto desde camara o desde la galeria
  */
-.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', '$cordovaCamera', '$cordovaFile', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile, $timeout){
+
+.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', '$cordovaCamera', '$cordovaFile', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile, $timeout, $cordovaLocalNotification, $ionicPopup){
 
   $scope.newService = {}
   $scope.newVehicle = {}
+  
+
   $scope.img = "img/car_agregar.png";
   /**
    * Scope methods excecuted before entering the view that implements the controller
@@ -52,6 +55,9 @@ angular.module('app.controllers')
    * Create Vehicle method. Recieve the form model located in "agregarVehiculo.html"
    */
   $scope.crearVehiculo = function(){
+    
+    var x = 0;
+
     console.log("nativeURL: "+$scope.img);
     var servicios = $rootScope.serviciosParaAgregar;
     var query = "INSERT INTO vehiculo (idTipo,idMarca, color, placa, alias, año, kilometraje, imagen) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
@@ -66,6 +72,10 @@ angular.module('app.controllers')
               var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
               $cordovaSQLite.execute(db, servQuery, [2, serv.tipo_intervalo, idVehiculo, serv.nombre, serv.intervalo, serv.ultimoRealizado ]).then(function(result) {
                   console.log("Servicio Agregado");
+                  if (servicios[x].tipo_intervalo == "Fecha"){
+                    $scope.notificacion($scope.newVehicle.newPlaca, $scope.newVehicle.newAlias, $scope.newVehicle.idMarca, idVehiculo, serv.ultimoRealizado, serv.nombre, serv.intervalo);
+                  }
+                  x = x+1;   
               });
           }
       });
@@ -134,6 +144,9 @@ angular.module('app.controllers')
         var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
         $cordovaSQLite.execute(db, servQuery, [2, servi.tipo_intervalo, idV, servi.nombre, servi.intervalo, servi.ultimoRealizado ]).then(function(result) {
                   console.log("Servicio Agregado"+ servi.nombre);
+
+                  $scope.notificacion($rootScope.chosenVehicle.placa, $rootScope.chosenVehicle.alias, $rootScope.chosenVehicle.marca, $rootScope.chosenVehicle.id, $scope.newService.ultimoRealizado, $scope.newService.nombre, $scope.newService.intervalo);
+
                   $state.go('tabsController2.informaciN');
         });
       //}
@@ -347,6 +360,7 @@ angular.module('app.controllers')
     }
   }
 
+
   //funcion para cambiar el tamaño de letra de la aplicacion
   $scope.putSize = function () {
     $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
@@ -422,6 +436,151 @@ angular.module('app.controllers')
       }
       
     }, 0);
+  };
+
+  //funcion para restar dias a una fecha
+  function restarDias(fecha, dias){
+    fecha.setDate(fecha.getDate() - dias);
+    return fecha;
+  }
+
+  function sumarDias(fecha, dias){
+    fecha.setDate(fecha.getDate() + dias);
+    return fecha;
+  }
+
+////  NOTIFICACIONES   
+///////////////////////////////////////////////////////////////////////////////////////////////
+  //notificaciones creadas al registrar un nuevo servicio 
+  $scope.notificacion = function(placa, alias, marca, idVehiculo, ultimoFechaServicio, nombreServicio, intervaloServicio){
+    $scope.informacion = [];
+    $scope.informacion.push({
+      nombre: $scope.newService.nombre,
+      tipo_intervalo: $scope.newService.servTipo,
+      intervalo: $scope.newService.intervalo,
+      ultimoRealizado: $scope.newService.ultimoRealizado
+    });
+    $scope.fecha = new Date(ultimoFechaServicio.replace(/-/g, '\/'));
+    var diaNotificacion = $scope.fecha;
+    sumarDias(diaNotificacion, intervaloServicio)
+    restarDias(diaNotificacion, 1);
+    var hora = Math.floor(Math.random() * (20 - 8)) + 8;
+    diaNotificacion.setHours(hora);
+    var now = new Date().getTime();
+    var _5_SecondsFromNow = new Date(now + 15 * 1000);
+    $cordovaLocalNotification.schedule({
+      id: nombreServicio+placa,
+      date: _5_SecondsFromNow,
+      //date: dianotificacion,
+      message: "Toque para ingresar a los servicios por realizar",
+      title: "Servicio a Realizar Mañana",
+      sound: null
+    }).then(function () {
+      alert("Notification Set");
+    });
+
+    // Join BBM Meeting when user has clicked on the notification 
+    cordova.plugins.notification.local.on("click", function(state) {
+      $state.go('tabsController.proximosMantenimientos');
+      $scope.servicioPopUp(nombreServicio, alias, placa, marca, idVehiculo);
+      console.log("si pasaaaaaaaa");
+      
+    }, this);
+
+    cordova.plugins.notification.local.on("trigger", function () {
+        // After 10 minutes update notification's title 
+        //alert("trigeriada");
+        setTimeout(function () {
+            cordova.plugins.notification.local.update({
+                id: nombreServicio+placa,
+                title: "Servicio a Realizar Hoy"
+            });
+        }, 60000);
+    });
+  }
+
+  $scope.servicioPopUp = function(servicio, alias, placa, marca, id) {
+    
+    var alertasPopup = $ionicPopup.confirm({
+      title: 'Servicio a Realizar',
+      template: 'Tiene que realizar el siguiente servicio: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
+      buttons: [
+         {
+            text: 'Aceptar',
+            type: 'button-positive',
+            onTap: function(e){
+              //angular.element($("#"+idVehiculo)).remove();
+              //$scope.eliminarVehiculo(idVehiculo);
+              
+            }
+         },
+         {
+          text: 'Posponer',
+          onTap: function(e){
+            $scope.posponer(servicio, id);    
+          }
+         }
+      ]
+    });
+    alertasPopup.then(function(res) {
+      console.log('popup contrasena');
+    });
+  };
+
+  $scope.posponer = function(nombre, id) {
+    $rootScope.newItem = {};
+    var alertasPopup = $ionicPopup.show({
+      title: 'Posponer Servicio',
+      template: '<p>Ingrese la cantidad de dias que desea posponer el servicio: </p><br><input type="number" ng-model="newItem.aumentarDias">',
+      rootScope: this,
+      buttons: [
+         {
+            text: 'Aceptar',
+            type: 'button-positive',
+            onTap: function(e){
+              //angular.element($("#"+idVehiculo)).remove();
+              //$scope.eliminarVehiculo(idVehiculo);
+              console.log("diaaaaaaaas: "+$scope.newItem.aumentarDias);
+              //return $scope.diasPosponer.aumentarDias;
+              $scope.actualizarDiasPosponer(nombre, id, $scope.newItem.aumentarDias);
+              $state.go('tabsController.proximosMantenimientos');
+            }
+         },
+         {
+          text: 'Cancelar'
+         }
+      ]
+    });
+    alertasPopup.then(function(res) {
+      console.log('popup contraseña');
+    });
+  };
+
+  $scope.actualizarDiasPosponer = function(nombre, id, intervaloAct){
+    var query = "SELECT intervalo FROM servicio WHERE idVehiculo=? and nombre=?";
+    $cordovaSQLite.execute(db, query, [id, nombre]).then(function(res){
+      var intervalo = res.rows.item(0).intervalo;
+      var nuevoIntervalo = intervalo + intervaloAct;
+      var idInt = parseInt(id);
+
+      var query2 = "UPDATE servicio SET intervalo=? WHERE idVehiculo=? and nombre=?";
+      $cordovaSQLite.execute(db, query2, [ nuevoIntervalo, idInt, nombre]).then(function(res2){
+        console.log("Actualizado el intervalo con exito");
+      });
+    });
+  }
+
+  $scope.cancelNotification = function (id) {
+    $cordovaLocalNotification.isPresent(id).then(function (present) {
+        if (present) {
+            $cordovaLocalNotification.cancel(id).then(function (result) {
+                console.log('Notificacion cancelada');
+            });
+        } else {
+            console.log('no existe notificacion para cancelar');
+        }
+    });
+
   };
 
 }]);

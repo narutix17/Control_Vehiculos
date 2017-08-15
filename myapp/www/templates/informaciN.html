@@ -65,19 +65,22 @@
                 <p>{{item.nombre}}</p>
               </div>
               <div class = "col col-12" >
-                <a ui-sref="editarServicio()" ng-click="editarServicio('{{item.id}}', '{{item.nombre}}', '{{item.servTipo}}', '{{item.intervalo}}', '{{item.ultimoRealizado}}' )" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666"></a>
+
+                <a ui-sref="editarServicio()" ng-click="editarServicio('{{item.id}}', '{{item.nombre}}', '{{item.idTipoIntervalo}}', '{{item.intervalo}}', '{{item.ultimoRealizado}}' )" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666"></a>
               </div>
               <div class = "col col-12">
-                <a class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="eliminarServicio('{{item.id}}')"></a>
+                <a class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="popUpEliminarServicio('{{item.id}}','{{item.nombre}}')"></a>
+
               </div>
 
             </div>
 
     </div>
 
+
     </div>
     
-
+      
       <button ui-sref="agregarServicioPersonalizado()" id="informaciN-button1" class="button button-positive button-block">Agregar Servicio Perzonalizado</button>
       <button  id="informaciN-button2" class="button button-positive button-block" ng-click="puEVehiculo()" style="background-color: #A51D1D; margin-bottom: 10px">Eliminar Vehículo</button>
     

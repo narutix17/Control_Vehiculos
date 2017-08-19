@@ -19,12 +19,10 @@ function updatePublicidad(req, res, next){
         publicidad.nombre = req.body.pubName;
         publicidad.region = req.body.pubRegion;
         publicidad.url_publicidad = req.body.pubUrl;
-
         publicidad.save(function(err){
             return res.send(err);
         });
     }
-
 }
 
 router.post('/', function(req, res, next){

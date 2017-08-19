@@ -15,24 +15,24 @@ router.delete('/:id', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    var publicidad = new Publicidad({
-        id: 3,
-        nombre: req.body["pubName"],
-        region: req.body["pubRegion"],
-        url_imagen: req.body["pubImgUrl"],
-        url_publicidad: req.body["pubUrl"],
-        ancho: 112,
-        alto: 30,
-        fechaAgregada: "05/06/2017"
-    });
+    Publicidad.find(function(err, data){
+      var newId = Math.max.apply(Math, data.map(function(elem){return elem.id})) + 1 ;
+      var publicidad = new Publicidad({
+          id: newId,
+          nombre: req.body["pubName"],
+          region: req.body["pubRegion"],
+          url_publicidad: req.body["pubUrl"],
+          fechaAgregada: new Date()
+      });
 
-    publicidad.save(function(err){
-        if (err){
-            return handleError(err);
-        }
-    });
+      publicidad.save(function(err){
+          if (err){
+              return handleError(err);
+          }
+      });
 
-    res.redirect("../publicidad");
+      res.redirect("../publicidad");
+    });
 });
 
 

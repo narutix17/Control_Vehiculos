@@ -1,7 +1,19 @@
 const  express = require('express');
 const  passport = require('passport');
 const  Publicidad = require('../models/Publicidad');
-const  router = express.Router();
+var path = require('path');
+var fs = require('fs');
+var multer = require('multer');
+var storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, '/uploads');
+	},
+	filename: function (req, file, cb) {
+		cb(null, file.fieldname);
+	}
+})
+var upload = multer({storage: storage});
+var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -22,15 +34,24 @@ function updatePublicidad(req, res, next){
         publicidad.save(function(err){
             return res.send(err);
         });
-    }
+    });
 }
 
-router.post('/', function(req, res, next){
+router.post('/', upload.single('upl'), function(req, res, next){
+
+    console.log(req.body.pubName);
+    console.log(req.body);
 
     if (req.body._method === "put"){
       updatePublicidad(req, res, next);
       return;
     }
+
+    fs.readFile('uploads/upl', 'utf-8', function(err,data){
+      if (err){
+        return console.log(err);
+      }
+    });
 
     Publicidad.find(function(err, data){
       var newId = Math.max.apply(Math, data.map(function(elem){return elem.id})) + 1 ;

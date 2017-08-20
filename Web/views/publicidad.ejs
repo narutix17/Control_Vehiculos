@@ -12,18 +12,20 @@
 
 		<% } else { %>
 
-		<h2 class ='align-center'> Publicidades </h2>
+		<h1 class ='align-center animated fadeIn mt-20' style="text-shadow: 3px 3px 0px rgba(0,0,0,0.2);"> Publicidades </h1>
 		<br>
-		<div class="container">
-
-			<button type="button" class="btn btn-default" id="agregarEjercio" data-toggle="modal" data-target="#modalAgregarEjercicio">
-				<span class="glyphicon glyphicon-plus"></span> Agregar Publicidad
+		<div class="container pr-100 pl-100">
+			<div class="align-center animated zoomInUp" style="display: none;" id="containerTextAgregar">
+				<p id="agregarEjercioText"> Agregar Publicidad </p>
+			</div>
+			<button type="button" class="btn btn-primary btn-fab" id="agregarEjercio" data-toggle="modal" data-target="#modalAgregarEjercicio">
+				<i class="material-icons">add</i>
 			</button>
 
 			<br>
 			<br>
 
-			<table id="pubTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<table id="pubTable" class="table table-striped table-bordered animated fadeIn" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th>Nombre</th>
@@ -103,7 +105,16 @@
 	<%- include('footer.ejs') %>
 
 	<script type="text/javascript" charset="utf-8">
-    //$("#pubTable").empty();
+
+				$("#agregarEjercio").hover(function(){
+						console.log('hola');
+						$('#containerTextAgregar').css('display', 'inline')
+						$('#containerTextAgregar').attr('class','align-center animated zoomInUp');
+				}, function(){
+						$('#containerTextAgregar').css('display', 'inline')
+						$('#containerTextAgregar').attr('class','align-center animated fadeOutDown');
+				});
+
         $.get("./api/publicidad", function(data){
             console.log(data);
             for (var i = 0; i < data.length; i++){

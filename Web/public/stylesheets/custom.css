@@ -1,0 +1,21 @@
+#agregarEjercio {
+    position: fixed;
+    bottom: 20px;
+    right: 50px;
+}
+
+#agregarEjercioText {
+  font-size: 12px;
+}
+
+#containerTextAgregar {
+    background-color: grey;
+    position: fixed;
+    bottom: 90px;
+    right: 18px;
+    color: white;
+    border-radius: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+}

@@ -1,7 +1,38 @@
 body {
-  font-family: 'Muli', sans-serif !important;
+  background-color: white !important;
 }
 
+body:after{
+  content : "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url('');
+  width: 100%;
+  height: 100%;
+  opacity : 0.4;
+  z-index: -1;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+h1 {
+  color: #ffffff;
+  font-family: 'Anton',sans-serif !important;
+  font-size: 62px;
+  font-weight: 800;
+  line-height: 72px;
+  margin: 0 0 24px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h2 {
+   color: #111; font-family: 'Anton', sans-serif !important; font-size: 48px; font-weight: 700; line-height: 48px; margin: 0 0 24px; padding: 0 30px; text-align: center; text-transform: uppercase;
+}
 
 nav{
     background-color: #333333 !important;
@@ -29,7 +60,7 @@ nav{
     background-color:rgba(255,255,255,.8);
 }
 #login-dp .help-block{
-    font-size:12px    
+    font-size:12px
 }
 #login-dp .bottom{
     background-color:rgba(255,255,255,.8);
@@ -38,7 +69,7 @@ nav{
     padding:14px;
 }
 #login-dp .social-buttons{
-    margin:12px 0    
+    margin:12px 0
 }
 #login-dp .social-buttons a{
     width: 49%;

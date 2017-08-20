@@ -17,5 +17,9 @@
     border-radius: 6px;
     padding-left: 5px;
     padding-right: 5px;
-    padding-top: 10px;
+    padding-top: 5px;
+}
+
+#agregarEjercio:hover{
+  background-color: #00aa9a !important;
 }

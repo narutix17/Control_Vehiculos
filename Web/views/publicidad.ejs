@@ -15,6 +15,8 @@
 		<h1 class ='align-center animated fadeIn mt-20' style="text-shadow: 3px 3px 0px rgba(0,0,0,0.2);"> Publicidades </h1>
 		<br>
 		<div class="container pr-100 pl-100">
+			<div id="successAlertDiv">
+			</div>
 			<div class="align-center animated zoomInUp" style="display: none;" id="containerTextAgregar">
 				<p id="agregarEjercioText"> Agregar Publicidad </p>
 			</div>
@@ -115,6 +117,15 @@
 
 	<script type="text/javascript" charset="utf-8">
 
+				if (localStorage.getItem("message")){
+					$("#successAlertDiv").append( '<div class = "successalert" id = "indexActionAlert"> ' +
+													'<span class="closebtn" onclick="this.parentElement.style.display='+"'none'" + ';">&times;</span> ' +
+													localStorage.getItem("message") 		 +
+													'</div>'
+												);
+					localStorage.clear();
+				}
+
 				$("#agregarEjercio").hover(function(){
 						console.log('hola');
 						$('#containerTextAgregar').css('display', 'inline')
@@ -137,15 +148,18 @@
             }
 
         $(".eliminar-publicidad").click(function(){
+						console.log("hola");
             var idPubDel = this.id.split("-")[1];
             var url = "./api/publicidad/"+idPubDel;
             $.ajax({
                 url: url,
                 type: 'DELETE',
                 success: function(result){
+									console.log("Hola");
+									localStorage.setItem("message", "La publicidad ha sido eliminada con exito.");
+            			window.location = window.location.pathname;
                 }
             })
-            location.reload();
         });
 
         $('#pubTable').DataTable();

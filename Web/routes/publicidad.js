@@ -24,6 +24,7 @@ router.get('/', function(req, res, next) {
 
 router.delete('/:id', function(req, res, next) {
     Publicidad.find({id: req.params.id}).remove().exec();
+    res.status(200).json("Deleted Successfully")
 });
 
 function updatePublicidad(req, res, next){
@@ -69,7 +70,7 @@ router.post('/', upload.single('upl'), function(req, res, next){
           }
       });
 
-      res.redirect("../publicidad");
+      res.redirect("../publicidad?success=1");
     });
 });
 

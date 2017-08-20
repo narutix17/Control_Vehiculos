@@ -32,6 +32,10 @@ nav li a:hover{
   background-image: url(http://wallup.net/wp-content/uploads/2016/01/179965-car-blue_cars-minimalism.jpg);
 }
 
+nav{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 nav, footer{
   background-color: #444 !important;
 }

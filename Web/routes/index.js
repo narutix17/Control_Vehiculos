@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next){
     res.render('login', { user: req.user });
   });
-  
+
 router.post('/login', passport.authenticate(
 	'local', { successRedirect: '/publicidad',
             	failureRedirect: '/login'})
@@ -24,6 +24,14 @@ router.get('/logout', function(req, res, next){
 });
 
 router.get('/publicidad', function(req, res, next){
+    if (typeof (req.query.success)){
+      var operation = req.query.success;
+      if (operation == 1){
+        return res.render('publicidad', { user: req.user, message: "Publicidad agregada con exito" });
+      } else if (operation == 2) {
+        return res.render('publicidad', { user: req.user, message: "Publicidad actualizada con exito" });
+      }
+    }
     res.render('publicidad', {user: req.user});
 });
 

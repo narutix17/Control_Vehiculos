@@ -17,6 +17,12 @@
 		<div class="container pr-100 pl-100">
 			<div id="successAlertDiv">
 			</div>
+			<% if (typeof message !== 'undefined') { %>
+				<div class="successalert">
+					<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+					<strong>Success!</strong> <%= message %>
+				</div>
+			<% } %>
 			<div class="align-center animated zoomInUp" style="display: none;" id="containerTextAgregar">
 				<p id="agregarEjercioText"> Agregar Publicidad </p>
 			</div>

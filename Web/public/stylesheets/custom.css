@@ -23,3 +23,7 @@
 #agregarEjercio:hover{
   background-color: #00aa9a !important;
 }
+
+nav li a:hover{
+  text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+}

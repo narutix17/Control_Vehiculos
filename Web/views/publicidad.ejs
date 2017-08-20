@@ -65,17 +65,26 @@
 
 						<form method="POST" action="./api/publicidad" enctype="multipart/form-data">
 
-							<div class="form-group">
-								<label for="project-title">Nombre:</label>
-								<input class="form-control" type="text" name="pubName" placeholder="Ingresa el nombre de la publicidad" id="pubName">
+							<div class="form-group label-floating">
+								<label for="pubName" class="control-label">Nombre:</label>
+								<input class="form-control" type="text" id="pubName" name="pubName" id="pubName">
+								<p class="help-block">Ingrese el nombre de la publicidad</p>
 							</div>
 							<div class="form-group">
 								<label for="project-description">URL de la Publicidad:</label>
 								<input type="url" class="form-control" name="pubUrl" rows="2" placeholder="URL a donde a donde dirige la publicidad." id="pubUrl">
 							</div>
-							<div class = 'form-group'>
-								<label for="pubImg">Subir Imagen:</label>
-								<input type="file" name="upl"/>
+							<div class="form-group">
+								<label for="project-description">Subir Imagen:</label>
+							  <input type="file" id="inputFile4" name="imagen">
+							  <div class="input-group">
+							    <input type="text" readonly="" class="form-control" placeholder="Seleccione una imagen de su computador...">
+							      <span class="input-group-btn input-group-sm">
+							        <button type="button" class="btn btn-fab btn-raised btn-fab-mini">
+							          <i class="material-icons">attach_file</i>
+							        </button>
+							      </span>
+							  </div>
 							</div>
 
 							<div class="form-group">
@@ -92,7 +101,7 @@
 								</div>
 							</div>
 
-							<button type="submit" class="btn btn-primary">Guardar</button>
+							<button type="submit" class="btn btn-primary btn-raised">Guardar</button>
 						</form>
 					</div>
 				</div>
@@ -124,7 +133,7 @@
                     regiones = regiones + reg.region[j] + " ";
                 }
                 var imagen = "<img src = '"+reg.url_imagen+"' class = 'img-responsive align-center' style='width: 112px; height: 30px;'>";
-                $("#pubTable").append("<tr><td>"+reg.nombre+"</td><td>"+regiones+"</td><td>"+reg.fechaAgregada+"</td><td>"+imagen+"</td><td><button type='button' onclick='location.href=#' class='btn btn-default editar-publicidad' id='pub-"+reg.id+"'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button></td><td><button type='button' class='btn btn-default eliminar-publicidad' id='pub-"+reg.id+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>")
+                $("#pubTable").append("<tr><td>"+reg.nombre+"</td><td>"+regiones+"</td><td>"+reg.fechaAgregada+"</td><td>"+imagen+"</td><td><button type='button' onclick='location.href=#' class='btn btn-info btn-raised editar-publicidad' id='pub-"+reg.id+"'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button></td><td><button type='button' class='btn btn-raised btn-danger eliminar-publicidad' id='pub-"+reg.id+"'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></td>"+"</tr>")
             }
 
         $(".eliminar-publicidad").click(function(){

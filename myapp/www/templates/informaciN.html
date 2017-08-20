@@ -4,15 +4,19 @@
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
     </a>
   </ion-nav-buttons>
-  <ion-content padding="true" class="has-header"    >
+  <ion-content padding="true" class="has-header">
     <div ng-controller="DBControllerOneVehiculo">
     <div ng-repeat="item in selectedVehicle">
-
+    <div>
+      <button class="button button-fab button-fab-top-right button-dark icon ion-edit" style="position: fixed !important;" ui-sref="modificarInformacion()" id="modInfo"> </button>
+    </div>
     <div class="row">
-      <div class = "col col-50" style="margin: 0px; padding-top: 20px">
-        <img id="foto" src="{{item.imagen}}" style="vertical-align: left; height: 120px; width: 120px; border-radius: 60px">
+      <div class = "col col-100 align-center" style="margin: 0px; padding-top: 20px">
+        <img id="foto" src="{{item.imagen}}" style="vertical-align: left; height: 200px; width: 200px; border-radius: 100px">
       </div>
-      <div class = "col col-35">
+    </div>
+    <div class="row">
+      <div class = "col col-50">
         <div style="padding-top: 15px; padding-left: 5px">
           <p><strong> Alias: </strong> {{item.alias}} </p>
           <p><strong> Placa: </strong> {{item.placa}} </p>
@@ -21,39 +25,45 @@
           <p><strong> Color: </strong> {{item.color}} </p>
         </div>
       </div>
-      <div class="col col-10" style="padding-top: 20px">
-        <a ui-sref="modificarInformacion()" id="modInfo" class="icon ion-edit" style="font-size: 22px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666"></a>
-      </div>
-    </div>
-    
-    <div id="informaciN-markdown1" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">
-        <strong>Kilometraje:</strong>
-      </p>
-    </div>
-    <div class="row">
       <div class="col col-50">
-        <form id="actualizarKilometrajeForm" name="actualizarKilometrajeForm" class="list" novalidate>
-          <label class="item item-input" id="informaciN-input3">
-            <input ng-model="updatedKm.km" ng-min="{{item.kilometraje}}" name="updatedKm" ng-maxlength="7" type="number" ng-required="true" placeholder="{{item.kilometraje}}">
-          </label>
-        </form>
+        <div class="row" style="padding-top: 15px;">
+          <div id="informaciN-markdown1" class="show-list-numbers-and-dots">
+            <p style="color:#000000;">
+              <strong>Kilometraje:</strong>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <form id="actualizarKilometrajeForm" name="actualizarKilometrajeForm" class="list" novalidate>
+            <label class="item item-input" id="informaciN-input3" style="border-bottom: solid 1px #ccc !important">
+              <input ng-model="updatedKm.km" ng-min="{{item.kilometraje}}" name="updatedKm" id="KmToUpdate" ng-maxlength="7" type="number" ng-required="true">
+            </label>
+          </form>
+        </div>
+        <div class="row" style="padding-top: 15px;">
+          <button class="button icon-left ion-speedometer button-energized button-small" ng-click="actualizarKilometraje('{{item.placa}}')" ng-disabled="actualizarKilometrajeForm.$invalid" >
+          Guardar
+          </button>
+          <br>
+        </div>
       </div>
-      <div class="col col-50">
-        <button class="button ion-ios-speedometer" ng-click="actualizarKilometraje('{{item.alias}}')" ng-disabled="actualizarKilometrajeForm.$invalid" >
-        Actualizar
-        </button>
-        <br>
-      </div>
-      
     </div>
-    <div id="informaciN-markdown2" class="show-list-numbers-and-dots">
+    </div>
+
+    <div id="informaciN-markdown2" class="show-list-numbers-and-dots" style="padding-top: 20px;">
       <p style="color:#000000;">
         <strong>Próximo Mantenimiento:</strong>
       </p>
+      <div ng-repeat="item1 in selectedVehicleMantenimientosFecha | orderBy:'fecha' |limitTo:1 ">
+        <p><u>Por fecha:</u> {{item1.nombre}}</p><br>
+        
+      </div>
+      <div ng-repeat="item2 in selectedVehicleMantenimientosKm | orderBy:'fecha' |limitTo:1 ">
+        <p><u>Por Kilometros:</u> {{item2.nombre}}</p>
+      </div>
     </div>
 
-    <div id="informaciN-markdown3" class="show-list-numbers-and-dots" style="padding-top: 15px">
+    <div id="informaciN-markdown3" class="show-list-numbers-and-dots" style="padding-top: 20px">
         <p style="color:#000000;">
           <strong>Servicios del vehículo:</strong>
         </p>
@@ -69,7 +79,7 @@
                 <a ui-sref="editarServicio()" ng-click="editarServicio('{{item.id}}', '{{item.nombre}}', '{{item.idTipoIntervalo}}', '{{item.intervalo}}', '{{item.ultimoRealizado}}' )" class="icon ion-android-settings" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#666666"></a>
               </div>
               <div class = "col col-12">
-                <a class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#A51D1D" ng-click="popUpEliminarServicio('{{item.id}}','{{item.nombre}}')"></a>
+                <a class="icon ion-trash-a" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#bfbfbf;" ng-click="popUpEliminarServicio('{{item.id}}','{{item.nombre}}')"></a>
 
               </div>
 
@@ -79,11 +89,11 @@
 
 
     </div>
-    
-      
-      <button ui-sref="agregarServicioPersonalizado()" id="informaciN-button1" class="button button-positive button-block">Agregar Servicio Perzonalizado</button>
+
+
+      <button ui-sref="agregarServicioPersonalizado()" id="informaciN-button1" class="button button-stable button-block">Agregar Servicio Perzonalizado</button>
       <button  id="informaciN-button2" class="button button-positive button-block" ng-click="puEVehiculo()" style="background-color: #A51D1D; margin-bottom: 10px">Eliminar Vehículo</button>
-    
+
     <div class="spacer" style="height: 5px;"></div>
     </div>
   </ion-content>

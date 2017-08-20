@@ -8,23 +8,37 @@
 angular.module('app.controllers')
 app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout){
 
+  $scope.newVehicle = {}
   // Informacion ya existente del vehiculo
-  $scope.updatedplaca = $rootScope.chosenVehicle.placa;
-  $scope.updatedalias = $rootScope.chosenVehicle.alias;
-  $scope.updatedmarca = $rootScope.chosenVehicle.marca;
-  $scope.updatedyear = $rootScope.chosenVehicle.year;
-  $scope.updatedcolor = $rootScope.chosenVehicle.color;
-
+  //$scope.updatedplaca = $rootScope.chosenVehicle.placa;
+  //$scope.updatedalias = $rootScope.chosenVehicle.alias;
+  //$scope.updatedmarca = $rootScope.chosenVehicle.marca;
+  //$scope.updatedyear = $rootScope.chosenVehicle.year;
+  //$scope.updatedcolor = $rootScope.chosenVehicle.color;
+    
 
   // We use a loading screen to wait the selected vehicle to be loaded from the database
   $ionicLoading.show({
     content: 'Loading',
     animation: 'fade-in',
-    showBackdrop: true,
+    showBackdrop: false,
     maxWidth: 200,
     showDelay: 0
   });
 
+  $scope.cargarInformacion = function(){
+    console.log("entraaaaaa");
+    $scope.actualid = $rootScope.chosenVehicle.id;
+    var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      console.log("PRIMERPPPPPP: "+res.rows.item(0).placa);
+      console.log(res.rows.item(0).alias);
+      console.log(res.rows.item(0).año);
+      $scope.updatedplaca = res.rows.item(0).placa;
+      $scope.updatedalias = res.rows.item(0).alias;
+      $scope.updatedyear = res.rows.item(0).año;
+    })
+  }
 
   /**
    * We use a listener to wait the selected vehicle to be retrieved from the database.
@@ -33,7 +47,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
     return $rootScope.chosenVehicle.id;
   }, function(){
     console.log("LOADING")
-    $scope.selectedVehicle = []; //arreglo para los datos del vehiculo 
+    $scope.selectedVehicle = []; //arreglo para los datos del vehiculo
     $rootScope.selectedVehicleServices = []; //arreglo para los datos del servicio del vehiculo
     $scope.actualid = $rootScope.chosenVehicle.id;
     var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'"; //query para obtener los datos de un vehiculo especifico por id
@@ -69,16 +83,16 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
             }
           });
         }
- 
-        $scope.img = $scope.selectedVehicle[0].imagen; //guardo la imagen actual del vehiculo en un scope para que no haya problema si el usuario no actualiza la imagen 
+
+        $scope.img = $scope.selectedVehicle[0].imagen; //guardo la imagen actual del vehiculo en un scope para que no haya problema si el usuario no actualiza la imagen
 
       }else{
         console.log("No hay Registros de Vehiculos");
       }
-
+      $scope.cargarInformacion();
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
-      
+
       $ionicLoading.hide();
       $scope.putSize();
       }, function(error){
@@ -86,25 +100,98 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
       });
   });
 
+  
+
+  //CARGA MARCAS DE TODOS LOS VEHICULOS
+  $scope.cargarMarcas = function(){
+    //$rootScope.serviciosParaAgregar = [];
+    // Hardcoded vehicle for web testing
+    $scope.registrosPlacasVehiculos=[];
+    var query = "select * from marca";
+    $cordovaSQLite.execute(db, query).then(function(res){
+
+      if (res.rows.length > 0){
+        for (var i=0; i<res.rows.length; i++) {
+          $scope.registrosPlacasVehiculos.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          });
+
+        }
+
+      }else{
+        console.log("No hay Registros de Marcas");
+      }
+      console.log("SE CARGARON : "+ res.rows.length + " Marcas");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
+  //CARGA COLORES DE TODOS LOS VEHICULOS
+  $scope.cargarColores = function(){
+    //$rootScope.serviciosParaAgregar = [];
+    // Hardcoded vehicle for web testing
+    $scope.registrosColoresVehiculos=[];
+    var query = "select * from color";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      console.log("TAMAAAAAAAAAAAANOOOOOOOOOOOO: "+res.rows.length);
+      if (res.rows.length > 0){
+        for (var i=0; i<res.rows.length; i++) {
+          console.log(res.rows.item(i).nombre);
+          $scope.registrosColoresVehiculos.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          });
+
+        }
+       
+      }else{
+        console.log("No hay Registros de Colores");
+      }
+      console.log("SE CARGARON : "+ res.rows.length + " Colores");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
+  $scope.cargarColores();
+  $scope.cargarMarcas();
+
   /**
    * Modificar informacion de un vehiculo.
    */
   $scope.actualizarAlias = function(id){
     console.log($scope);
-    alias = document.getElementById("updatedalias").value;
-    placa = document.getElementById("updatedplaca").value;
-    marca = document.getElementById("updatedmarca").value;
-    year = document.getElementById("updatedyear").value;
-    color = document.getElementById("updatedcolor").value;
-    console.log(alias);
-    var query = "UPDATE vehiculo SET alias=?, placa=?, marca=?, año=?, color=?, imagen=? WHERE id=?";
-    console.log(query);
-    $cordovaSQLite.execute(db, query, [alias, placa, marca, year, color, $scope.img, id]).then(function(result) {
-      console.log("Km Actualizado");
-    }, function(error){
-      console.log(error);
-    });
-
+    $scope.actualid = $rootScope.chosenVehicle.id;
+    var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      alias = document.getElementById("updatedalias").value;
+      placa = document.getElementById("updatedplaca").value;
+      //marca = document.getElementById("updatedmarca").value;
+      year = document.getElementById("updatedyear").value;
+      //color = document.getElementById("updatedcolor").value;
+      console.log(alias);
+      console.log("Marcaaa: "+$scope.newVehicle.idMarca);
+      console.log("Colorrr: "+$scope.newVehicle.newColor);
+      if (typeof($scope.newVehicle.idMarca) == "undefined"){
+        console.log("entra1")
+        $scope.newVehicle.idMarca = res.rows.item(0).idMarca;
+      }
+      if (typeof($scope.newVehicle.newColor) == "undefined"){
+        console.log("entra2")
+        $scope.newVehicle.newColor = res.rows.item(0).color;
+      }
+      console.log("Marcaaa: "+$scope.newVehicle.idMarca);
+      console.log("Colorrr: "+$scope.newVehicle.newColor);
+      var query = "UPDATE vehiculo SET alias=?, placa=?, idMarca=?, año=?, color=?, imagen=? WHERE id=?";
+      console.log(query);
+      $cordovaSQLite.execute(db, query, [alias, placa, $scope.newVehicle.idMarca, year, $scope.newVehicle.newColor, $scope.img, id]).then(function(result) {
+        console.log("Km Actualizado");
+      }, function(error){
+        console.log(error);
+      });
+    })
   }
 
   $scope.fotoGaleria = function() {
@@ -152,15 +239,15 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         });
         $scope.img = entry.nativeURL;
       }
-   
+
       function fail(error) {
         console.log("fail: " + error.code);
       }
-   
+
       function makeid() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   
+
         for (var i=0; i < 5; i++) {
           text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
@@ -217,15 +304,15 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         });
         $scope.img = entry.nativeURL;
       }
-   
+
       function fail(error) {
         console.log("fail: " + error.code);
       }
-   
+
       function makeid() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   
+
         for (var i=0; i < 5; i++) {
           text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
@@ -248,7 +335,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -261,11 +348,11 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -278,11 +365,11 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -295,13 +382,13 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 

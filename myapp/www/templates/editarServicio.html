@@ -4,11 +4,6 @@
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
     </button>
   </ion-nav-buttons>
-  <ion-nav-buttons side="right" class="has-header">
-    <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
-      <i class="icon ion-android-home"></i> <span class="back-text"></span>
-    </button>
-  </ion-nav-buttons>
   <ion-content padding="true" class="has-header" >
     <div ng-controller="EditarServicio">
     <div ng-repeat = "item in chosenService">
@@ -20,7 +15,7 @@
       <p style="color:#000000;">El ciclo de los mantenimientos se realizará por:</p>
     </div>
     <form id="editarNuevoServicioPersonalizado" class="list" name="form13">
-      <label class="item item-select" id="agregarServicioPersonalizado-select3">
+      <label class="item item-select custom-input" id="agregarServicioPersonalizado-select3">
         <span class="input-label"></span>
         <select id="ciclo" style="text-align: left;" ng-model="servicioEditado.tipo_intervalo" name="tipoCiclo" ng-required="true" ng-change="onChanged()">
           <option>Kilometraje</option>
@@ -28,7 +23,7 @@
         </select>
       </label>
       <span class="messages" ng-show="form13.$submitted || form13.tipoCiclo.$touched">
-        <span ng-show="form13.tipoCiclo.$error.required">  * El tipo de ciclo es un campo requerido.</span>
+        <span ng-show="form13.tipoCiclo.$error.required">  El tipo de ciclo es un campo requerido.</span>
       </span>
       <br>
       <div id="agregarServicioPersonalizado-markdown19" class="show-list-numbers-and-dots">
@@ -36,8 +31,8 @@
       </div>
         <div class="row">
         <div class="col col-60">
-          <div class="item item-input" id="agregarServicioPersonalizado-input11">
-            <input name="intervalo" type="number" placeholder="{{item.intervalo}}" ng-model="servicioEditado.intervalo" ng-required="true" ng-maxlength="10" >
+          <div class="item item-input custom-input" id="agregarServicioPersonalizado-input11">
+            <input name="intervalo" type="number" placeholder="{{item.intervalo}}" ng-model="servicioEditado.intervalo" ng-required="true" ng-maxlength="5" >
           </div>
         </div>
         <div class="col col-30">
@@ -45,18 +40,18 @@
         </div>
       </div>
       <span class="messages" ng-show="form13.$submitted || form13.intervalo.$touched">
-        <span ng-show="form13.intervalo.$error.required">  * El Intervalo es un campo requerido.</span>
-        <span ng-show="form13.intervalo.$error.maxlength">  * El Intervalo debe tener máximo 10 digitos.</span>
+        <span ng-show="form13.intervalo.$error.required">  El Intervalo es un campo requerido.</span>
+        <span ng-show="form13.intervalo.$error.maxlength">  El Intervalo debe tener máximo 5 digitos.</span>
       </span>
         <br>
       <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots">
-        <p id="kof" style="color:#000000;">Kilometraje de ultimo mantenimiento:</p>
+        <p id="kof" style="color:#000000;">Kilometraje o Fecha de ultima vez realizado:</p>
       </div>
-        <label class="item item-input" id="agregarServicioPersonalizado-input12">
+        <label class="item item-input custom-input" id="agregarServicioPersonalizado-input12">
           <input id="kilfec" name="ultimoRealizado" type="text" placeholder="{{item.ultimoRealizado}}" ng-model="servicioEditado.ultimoRealizado" ng-required="true">
         </label>
       <span class="messages" ng-show="form13.$submitted || form13.ultimoRealizado.$touched">
-        <span ng-show="form13.ultimoRealizado.$error.required">  * Campo requerido.</span>
+        <span ng-show="form13.ultimoRealizado.$error.required">  Campo requerido.</span>
       </span>
     <button ng-disabled="form13.$invalid" id="agregarServicioPersonalizado-button5" class="button button-positive button-block" ng-click="editarServicio()" ui-sref="tabsController2.informaciN()">Editar Servicio</button>
     </form>

@@ -5,13 +5,27 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic' rel='stylesheet' type='text/css'>
+
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="jquery.js" type="text/javascript"></script>
+    <script src="jquery.maskedinput.js" type="text/javascript"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+
+    <!-- importo la libreria moments -->
+    
+    <!-- importo todos los idiomas -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -20,9 +34,102 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
 
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
     <style type="text/css">
 
       @import url('https://fonts.googleapis.com/css?family=Sedgwick+Ave');
+
+      .custom-input{
+        border-bottom: solid 1px #ccc !important;
+      }
+
+      .align-center {
+          margin: 0 auto;
+          text-align: center;
+          align-items: center;
+          display: block;
+      }
+
+      .bold{
+      	font-weight: bold;
+      }
+
+      .align-right {
+          margin: 0 auto;
+          text-align: right;
+          align-items: right;
+          display: block;
+      }
+
+      .align-left {
+          margin: 0 auto;
+          text-align: left;
+          align-items: left;
+          display: block;
+      }
+
+
+      .item-md-label2 {
+        display: block;
+        background-color: transparent;
+        box-shadow: none;
+        padding-top: 30px;
+        padding-bottom: 0; }
+        .item-md-label2 .input-label {
+          position: absolute;
+          padding: 5px 0 0;
+          z-index: 2;
+          -webkit-transform: translate3d(0, -30px, 0) scale(1);
+          transform: translate3d(0, -30px, 0) scale(1);
+          -webkit-transition: all 0.2s ease;
+          transition: all 0.2s ease;
+          color: #444;
+          opacity: 0.5;
+          transform-origin: 0; }
+        .item-md-label2 input {
+          z-index: 1;
+          position: relative;
+          bottom: 0; }
+        .item-md-label2 .highlight {
+          position: absolute;
+          bottom: 0;
+          height: 2px;
+          left: 0;
+          width: 100%;
+          -webkit-transform: translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0);
+          -webkit-transition: all 0.15s ease;
+          transition: all 0.15s ease; }
+        .item-md-label2 .highlight-light {
+          background: #fff; }
+        .item-md-label2 .highlight-stable {
+          background: #f8f8f8; }
+        .item-md-label2 .highlight-positive {
+          background: #387ef5; }
+        .item-md-label2 .highlight-calm {
+          background: #11c1f3; }
+        .item-md-label2 .highlight-balanced {
+          background: #33cd5f; }
+        .item-md-label2 .highlight-energized {
+          background: #ffc900; }
+        .item-md-label2 .highlight-assertive {
+          background: #ef473a; }
+        .item-md-label2 .highlight-royal {
+          background: #886aea; }
+        .item-md-label2 .highlight-dark {
+          background: #444; }
+        .item-md-label2 input:focus ~ .input-label, .item-md-label2 input.used ~ .input-label {
+          -webkit-transform: translate3d(0, -60px, 0) scale(0.9);
+          transform: translate3d(0, -60px, 0) scale(0.9);
+          opacity: 1; }
+        .item-md-label2 input:focus ~ .highlight {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0); }
 
       .platform-ios .manual-ios-statusbar-padding{
         padding-top:20px;
@@ -108,7 +215,13 @@
         opacity: 0;
       }
 
+      .bar {
+          box-shadow: none;
+      }
+
+
     </style>
+
 
     <script src="js/dependencies/Chart.min.js"></script>
     <script src="js/dependencies/angular-chart.min.js"></script>
@@ -149,7 +262,7 @@
 </div>
 
   </body>
-  
+
   <footer>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
   </footer>

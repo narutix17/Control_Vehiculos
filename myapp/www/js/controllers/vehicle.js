@@ -16,6 +16,8 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
 
 
   $scope.updatedKm = {};
+  //$scope.updatedKm.km = parseInt($rootScope.chosenVehicle.km);
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 
 
@@ -23,12 +25,11 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   $ionicLoading.show({
     content: 'Loading',
     animation: 'fade-in',
-    showBackdrop: true,
+    showBackdrop: false,
     maxWidth: 200,
     showDelay: 0
   });
 
-  
 
   /**
    * Eliminar un vehiculo dada la placa
@@ -106,13 +107,15 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     $scope.actualid = $rootScope.chosenVehicle.id;
 
     // Query para obtener un vehiculo
-    var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id WHERE vehiculo.id=? LIMIT 1";
+    var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca, color.nombre as color FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id JOIN color ON vehiculo.color = color.id WHERE vehiculo.id=? LIMIT 1";
      console.log("idVehiculo: "+$scope.actualid);
      $cordovaSQLite.execute(db, query,[$scope.actualid]).then(function(res){
       console.log("res.length: "+res.rows.length);
       console.log("res.rows.item(0): "+res.rows.item(0));
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
+          console.log("MARCAAAAAAAAAAAA: "+res.rows.item(i).marca);
+          console.log("MARCAAAAAAAAAAAA: "+res.rows.item(i).idMarca);
           $scope.selectedVehicle.push({
             id: res.rows.item(i).id,
             idMarca:res.rows.item(i).idMarca,
@@ -125,6 +128,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
             kilometraje: res.rows.item(i).kilometraje,
             imagen: res.rows.item(i).imagen,
           });
+          $scope.updatedKm.km = res.rows.item(i).kilometraje,
           $rootScope.selectedVehicleServices = [];
           // Del vehiculo obtengo los servicios
           var servQuery = "SELECT * FROM servicio WHERE idVehiculo = ?"
@@ -148,6 +152,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
                 }
               }
             }
+            $scope.primerServicioRealizar();
             $scope.putSize();
             console.log($rootScope.selectedVehicleServices.length);
             $scope.called = false;
@@ -160,6 +165,8 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
       }
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
+      $('#updatedKm.km').val(parseInt($rootScope.chosenVehicle.km));
+      console.log("that is right");
       $scope.putSize();
       }, function(error){
         console.log(error);
@@ -173,7 +180,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -186,7 +193,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
         var h=document.getElementsByTagName('h5');
         for(var k=0;k<h.length;k++){
           h[k].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -214,7 +221,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
           h[k].setAttribute("style","font-size: 1em");
         }
       }
-      
+
     }, 0);
   };
 
@@ -222,21 +229,14 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   /**
    * Actualizar el kilometraje de un vehiculo
    */
-  $scope.actualizarKilometraje = function(alias){
-    console.log($scope);
-    console.log($scope.updatedKm.km);
-    console.log(alias);
-    var query = "UPDATE vehiculo SET kilometraje=? WHERE alias=?";
-    console.log(query);
-    $cordovaSQLite.execute(db, query, [$scope.updatedKm.km, alias]).then(function(result) {
-      console.log("Km Actualizado");
+  $scope.actualizarKilometraje = function(placa){
+    var query = "UPDATE vehiculo SET kilometraje=? WHERE placa=?";
+    $cordovaSQLite.execute(db, query, [$scope.updatedKm.km, placa]).then(function(result) {
+      alert("Se ha actualizado el Kilometraje del Vehiculo");
     }, function(error){
       console.log(error);
     });
-
   }
-
-
 
   $scope.tomarFoto = function(){
 
@@ -296,7 +296,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
   };
 
   $scope.puEVehiculo = function() {
-    
+
     console.log("si entraaaaaa");
     var alertasPopup = $ionicPopup.confirm({
       title: 'Eliminar Vehículo',
@@ -346,7 +346,86 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
     });
   };
 
+  function sumarDias(fecha, dias){
+      fecha.setDate(fecha.getDate() + dias);
+      return fecha;
+    }
 
+
+  $scope.primerServicioRealizar = function(){
+    var query = "SELECT * FROM servicio WHERE idVehiculo = ?";
+      $scope.CurrentDate = new Date();
+      $scope.selectedVehicleAlias = [];
+      $scope.nom = [];
+      $scope.temporalSave = [];
+      $scope.vehicleInfoMantenimientos = [];
+      $scope.selectedVehicleMantenimientos = [];
+      $scope.selectedVehicleMantenimientosKm = [];
+      $scope.selectedVehicleMantenimientosFecha = [];
+      var x = 2;
+      var y = -2;
+      $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){ //se ejecuta el query
+          if (res.rows.length > 0){
+            console.log("cantidad: "+res.rows.length);
+          for(var i=0; i<res.rows.length; i++){
+            console.log("tipo: "+res.rows.item(i).idTipoIntervalo);
+            if (res.rows.item(i).idTipoIntervalo == "Fecha"){ //condicion para verificar ue el tipo de intervalo sea por fecha
+              $scope.fecha = new Date(res.rows.item(i).ultimoRealizado);
+              console.log("fecha3: "+sumarDias($scope.fecha, res.rows.item(i).intervalo+1)); //se suma los dias
+
+              if ($scope.CurrentDate < $scope.fecha){ //condicion para solo obtener los servicios de fechas proximas               
+                    $scope.selectedVehicleMantenimientosFecha.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
+                      nombre: res.rows.item(i).nombre + ", se realiza el día: "+ $scope.fecha.toLocaleDateString("es-MX", options)
+                    });
+                    x=x+1;
+                    y=y-1;
+              }
+            } else {
+              if (res.rows.item(i).ultimoRealizado != "NaN"){
+                var km = parseInt(res.rows.item(i).ultimoRealizado);
+                var intervalo = res.rows.item(i).intervalo;
+                var kmMantenimiento = km + intervalo;
+                    var kilometraje = $scope.updatedKm.km;
+                    var kmRestante = kmMantenimiento - kilometraje;
+                    if (kmRestante > 0){
+                      $scope.selectedVehicleMantenimientosKm.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
+                        nombre: res.rows.item(i).nombre + ", Kilometros restantes: "+ kmRestante
+                      });
+                      x=x+1;
+                      y=y-1;
  
+                    }    
+              }
+            }
+          }     
+            if ($scope.selectedVehicleMantenimientosFecha.length <= 0){
+              $scope.selectedVehicleMantenimientosFecha.push({
+                nombre: "No hay servicio por fecha para presentar"
+              });
+            };
+            if ($scope.selectedVehicleMantenimientosKm.length <= 0){
+              $scope.selectedVehicleMantenimientosKm.push({
+                nombre: "No hay servicio por kilometros para presentar"
+              });
+            }  
+          
+          } else {
+            $scope.selectedVehicleMantenimientosKm.push({
+              nombre: "No hay servicios para presentar"
+            });
+            $scope.selectedVehicleMantenimientosFecha.push({
+              nombre: "No hay servicios para presentar"
+            });
+          }
+          $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosFecha;
+          $scope.temporalSave = $scope.selectedVehicleMantenimientos;
+          $ionicLoading.hide();
+          $scope.putSize();
+      });
+
+  }
+
+
+
 
 }]);

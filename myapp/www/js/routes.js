@@ -13,7 +13,7 @@ angular.module('app.routes', [])
     url: '/tabs/vehiculos',
     views: {
       'tab4': {
-        templateUrl: 'templates/listaDeVehiculos.html'
+        templateUrl: 'templates/listaDeVehiculos.html'        
       }
     }
   })
@@ -112,26 +112,6 @@ angular.module('app.routes', [])
     templateUrl: 'templates/inicio.html'
   })
 
-  .state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html'
-  })
-
-  .state('enviarCorreo', {
-    url: '/enviarCorreo',
-    templateUrl: 'templates/enviarCorreo.html'
-  })
-
-  .state('nuevaContraseA', {
-    url: '/nuevaContraseña',
-    templateUrl: 'templates/nuevaContraseA.html'
-  })
-
-  .state('registrarse', {
-    url: '/registrarse',
-    templateUrl: 'templates/registrarse.html'
-  })
-
   .state('infoServicio', {
     url: '/pageis',
     templateUrl: 'templates/infoServicio.html'
@@ -152,7 +132,7 @@ angular.module('app.routes', [])
     templateUrl: 'templates/modificarInformacion.html'
   })
 
-$urlRouterProvider.otherwise('/inicio')
+  $urlRouterProvider.otherwise('/inicio')
 
 
 });

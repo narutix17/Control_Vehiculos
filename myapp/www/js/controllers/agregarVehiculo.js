@@ -9,11 +9,11 @@ angular.module('app.controllers')
  * tambien se encuentran funciones para tomar foto desde camara o desde la galeria
  */
 
-.controller("DBControllerAgregarVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', '$cordovaCamera', '$cordovaFile', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile, $timeout, $cordovaLocalNotification, $ionicPopup){
+.controller("DBControllerAgregarVehiculo", ['$scope', 'ionicMaterialInk', "$timeout" ,'ionicMaterialMotion', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicHistory', '$state', '$cordovaCamera', '$cordovaFile', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, ionicMaterialInk, $timeout, ionicMaterialMotion, $cordovaSQLite, $rootScope, $ionicLoading, $ionicHistory, $state, $cordovaCamera, $cordovaFile, $timeout, $cordovaLocalNotification, $ionicPopup){
 
   $scope.newService = {}
   $scope.newVehicle = {}
-  
+
 
   $scope.img = "img/car_agregar.png";
   /**
@@ -28,9 +28,6 @@ angular.module('app.controllers')
     }
   });
 
-  $scope.$on('$ionicView.afterEnter', function(){
-    $scope.putSize();
-  });
 
 
   //$("label input").on("show-invalid",function(){
@@ -55,11 +52,12 @@ angular.module('app.controllers')
    * Create Vehicle method. Recieve the form model located in "agregarVehiculo.html"
    */
   $scope.crearVehiculo = function(){
-    
+
     var x = 0;
 
     console.log("nativeURL: "+$scope.img);
     var servicios = $rootScope.serviciosParaAgregar;
+    console.log("color: "+$scope.newVehicle.newColor);
     var query = "INSERT INTO vehiculo (idTipo,idMarca, color, placa, alias, año, kilometraje, imagen) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
     $cordovaSQLite.execute(db, query, [$scope.newVehicle.idTipo,$scope.newVehicle.idMarca, $scope.newVehicle.newColor, $scope.newVehicle.newPlaca, $scope.newVehicle.newAlias, $scope.newVehicle.newYear, $scope.newVehicle.newKilometraje, $scope.img]).then(function(result) {
       console.log("Vehiculo Agregado");
@@ -75,7 +73,7 @@ angular.module('app.controllers')
                   if (servicios[x].tipo_intervalo == "Fecha"){
                     $scope.notificacion($scope.newVehicle.newPlaca, $scope.newVehicle.newAlias, $scope.newVehicle.idMarca, idVehiculo, serv.ultimoRealizado, serv.nombre, serv.intervalo);
                   }
-                  x = x+1;   
+                  x = x+1;
               });
           }
       });
@@ -90,7 +88,7 @@ angular.module('app.controllers')
       $ionicLoading.show({
           content: 'Loading',
           animation: 'fade-in',
-          showBackdrop: true,
+          showBackdrop: false,
           maxWidth: 200,
           showDelay: 0
       });
@@ -100,6 +98,11 @@ angular.module('app.controllers')
   }
 
   $scope.eliminarServicioDeLaLista = function(servNombre){
+      console.log(servNombre);
+      console.log("====");
+      for (var i = 0; i < $rootScope.serviciosParaAgregar.length; i++){
+        console.log($rootScope.serviciosParaAgregar[i].nombre);
+      }
       $rootScope.serviciosParaAgregar = $rootScope.serviciosParaAgregar.filter(function(serv){
           return serv.nombre !== servNombre;
       });
@@ -109,7 +112,7 @@ angular.module('app.controllers')
     $ionicLoading.show({
         content: 'Loading',
         animation: 'fade-in',
-        showBackdrop: true,
+        showBackdrop: false,
         maxWidth: 200,
         showDelay: 0
     });
@@ -126,7 +129,7 @@ angular.module('app.controllers')
     $scope.lastViewTitle = $ionicHistory.backTitle();
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
     console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
-    
+
     if ($scope.lastViewTitle == "Informacion"){
       $scope.serviciosAgregar = [];
       $scope.serviciosAgregar.push({
@@ -144,10 +147,10 @@ angular.module('app.controllers')
         var servQuery = "INSERT INTO servicio (idTipo, idTipoIntervalo, idVehiculo, nombre, intervalo, ultimoRealizado) VALUES (?, ?, ?, ?, ?, ?);"
         $cordovaSQLite.execute(db, servQuery, [2, servi.tipo_intervalo, idV, servi.nombre, servi.intervalo, servi.ultimoRealizado ]).then(function(result) {
                   console.log("Servicio Agregado"+ servi.nombre);
-
+                  $state.go('tabsController2.informaciN');
                   $scope.notificacion($rootScope.chosenVehicle.placa, $rootScope.chosenVehicle.alias, $rootScope.chosenVehicle.marca, $rootScope.chosenVehicle.id, $scope.newService.ultimoRealizado, $scope.newService.nombre, $scope.newService.intervalo);
 
-                  $state.go('tabsController2.informaciN');
+
         });
       //}
     }else{
@@ -164,6 +167,7 @@ angular.module('app.controllers')
     $scope.registrosPlacasVehiculos=[];
     var query = "select * from marca";
     $cordovaSQLite.execute(db, query).then(function(res){
+
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
           $scope.registrosPlacasVehiculos.push({
@@ -172,10 +176,61 @@ angular.module('app.controllers')
           });
 
         }
+
       }else{
         console.log("No hay Registros de Marcas");
       }
       console.log("SE CARGARON : "+ res.rows.length + " Marcas");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
+
+  $('body').on('focusout', '#placa', function(){
+    var valorPlaca = $scope.newVehicle.newPlaca;
+    console.log("en la placaaaa: "+valorPlaca);
+    console.log("en la placaaaa: "+$scope.newVehicle.newPlaca);
+
+    //var digitos = valorPlaca.length;
+
+    // Aqui esta el patron(expresion regular) a buscar en el input
+    patronPlaca = /([A-Za-z]{3}-\d{3,4})/;
+    
+    if( patronPlaca.test($scope.newVehicle.newPlaca) )
+    {
+      console.log('Yeah!! si es correcto');
+      $('#mensaje').text('');
+    }
+    else
+    {
+      $('#mensaje').text('Formato de Placa no valida');
+    }
+  })
+
+  //CARGA COLORES DE TODOS LOS VEHICULOS
+  $scope.cargarColores = function(){
+    //$rootScope.serviciosParaAgregar = [];
+    // Hardcoded vehicle for web testing
+    $scope.registrosColoresVehiculos=[];
+    var query = "select * from color";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      console.log("TAMAAAAAAAAAAAANOOOOOOOOOOOO: "+res.rows.length);
+      if (res.rows.length > 0){
+        for (var i=0; i<res.rows.length; i++) {
+          console.log("nombre: "+res.rows.item(i).nombre);
+          console.log("id: "+res.rows.item(i).id);
+          $scope.registrosColoresVehiculos.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          });
+
+        }
+       
+      }else{
+        console.log("No hay Registros de Colores");
+      }
+      console.log("SE CARGARON : "+ res.rows.length + " Colores");
     }, function(error){
       console.log(error);
     });
@@ -206,6 +261,7 @@ angular.module('app.controllers')
     });
   }
 
+  $scope.cargarColores();
   $scope.cargarPlacas();
   $scope.cargarTiposVehiculos();
   //$scope.putSize();
@@ -216,17 +272,17 @@ angular.module('app.controllers')
     var ciclo = $("#ciclo").val();
     if (ciclo == "Kilometraje"){
       document.getElementById("km").innerHTML = "kilometros";
-      document.getElementById("kof").innerHTML = "Kilometraje de ultimo servicio:"; 
+      document.getElementById("kof").innerHTML = "Kilometraje de Ultimo Mantenimiento:";
       var km = document.getElementById("kilfec");
-      km.type = "number"; 
-      
+      km.type = "number";
+
     }else{
       document.getElementById("km").innerHTML = "dias";
-      document.getElementById("kof").innerHTML = "Fecha de ultimo servicio:";
+      document.getElementById("kof").innerHTML = "Fecha de Ultimo Mantenimiento:";
       var date = document.getElementById("kilfec");
-      date.type = "date"; 
+      date.type = "date";
       //document.getElementById("input_id").attributes["type"].value = "text";
-    } 
+    }
   }
 
   //funcion para escoger una imagen desde la galeria
@@ -272,15 +328,15 @@ angular.module('app.controllers')
         });
         $scope.img = entry.nativeURL; //guarda la nueva URL en un objeto para colocarlo en la base de datos
       }
-   
+
       function fail(error) {
         console.log("fail: " + error.code);
       }
-   
-      function makeid() { //se hace un id y nombre aleatorio para la imagen 
+
+      function makeid() { //se hace un id y nombre aleatorio para la imagen
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   
+
         for (var i=0; i < 5; i++) {
           text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
@@ -299,7 +355,7 @@ angular.module('app.controllers')
     $scope.images = [];
     navigator.camera.getPicture(onSuccess, onFail,
       {
-        sourceType : Camera.PictureSourceType.CAMERA, //foto desde camara 
+        sourceType : Camera.PictureSourceType.CAMERA, //foto desde camara
         correctOrientation: true,
         allowEdit: true,
         quality: 75,
@@ -337,15 +393,15 @@ angular.module('app.controllers')
         });
         $scope.img = entry.nativeURL;
       }
-   
+
       function fail(error) {
         console.log("fail: " + error.code);
       }
-   
+
       function makeid() {
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-   
+
         for (var i=0; i < 5; i++) {
           text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
@@ -369,7 +425,7 @@ angular.module('app.controllers')
     console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
-    $timeout(function(){  
+    $timeout(function(){
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -382,15 +438,15 @@ angular.module('app.controllers')
         var h=document.getElementsByTagName('h5');
         for(var k=0;k<h.length;k++){
           h[k].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.3em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.3em");
-        } 
+        }
       } else if ($rootScope.sizeMediano == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -407,11 +463,11 @@ angular.module('app.controllers')
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1.1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1.1em");
-        } 
+        }
       } else if ($rootScope.sizePequeno == "true"){
         var s=document.getElementsByTagName('p');
         for(var i=0;i<s.length;i++){
@@ -428,13 +484,13 @@ angular.module('app.controllers')
         var a=document.getElementsByTagName('span');
         for(var b=0;b<a.length;b++){
           a[b].setAttribute("style","font-size: 1em");
-        } 
+        }
         var c=document.getElementsByTagName('input');
         for(var d=0;d<c.length;d++){
           c[d].setAttribute("style","font-size: 1em");
-        } 
+        }
       }
-      
+
     }, 0);
   };
 
@@ -449,9 +505,9 @@ angular.module('app.controllers')
     return fecha;
   }
 
-////  NOTIFICACIONES   
+////  NOTIFICACIONES
 ///////////////////////////////////////////////////////////////////////////////////////////////
-  //notificaciones creadas al registrar un nuevo servicio 
+  //notificaciones creadas al registrar un nuevo servicio
   $scope.notificacion = function(placa, alias, marca, idVehiculo, ultimoFechaServicio, nombreServicio, intervaloServicio){
     $scope.informacion = [];
     $scope.informacion.push({
@@ -467,28 +523,29 @@ angular.module('app.controllers')
     var hora = Math.floor(Math.random() * (20 - 8)) + 8;
     diaNotificacion.setHours(hora);
     var now = new Date().getTime();
-    var _5_SecondsFromNow = new Date(now + 15 * 1000);
+    var _5_SecondsFromNow = new Date(now + 10 * 1000);
     $cordovaLocalNotification.schedule({
       id: nombreServicio+placa,
       date: _5_SecondsFromNow,
       //date: dianotificacion,
       message: "Toque para ingresar a los servicios por realizar",
       title: "Servicio a Realizar Mañana",
-      sound: null
+      sound: null,
+      icon: 'res://icononotificacion.png'
     }).then(function () {
       alert("Notification Set");
     });
 
-    // Join BBM Meeting when user has clicked on the notification 
+    // Join BBM Meeting when user has clicked on the notification
     cordova.plugins.notification.local.on("click", function(state) {
       $state.go('tabsController.proximosMantenimientos');
       $scope.servicioPopUp(nombreServicio, alias, placa, marca, idVehiculo);
       console.log("si pasaaaaaaaa");
-      
+
     }, this);
 
     cordova.plugins.notification.local.on("trigger", function () {
-        // After 10 minutes update notification's title 
+        // After 10 minutes update notification's title
         //alert("trigeriada");
         setTimeout(function () {
             cordova.plugins.notification.local.update({
@@ -500,7 +557,7 @@ angular.module('app.controllers')
   }
 
   $scope.servicioPopUp = function(servicio, alias, placa, marca, id) {
-    
+
     var alertasPopup = $ionicPopup.confirm({
       title: 'Servicio a Realizar',
       template: 'Tiene que realizar el siguiente servicio: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
@@ -511,13 +568,13 @@ angular.module('app.controllers')
             onTap: function(e){
               //angular.element($("#"+idVehiculo)).remove();
               //$scope.eliminarVehiculo(idVehiculo);
-              
+
             }
          },
          {
           text: 'Posponer',
           onTap: function(e){
-            $scope.posponer(servicio, id);    
+            $scope.posponer(servicio, id);
           }
          }
       ]

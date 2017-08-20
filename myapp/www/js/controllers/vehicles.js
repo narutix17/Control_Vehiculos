@@ -10,7 +10,6 @@ angular.module('app.controllers')
 
 .controller("DBControllerVehiculo", ['$scope', '$cordovaSQLite', '$rootScope',  '$ionicLoading', '$ionicPopup', '$ionicModal', '$timeout', '$state',  function($scope, $cordovaSQLite, $rootScope, $ionicLoading,$ionicPopup, $ionicModal, $timeout, $state){
 
-
   $rootScope.serviciosParaAgregar = [];
   $rootScope.predeterminadosAgregados = false;
   $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
@@ -30,15 +29,15 @@ angular.module('app.controllers')
     $scope.cargarPredeterminados();
     console.log("sizeGrande: "+$rootScope.size12);
   });
-  
-   
+
+
   $scope.tamano = function(opcion){
     $scope.opcion = opcion;
     console.log("opcion: "+$scope.opcion);
     //var tamano = $("#tamano").val();
   };
 
-  
+
 
 
 
@@ -237,24 +236,24 @@ angular.module('app.controllers')
    * Mensaje de confirmacion al eliminar un vehiculo de la lista de vehiculos
    */
 
-   
+
    $scope.showConfirmEliminarVehiculo2 = function(idVehiculo,alias) {
-    
+
     var alertasPopup = $ionicPopup.confirm({
       title: 'Eliminar Vehículo',
       template: 'Está seguro que desea eliminar el vehículo ' + alias,
       buttons: [
          {
-            text: 'Aceptar',
+            text: 'Ok',
             type: 'button-positive',
             onTap: function(e){
               angular.element($("#"+idVehiculo)).remove();
               $scope.eliminarVehiculo(idVehiculo);
-              
+
             }
          },
          {
-          text: 'cancelar'
+          text: 'Cancelar'
          }
       ]
     });
@@ -274,7 +273,7 @@ angular.module('app.controllers')
 
   //funcion para configurar la visualizacion
   $scope.configurarVista = function() {
-    
+
 
     var alertasPopup = $ionicPopup.confirm({
       title: 'Configuración',
@@ -282,7 +281,7 @@ angular.module('app.controllers')
       scope: $scope,
       buttons: [
          {
-            text: 'Aceptar',
+            text: 'Ok',
             type: 'button-positive',
             onTap: function(e){
               console.log("primera opcion: "+$scope.choice2.value.toString());
@@ -293,7 +292,7 @@ angular.module('app.controllers')
             }
          },
          {
-          text: 'cancelar'
+          text: 'Volver'
          }
       ]
     });
@@ -322,8 +321,8 @@ angular.module('app.controllers')
         {
             b[j].setAttribute("style","font-size: 1.35em");
 
-        }  
-        
+        }
+
 
       } else if (tamano == "Mediano"){
         localStorage.setItem("sizePequeno",false);
@@ -338,7 +337,7 @@ angular.module('app.controllers')
         {
             b[j].setAttribute("style","font-size: 1.2em");
 
-        } 
+        }
 
       } else if (tamano == "Pequeno"){
         localStorage.setItem("sizePequeno",true);
@@ -353,14 +352,14 @@ angular.module('app.controllers')
         {
             b[j].setAttribute("style","font-size: 1.05em");
 
-        } 
+        }
 
       }
     }, 0);
   };
 
 
-  //funcion para colocar el tamaño de las letras 
+  //funcion para colocar el tamaño de las letras
 
   $scope.putSize = function () {
     $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
@@ -370,7 +369,7 @@ angular.module('app.controllers')
     console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
     console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
 
-    $timeout(function(){  
+    $timeout(function(){
 
       if ($rootScope.sizeGrande == "true"){
         var s=document.getElementsByTagName('p');

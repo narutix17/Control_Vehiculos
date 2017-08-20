@@ -22,6 +22,12 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/:id', function(req, res, next) {
+    Publicidad.findOne({id: req.params.id}, function(err, data){
+        res.status(200).json(data);
+    });
+});
+
 router.delete('/:id', function(req, res, next) {
     Publicidad.find({id: req.params.id}).remove().exec();
     res.status(200).json("Deleted Successfully")

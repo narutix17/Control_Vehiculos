@@ -65,12 +65,14 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h2 class="modal-title pb-20">Agregar Publicidad</h2>
+						<h2 class="modal-title pb-20" id="tituloModal">Agregar Publicidad</h2>
 					</div>
 					<div class="modal-body">
 
 
 						<form method="POST" action="./api/publicidad" enctype="multipart/form-data">
+							<input type="hidden" id="pubId" name="pubId" value="">
+							<input id="form-action-type" type="hidden" name="_method" value="post" />
 							<div class="form-group label-floating">
 								<label for="pubName" class="control-label">Nombre</label>
 								<input class="form-control" type="text" id="pubName" name="pubName" id="pubName">
@@ -186,21 +188,31 @@
 						})
         });
 
+				$("#agregarEjercio").click(function(){
+					$("#tituloModal").html("Agregar Publicidad");
+					$("#form-action-type").val("post");
+					$("#pubName").val("");
+					$("#pubUrl").val("");
+				})
+
 				$(".editar-publicidad").click(function(){
 						$("#modalAgregarEjercicio").modal("show");
-						var idPubDel = this.id.split("-")[1];
-						$("#delete-modal-button").click(function(){
-							var url = "./api/publicidad/"+idPubDel;
-	            $.ajax({
-	                url: url,
-	                type: 'GET',
-	                success: function(result){
-										console.log("Hola");
-										localStorage.setItem("message", "La publicidad ha sido eliminada con exito.");
-	            			window.location = window.location.pathname;
-	                }
-	            });
-						})
+						$("#tituloModal").html("Editar Publicidad");
+						var idPubEdit = this.id.split("-")[1];
+						console.log("hola");
+						console.log(idPubEdit);
+						var url = "./api/publicidad/"+idPubEdit;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(result){
+									console.log(result);
+									$("#pubId").val(idPubEdit);
+									$("#form-action-type").val("put");
+									$("#pubName").val(result.nombre);
+									$("#pubUrl").val(result.url_publicidad);
+                }
+            });
         });
 
         $('#pubTable').DataTable();

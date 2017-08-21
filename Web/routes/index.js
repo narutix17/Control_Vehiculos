@@ -8,6 +8,7 @@ var uid = require('uid2');
 var mime = require('mime');
 var TARGET_PATH = path.resolve(__dirname, '../uploads/');
 var IMAGE_TYPES = ['image/jpeg', 'image/png'];
+const  Publicidad = require('../models/Publicidad');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -72,7 +73,7 @@ router.post('/publicidad', function(req, res, next){
 
     //check to see if we support the file type
     if (IMAGE_TYPES.indexOf(type) == -1) {
-      return res.status(200).render('publicidad', {user: req.user, message: 'El banner de la publicidad tiene que ser formato: jpeg, jpg, jpe, png.'});
+      return res.status(415).render('publicidad', {user: req.user, message: 'El banner de la publicidad tiene que ser formato: jpeg, jpg, jpe, png.'});
     }
 
     //create a new name for the image
@@ -92,7 +93,7 @@ router.post('/publicidad', function(req, res, next){
     //handle error
     is.on('error', function() {
       if (err) {
-        return res.send(500, 'Something went wrong');
+        return res.status(500).render('publicidad', {user: req.user, message: 'Algo salio mal. Vuelva a intentarlo mas tarde.'});
       }
     });
 
@@ -102,7 +103,7 @@ router.post('/publicidad', function(req, res, next){
       //delete file from temp folder
       fs.unlink(tempPath, function(err) {
         if (err) {
-          return res.send(500, 'Something went wrong');
+          return res.status(500).render('publicidad', {user: req.user, message: 'Algo salio mal. Vuelva a intentarlo mas tarde.'});
         }
 
         Publicidad.find(function(err, data){
@@ -113,7 +114,7 @@ router.post('/publicidad', function(req, res, next){
               file_name: targetName,
               region: req.body.pubRegion,
               url_publicidad: req.body.pubUrl,
-              fechaAgregada: new Date()
+              fechaAgregada: new Date().toLocaleString()
           });
 
           publicidad.save(function(err){
@@ -122,7 +123,7 @@ router.post('/publicidad', function(req, res, next){
               }
           });
 
-          res.redirect('/publicidad?success=1')
+          res.redirect('/publicidad?success=1');
         });
       });//#end - unlink
     });//#end - on.end

@@ -1,7 +1,13 @@
 const  express = require('express');
 const  passport = require('passport');
 const  Publicidad = require('../models/Publicidad');
-const  router = express.Router();
+var path = require('path');
+var fs = require('fs');
+var uid = require('uid2');
+var mime = require('mime');
+var TARGET_PATH = path.resolve(__dirname, '../uploads/');
+var IMAGE_TYPES = ['image/jpeg', 'image/png'];
+var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,30 +16,17 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/:id', function(req, res, next) {
+    Publicidad.findOne({id: req.params.id}, function(err, data){
+        res.status(200).json(data);
+    });
+});
+
 router.delete('/:id', function(req, res, next) {
-    Publicidad.find({id: req.params.id}).remove().exec();
+    Publicidad.findOne({id: req.params.id}).remove().exec();
+    res.status(200).json("Deleted Successfully")
 });
 
-router.post('/', function(req, res, next){
-    var publicidad = new Publicidad({
-        id: 3,
-        nombre: req.body["pubName"],
-        region: req.body["pubRegion"],
-        url_imagen: req.body["pubImgUrl"],
-        url_publicidad: req.body["pubUrl"],
-        ancho: 112,
-        alto: 30,
-        fechaAgregada: "05/06/2017"
-    });
-
-    publicidad.save(function(err){
-        if (err){
-            return handleError(err);
-        }
-    });
-
-    res.redirect("../publicidad");
-});
 
 
 module.exports = router;

@@ -43,14 +43,81 @@ router.get('/publicidad', function(req, res, next){
 });
 
 function updatePublicidad(req, res, next){
-    Publicidad.findOne({id : req.body.updateId}, function(err, publicidad){
-        publicidad.nombre = req.body.pubName;
-        publicidad.region = req.body.pubRegion;
-        publicidad.url_publicidad = req.body.pubUrl;
-        publicidad.save(function(err){
-            return res.send(err);
+      if (req.files.upl !== "undefined"){
+        var is;
+        var os;
+        var targetPath;
+        var targetName;
+        var tempPath = req.files.upl.path;
+        //get the mime type of the file
+        var type = mime.lookup(req.files.upl.path);
+        //get the extension of the file
+        var extension = req.files.upl.path.split(/[. ]+/).pop();
+
+        //check to see if we support the file type
+        if (IMAGE_TYPES.indexOf(type) == -1) {
+          return res.status(415).render('publicidad', {user: req.user, message: 'El banner de la publicidad tiene que ser formato: jpeg, jpg, jpe, png.'});
+        }
+
+        //create a new name for the image
+        targetName = uid(22) + '.' + extension;
+
+        //determine the new path to save the image
+        targetPath = path.join(TARGET_PATH, targetName);
+
+        //create a read stream in order to read the file
+        is = fs.createReadStream(tempPath);
+
+        //create a write stream in order to write the a new file
+        os = fs.createWriteStream(targetPath);
+
+        is.pipe(os);
+
+        //handle error
+        is.on('error', function() {
+          if (err) {
+            return res.status(500).render('publicidad', {user: req.user, message: 'Algo salio mal. Vuelva a intentarlo mas tarde.'});
+          }
         });
-    });
+
+        //if we are done moving the file
+        is.on('end', function() {
+
+          //delete file from temp folder
+          fs.unlink(tempPath, function(err) {
+            if (err) {
+              return res.status(500).render('publicidad', {user: req.user, message: 'Algo salio mal. Vuelva a intentarlo mas tarde.'});
+            }
+
+          });//#end - unlink
+        });//#end - on.end
+
+        Publicidad.findOne({id : req.body.pubId}, function(err, publicidad){
+            publicidad.nombre = req.body.pubName;
+            publicidad.region = req.body.pubRegion;
+            publicidad.url_publicidad = req.body.pubUrl;
+            publicidad.file_name = targetName;
+            publicidad.save(function(err){
+                if (err){
+                  res.status(500).render('publicidad', {});
+                }
+                res.redirect('/publicidad?success=2');
+            });
+        });
+      } else{
+        Publicidad.findOne({id : req.body.pubId}, function(err, publicidad){
+            publicidad.nombre = req.body.pubName;
+            publicidad.region = req.body.pubRegion;
+            publicidad.url_publicidad = req.body.pubUrl;
+            publicidad.save(function(err){
+                if (err){
+                  res.status(500).render('publicidad', {});
+                }
+                res.redirect('/publicidad?success=2');
+            });
+        });
+      }
+
 }
 
 router.post('/publicidad', function(req, res, next){

@@ -191,6 +191,7 @@
 				$("#agregarEjercio").click(function(){
 					$("#tituloModal").html("Agregar Publicidad");
 					$("#form-action-type").val("post");
+					$("#upl").attr("required", "");
 					$("#pubName").val("");
 					$("#pubUrl").val("");
 				})
@@ -198,6 +199,7 @@
 				$(".editar-publicidad").click(function(){
 						$("#modalAgregarEjercicio").modal("show");
 						$("#tituloModal").html("Editar Publicidad");
+						$("#upl").removeAttr("required");
 						var idPubEdit = this.id.split("-")[1];
 						console.log("hola");
 						console.log(idPubEdit);

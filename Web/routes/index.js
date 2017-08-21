@@ -43,7 +43,7 @@ router.get('/publicidad', function(req, res, next){
 });
 
 function updatePublicidad(req, res, next){
-      if (req.files.upl !== "undefined"){
+      if (req.files.upl.size != 0 ){
         var is;
         var os;
         var targetPath;

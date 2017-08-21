@@ -20,7 +20,7 @@
 			<% if (typeof message !== 'undefined') { %>
 				<div class="successalert">
 					<span class="closebtn" onclick="this.parentElement.style.display='none'; window.location = window.location.pathname;">&times;</span>
-					<strong>Success!</strong> <%= message %>
+					<strong></strong> <%= message %>
 				</div>
 			<% } %>
 			<div class="align-center animated zoomInUp" style="display: none;" id="containerTextAgregar">
@@ -70,7 +70,7 @@
 					<div class="modal-body">
 
 
-						<form method="POST" action="./api/publicidad" enctype="multipart/form-data">
+						<form method="POST" action="/publicidad" enctype="multipart/form-data">
 							<input type="hidden" id="pubId" name="pubId" value="">
 							<input id="form-action-type" type="hidden" name="_method" value="post" />
 							<div class="form-group label-floating">

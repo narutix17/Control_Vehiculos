@@ -23,7 +23,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-    Publicidad.find({id: req.params.id}).remove().exec();
+    Publicidad.findOne({id: req.params.id}).remove().exec();
     res.status(200).json("Deleted Successfully")
 });
 

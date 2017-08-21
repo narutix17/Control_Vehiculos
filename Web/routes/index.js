@@ -21,7 +21,7 @@ router.get('/login', function(req, res, next){
       res.render('login', { user: req.user, message: "El usuario o contrasena son incorrectos. Por favor, ingrese nuevamente." });
     }
     if (req.user){
-      res.render('publicidad', {user: req.user});
+      res.redirect('/publicidad');
     }
     res.render('login', { user: req.user });
   });
@@ -180,7 +180,12 @@ router.post('/publicidad', function(req, res, next){
         }
 
         Publicidad.find(function(err, data){
+
           var newId = Math.max.apply(Math, data.map(function(elem){return elem.id})) + 1 ;
+
+          if (data.length == 0){
+            newId = 1;
+          }
           var publicidad = new Publicidad({
               id: newId,
               nombre: req.body.pubName,

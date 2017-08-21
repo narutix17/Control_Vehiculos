@@ -18,34 +18,54 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         $scope.putSize();
     });
 
+    $scope.misServicios = function(){
+      $scope.servicios = [];
+      var query = "SELECT * FROM servicio WHERE idVehiculo = ?";
+      $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res) {
+        for(var j=0; j<res.rows.length; j++){
+          $scope.servicios.push({
+            id: res.rows.item(j).id,
+            idTipo: res.rows.item(j).idTipo,
+            idTipoIntervalo: res.rows.item(j).idTipoIntervalo,
+            idVehiculo: res.rows.item(j).idVehiculo,
+            nombre: res.rows.item(j).nombre,
+            intervalo: res.rows.item(j).intervalo,
+            ultimoRealizado: res.rows.item(j).ultimoRealizado
+          });
+        } 
+      })  
+    }
+
     $scope.agregarMantenimiento = function(){
         console.log($scope.newMantenimiento.nombreServ);
         var nombreServicio = $scope.newMantenimiento.nombreServ;
         var kilometraDeMantenimiento = $scope.newMantenimiento.kilometraje;
 
-        /*
+    
         if (kilometraDeMantenimiento > $rootScope.chosenVehicle.km){
 
-          var query = "UPDATE vehiculo SET kilometraje=? WHERE id=?";
-          console.log(query);
-          $cordovaSQLite.execute(db, query, [kilometraDeMantenimiento, $rootScope.chosenVehicle.id]).then(function(result) {
+          var query1 = "UPDATE vehiculo SET kilometraje=? WHERE id=?";
+          console.log("kilometraje mas: "+$scope.newMantenimiento.kilometraje);
+          $cordovaSQLite.execute(db, query1, [kilometraDeMantenimiento, $rootScope.chosenVehicle.id]).then(function(result) {
             console.log("Km Actualizado");
           }, function(error){
             console.log(error);
           });
         }
-        */
+
 
         var servId = "";
         var servNombre = "";
         var servIntervalo = "";
         var servUltimoRealizado = "";
+        var tipoIntervalo ="";
         for (var i = 0; i< $rootScope.selectedVehicleServices.length; i++){
             console.log($rootScope.selectedVehicleServices[i].nombre);
             console.log(nombreServicio);
             if ($rootScope.selectedVehicleServices[i].nombre === nombreServicio){
                 servId = $rootScope.selectedVehicleServices[i].id;
                 servNombre = $rootScope.selectedVehicleServices[i].nombre;
+                tipoIntervalo = $rootScope.selectedVehicleServices[i].idTipoIntervalo,
                 servIntervalo = $rootScope.selectedVehicleServices[i].intervalo;
                 servUltimoRealizado = $rootScope.selectedVehicleServices[i].ultimoRealizado;
                 break;
@@ -56,10 +76,21 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         $cordovaSQLite.execute(db, query, [servId, $scope.newMantenimiento.obs, $scope.newMantenimiento.valor ,$scope.newMantenimiento.fecha]).then(function(res){
             console.log("Mantenimiento Agregado");
             var query2 = "UPDATE servicio SET ultimoRealizado=? WHERE id=?";
-            $cordovaSQLite.execute(db, query2, [$scope.newMantenimiento.fecha.toString().substring(0, 15), servId]).then(function(res2){
-                console.log("Servicio actualizado");
+            console.log("INTERVALOOOO: "+tipoIntervalo);
+            var fecha = document.getElementById("fecha").value;
+            console.log("fehca: "+fecha);
+            if (tipoIntervalo == "Fecha"){
+      
+              $cordovaSQLite.execute(db, query2, [fecha, servId]).then(function(res2){
+                console.log("Servicio actualizado fecha");
                 $scope.notificacion($rootScope.chosenVehicle.placa, $rootScope.chosenVehicle.alias, $rootScope.chosenVehicle.marca, $rootScope.chosenVehicle.id, $scope.newMantenimiento.fecha.toString().substring(0, 15), servNombre, servIntervalo);
-            });
+              });
+            } else {
+              $cordovaSQLite.execute(db, query2, [$scope.newMantenimiento.kilometraje, servId]).then(function(res2){
+                console.log("Servicio actualizado kilometraje");
+                //$scope.notificacion($rootScope.chosenVehicle.placa, $rootScope.chosenVehicle.alias, $rootScope.chosenVehicle.marca, $rootScope.chosenVehicle.id, $scope.newMantenimiento.fecha.toString().substring(0, 15), servNombre, servIntervalo);
+              });
+            }
 
         });
 
@@ -152,7 +183,7 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
   $scope.popUpInformacion = function() {
     var alertasPopup = $ionicPopup.confirm({
       title: 'Agregar Mantenimiento',
-      template: 'Esta seguro que desea registrar este mantenimiento? se actualizará automaticamente la fehca del servicio: "'+$scope.newMantenimiento.nombreServ+'"',
+      template: 'Está seguro que desea registrar este mantenimiento? <br> Se actualizará automaticamente la fecha o kilometraje del servicio: "'+$scope.newMantenimiento.nombreServ+'" y el kilometraje actual del vehículo',
       buttons: [
          {
             text: 'Aceptar',
@@ -206,7 +237,8 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
       //date: diaNotificacion,
       message: "Toque para ingresar a los servicios por realizar",
       title: "Servicio a Realizar Mañana",
-      sound: null
+      sound: null,
+      icon: 'res://icononotificacion.png'
     }).then(function () {
       alert("Notification Set");
     });

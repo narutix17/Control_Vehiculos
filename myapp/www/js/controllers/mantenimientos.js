@@ -11,6 +11,7 @@ angular.module('app.controllers')
 .controller('DBControllerMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $timeout, $cordovaLocalNotification, $ionicPopup, $state) {
 
   //funcion para esperar mientras cargan los datos de la pagina
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   $ionicLoading.show({
       content: 'Loading',
       animation: 'fade-in',
@@ -51,7 +52,7 @@ angular.module('app.controllers')
               detalle: res.rows.item(i).detalle,
               precio: res.rows.item(i).precio,
               fecha: $scope.fecha,
-              fechaRealizado: res.rows.item(i).fechaRealizado.substring(0, 15)
+              fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options)
             });
           }
           var cont = 0;
@@ -69,7 +70,7 @@ angular.module('app.controllers')
             precio: res.rows.item(0).precio,
             //identif: $scope.ident,
             fecha: $scope.fecha,
-            fechaRealizado: res.rows.item(0).fechaRealizado.substring(0, 15)
+            fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options)
           });
           y=y-1;
           console.log("IDREAL vehicleMantenimientos: "+res.rows.item(0).id_m);
@@ -82,7 +83,7 @@ angular.module('app.controllers')
             detalle: res.rows.item(0).detalle,
             precio: res.rows.item(0).precio,
             fecha: $scope.fecha,
-            fechaRealizado: res.rows.item(0).fechaRealizado.substring(0, 15)
+            fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options)
           });
           x=x+1;
           console.log("IDREAL vehicleInfoMantenimientos: "+res.rows.item(0).id_m);
@@ -94,7 +95,8 @@ angular.module('app.controllers')
               for(var k=0; k<cont; k++){
 
                 if((res.rows.item(cont).fechaRealizado.substring(0, 15)) == (res.rows.item(k).fechaRealizado.substring(0, 15))){
-
+                  $scope.fehcaRealiz = res.rows.item(cont).fechaRealizado;
+                  $scope.fecha = new Date($scope.fehcaRealiz);
                   $scope.vehicleInfoMantenimientos.push({
                     nombre: res.rows.item(cont).nombre,
                     idtoStyle: x,
@@ -105,7 +107,7 @@ angular.module('app.controllers')
                     precio: res.rows.item(cont).precio,
                     //identif: $scope.ident,
                     fecha: $scope.fecha,
-                    fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
+                    fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options)
                   });
                   x=x+1;
                   console.log("IDREAL vehicleInfoMantenimientos: "+res.rows.item(cont).id_m);
@@ -127,7 +129,7 @@ angular.module('app.controllers')
                 detalle: res.rows.item(cont).detalle,
                 precio: res.rows.item(cont).precio,
                 fecha: $scope.fecha,
-                fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
+                fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options)
               });
               y=y-1;
               console.log("IDREAL vehicleMantenimientos: "+res.rows.item(cont).id_m);
@@ -140,7 +142,7 @@ angular.module('app.controllers')
                 detalle: res.rows.item(cont).detalle,
                 precio: res.rows.item(cont).precio,
                 fecha: $scope.fecha,
-                fechaRealizado: res.rows.item(cont).fechaRealizado.substring(0, 15)
+                fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options)
               });
               x=x+1;
               console.log("IDREAL vehicleInfoMantenimientos: "+res.rows.item(cont).id_m);
@@ -162,18 +164,6 @@ angular.module('app.controllers')
     });
 
 
-    // Agrupa los mantenimientos
-    $scope.toggleGroup = function(group) {
-      if ($scope.isGroupShown(group)) {
-        $scope.shownGroup = null;
-      } else {
-        $scope.shownGroup = group;
-      }
-    };
-    $scope.isGroupShown = function(group) {
-      return $scope.shownGroup === group;
-    };
-
 
     // Buscar mantenimientos
     $scope.buscar = function(){
@@ -184,7 +174,7 @@ angular.module('app.controllers')
       $scope.arrayTemporal = [];
       //$scope.arrayTemporal = $scope.vehicleMantenimientos;
       for(var i=0; i<$scope.vehicleMantenimientos.length; i++){
-        if($scope.fecha.toString().substring(0, 15) == $scope.vehicleMantenimientos[i].fechaRealizado){
+        if($scope.fecha.toString().substring(0, 15) == $scope.vehicleMantenimientos[i].fecha.toString().substring(0, 15)){
           $scope.arrayTemporal.push({
             nombre: $scope.vehicleMantenimientos[i].nombre,
             idtoStyle2: m,

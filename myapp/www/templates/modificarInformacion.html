@@ -37,9 +37,12 @@
         <input ng-model="updatedplaca" name="updatedplaca" id="updatedplaca" type="text"  >
       </label>
 
-      <label class="item item-input" id="modificarInfo-input11" style="margin-top: 8px">
+      <label class="item item-select custom-input" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
         <span class="input-label">Marca:</span>
-        <input type="text" ng-model="updatedmarca" name="updatedmarca" id="updatedmarca">
+        <select ng-model="newVehicle.idMarca" >
+          <option  ng-repeat="marca in registrosPlacasVehiculos | orderBy:'nombre'" value="{{marca.id}}">{{marca.nombre}}</option>
+        </select>
+       
       </label>
 
       <label class="item item-input" id="modificarInfo-input12" style="margin-top: 8px">
@@ -47,9 +50,11 @@
         <input type="text" ng-model="updatedyear" id="updatedyear">
       </label>
 
-      <label class="item item-input" id="modificarInfo-input13" style="margin-top: 8px">
+      <label class="item item-select custom-input" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
         <span class="input-label">Color:</span>
-        <input type="text" placeholder="{{item.color}}" ng-model="updatedcolor" id="updatedcolor">
+        <select ng-model="newVehicle.newColor" name="newColor">
+          <option ng-repeat="color in registrosColoresVehiculos " value="{{color.id}}">{{color.nombre}}</option>
+        </select>
       </label>
 
       <button id="modificarInfo-button5" class="button button-positive button-block" ng-click="actualizarAlias('{{item.idVehiculo}}')" ui-sref="tabsController2.informaciN()">Actualizar</button>

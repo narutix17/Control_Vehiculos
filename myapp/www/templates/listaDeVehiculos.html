@@ -1,16 +1,15 @@
-<ion-view title="Lista de Vehiculos" id="page2" ng-controller="DBControllerVehiculo">
-<ion-nav-buttons side="left" class="has-header">
-    <button ui-sref="inicio()" class="button back-button buttons button-clear header-item">
-      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
+<ion-view title="Lista de Vehículos" id="page2" ng-controller="DBControllerVehiculo">
+  <ion-nav-buttons side="left" class="has-header">
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right" class="has-header">
+    <button ng-click="configurarVista()" class="icon ion-android-settings button buttons button-clear header-item">
     </button>
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header" id="listaVehiculos">
   <div >
   <div class="row">
 
-    <button class="button button-fab button-fab-bottom-right button-balanced icon ion-android-add" ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button12"></button>
-
-       <button ng-click="configurarVista()" class="icon ion-gear-b button button-fab button-fab-bottom-left button-stable"></button>
+    <button class="button button-fab button-fab-bottom-right button-balanced icon ion-android-add" ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button12" style="position: fixed !important;"></button>
   </div>
 
       <div class="list" >
@@ -52,6 +51,7 @@
       <img src="http://aylvalvoline.com/images/banner_racing.jpg" class="imgpublicidad">
     </a>
   </div>
+  
 
   <script id="image-modal.html" type="text/ng-template">
     <div class="modal image-modal transparent" ng-click="closeModal()">

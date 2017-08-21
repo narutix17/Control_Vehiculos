@@ -131,6 +131,9 @@ angular.module('app.controllers')
 	          
 	        
 	        }
+          if($scope.selectedVehicleMantenimientosFecha.length == 0){
+            alert("No hay próximos mantenimientos por fecha para mostrar");
+          }
           $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosFecha;
 	       	$scope.temporalSave = $scope.selectedVehicleMantenimientos;
 	        $ionicLoading.hide();
@@ -145,9 +148,15 @@ angular.module('app.controllers')
     if (ciclo == "Kilometraje"){
       $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosKm;
       buscar = false;
+      if ($scope.selectedVehicleMantenimientos.length == 0){
+        alert("No hay próximos mantenimientos por kilometro para mostrar");
+      }
     }else{
       $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosFecha;
       buscar = true;
+      if ($scope.selectedVehicleMantenimientos.length == 0){
+        alert("No hay próximos mantenimientos por fecha para mostrar");
+      }
     }
     $scope.putSize();
   }
@@ -193,7 +202,7 @@ angular.module('app.controllers')
         }
       }
       if(!existe){
-      	alert("No hay servicio para esta fecha");
+      	alert("No hay mantenimiento para esta fecha");
       }
       $scope.selectedVehicleMantenimientos = "";
       $scope.selectedVehicleMantenimientos = $scope.arrayTemporal;

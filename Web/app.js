@@ -94,6 +94,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Define routes
 app.use('/', require('./routes/index'));
 app.use('/api/publicidad', require('./routes/publicidad'));
+app.use('/imagen', require('./routes/imagen'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

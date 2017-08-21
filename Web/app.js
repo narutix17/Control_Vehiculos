@@ -5,8 +5,6 @@ var Strategy = require('passport-local').Strategy;
 var cors = require('cors');
 var multipart = require('connect-multiparty')
 var bodyParser = require('body-parser');
-var multer = require('multer');
-var fileUpload = require('express-fileupload');
 
 var User = require('./models/User');
 

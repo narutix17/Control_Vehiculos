@@ -3,16 +3,8 @@ const  passport = require('passport');
 const  Publicidad = require('../models/Publicidad');
 var path = require('path');
 var fs = require('fs');
-var multer = require('multer');
-var storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, '/uploads');
-	},
-	filename: function (req, file, cb) {
-		cb(null, file.fieldname);
-	}
-})
-var upload = multer({storage: storage});
+var TARGET_PATH = path.resolve(__dirname, '../uploads/');
+var IMAGE_TYPES = ['image/jpeg', 'image/png'];
 var router = express.Router();
 
 /* GET home page. */
@@ -44,40 +36,80 @@ function updatePublicidad(req, res, next){
     });
 }
 
-router.post('/', upload.single('upl'), function(req, res, next){
-
-    console.log(req.body.pubName);
-    console.log(req.body);
+router.post('/', function(req, res, next){
 
     if (req.body._method === "put"){
       updatePublicidad(req, res, next);
       return;
     }
 
-    fs.readFile('uploads/upl', 'utf-8', function(err,data){
-      if (err){
-        return console.log(err);
+
+    var is;
+    var os;
+    var targetPath;
+    var targetName;
+    var tempPath = req.files.upl.path;
+    //get the mime type of the file
+    //var type = mime.lookup(req.files.upl.path);
+    var type = "image/png";
+    //get the extension of the file
+    var extension = req.files.upl.path.split(/[. ]+/).pop();
+
+    //check to see if we support the file type
+    if (IMAGE_TYPES.indexOf(type) == -1) {
+      return res.send(415, 'Supported image formats: jpeg, jpg, jpe, png.');
+    }
+
+    //create a new name for the image
+    targetName = "upl" + '.' + extension;
+
+    //determine the new path to save the image
+    targetPath = path.join(TARGET_PATH, targetName);
+
+    //create a read stream in order to read the file
+    is = fs.createReadStream(tempPath);
+
+    //create a write stream in order to write the a new file
+    os = fs.createWriteStream(targetPath);
+
+    is.pipe(os);
+
+    //handle error
+    is.on('error', function() {
+      if (err) {
+        return res.send(500, 'Something went wrong');
       }
     });
 
-    Publicidad.find(function(err, data){
-      var newId = Math.max.apply(Math, data.map(function(elem){return elem.id})) + 1 ;
-      var publicidad = new Publicidad({
-          id: newId,
-          nombre: req.body.pubName,
-          region: req.body.pubRegion,
-          url_publicidad: req.body.pubUrl,
-          fechaAgregada: new Date()
-      });
+    //if we are done moving the file
+    is.on('end', function() {
 
-      publicidad.save(function(err){
-          if (err){
-              return handleError(err);
-          }
-      });
+      //delete file from temp folder
+      fs.unlink(tempPath, function(err) {
+        if (err) {
+          return res.send(500, 'Something went wrong');
+        }
 
-      res.redirect("../publicidad?success=1");
-    });
+        Publicidad.find(function(err, data){
+          var newId = Math.max.apply(Math, data.map(function(elem){return elem.id})) + 1 ;
+          var publicidad = new Publicidad({
+              id: newId,
+              nombre: req.body.pubName,
+              region: req.body.pubRegion,
+              url_publicidad: req.body.pubUrl,
+              fechaAgregada: new Date()
+          });
+
+          publicidad.save(function(err){
+              if (err){
+                  return handleError(err);
+              }
+          });
+
+          res.redirect('/publicidad?success=1')
+        });
+      });//#end - unlink
+    });//#end - on.end
 });
 
 

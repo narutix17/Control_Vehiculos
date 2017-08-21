@@ -75,17 +75,17 @@
 							<input id="form-action-type" type="hidden" name="_method" value="post" />
 							<div class="form-group label-floating">
 								<label for="pubName" class="control-label">Nombre</label>
-								<input class="form-control" type="text" id="pubName" name="pubName" id="pubName">
+								<input class="form-control" type="text" id="pubName" name="pubName" id="pubName" required>
 								<p class="help-block">Ingrese el nombre de la publicidad</p>
 							</div>
 							<div class="form-group label-floating">
 								<label for="pubUrl" class="control-label">URL</label>
-								<input type="url" class="form-control" name="pubUrl" id="pubUrl">
+								<input type="url" class="form-control" name="pubUrl" id="pubUrl" required>
 								<p class="help-block">Ingrese el URL al cual lleva la plubicidad</p>
 							</div>
 							<div class="form-group">
 								<label for="project-description">Banner de la publicidad:</label>
-							  <input type="file" id="upl" name="upl" accept="image/*">
+							  <input type="file" id="upl" name="upl" accept="image/*" required>
 							  <div class="input-group">
 							    <input type="text" readonly="" class="form-control" placeholder="Seleccionar archivo...">
 							      <span class="input-group-btn input-group-sm">
@@ -101,7 +101,7 @@
 									<div class = 'col-md-3 col-xs-6'>
 										<label for="project-description">Region(es)</label>
 										<select class="form-control"  name="pubRegion">
-                                            <option>ECU</option>
+                      <option>ECU</option>
 											<option>UIO</option>
 											<option>GYE</option>
 											<option>CUE</option>

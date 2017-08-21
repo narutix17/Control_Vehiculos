@@ -3,6 +3,8 @@ const  passport = require('passport');
 const  Publicidad = require('../models/Publicidad');
 var path = require('path');
 var fs = require('fs');
+var uid = require('uid2');
+var mime = require('mime');
 var TARGET_PATH = path.resolve(__dirname, '../uploads/');
 var IMAGE_TYPES = ['image/jpeg', 'image/png'];
 var router = express.Router();
@@ -50,8 +52,7 @@ router.post('/', function(req, res, next){
     var targetName;
     var tempPath = req.files.upl.path;
     //get the mime type of the file
-    //var type = mime.lookup(req.files.upl.path);
-    var type = "image/png";
+    var type = mime.lookup(req.files.upl.path);
     //get the extension of the file
     var extension = req.files.upl.path.split(/[. ]+/).pop();
 
@@ -61,7 +62,7 @@ router.post('/', function(req, res, next){
     }
 
     //create a new name for the image
-    targetName = "upl" + '.' + extension;
+    targetName = uid(22) + '.' + extension;
 
     //determine the new path to save the image
     targetPath = path.join(TARGET_PATH, targetName);

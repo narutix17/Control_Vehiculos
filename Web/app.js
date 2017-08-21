@@ -87,6 +87,7 @@ app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redi
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 app.use('/css', express.static(__dirname + '/node_modules/datatables/media/css')); // redirect CSS datatables
 app.use('/js', express.static(__dirname + '/node_modules/datatables/media/js')); // redirect JS datatables
+app.use('/uploads', express.static(__dirname + '/uploads')); // redirect JS datatables
 app.use('/material', express.static(__dirname + '/node_modules/bootstrap-material-design/dist')); // redirect JS datatables
 app.use(express.static(path.join(__dirname, 'public')));
 

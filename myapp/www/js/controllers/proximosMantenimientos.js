@@ -10,10 +10,13 @@ angular.module('app.controllers')
 
 
 .controller('proximosMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout) {
-
+  //moment.locale('es');
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  var buscar = true;
 	//funcion para ejecutar las funciones antes de entrar a la vista proximos Mantenimientos
 	$scope.$on('$ionicView.beforeEnter', function () {
     	$scope.CurrentDate = new Date();
+      
     	$scope.cargarvehiculos();
     	$scope.cargarServicios();
   	});
@@ -31,7 +34,8 @@ angular.module('app.controllers')
             		idMarca:resp.rows.item(f).idMarca,
             		idTipo: resp.rows.item(f).idTipo,
             		placa: resp.rows.item(f).placa,
-            		alias: resp.rows.item(f).alias
+            		alias: resp.rows.item(f).alias,
+                kilometraje: resp.rows.item(f).kilometraje
       			});
     		}
   		});
@@ -41,15 +45,18 @@ angular.module('app.controllers')
   	function sumarDias(fecha, dias){
   		fecha.setDate(fecha.getDate() + dias);
   		return fecha;
-	}
+	 }
 	//funcion para cargar los servicios ue se mostraran en la vista Proximos Mantenimientos
 	$scope.cargarServicios = function(){
 		var query = "SELECT * FROM servicio";
+    
 	    $scope.selectedVehicleAlias = [];
 	    $scope.nom = [];
 	    $scope.temporalSave = [];
 	    $scope.vehicleInfoMantenimientos = [];
 	    $scope.selectedVehicleMantenimientos = [];
+      $scope.selectedVehicleMantenimientosKm = [];
+      $scope.selectedVehicleMantenimientosFecha = [];
 	    var x = 2;
 	    var y = -2;
 	    $cordovaSQLite.execute(db, query).then(function(res){ //se ejecuta el query
@@ -69,15 +76,16 @@ angular.module('app.controllers')
 
 	    					for(var j=0; j<$scope.misvehiculos.length; j++){ //se recorre el arreglo de vehiculos para obtener sus datos 
 	    						if ($scope.misvehiculos[j].id == res.rows.item(i).idVehiculo){
-	    							console.log("entraaaaaaaa");
 	    							
-	    							$scope.selectedVehicleMantenimientos.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
+	    							
+	    							$scope.selectedVehicleMantenimientosFecha.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
 	    								fecha: $scope.fecha,
 	    								idtoStyle: x,
 	    								idtoStyle2: y,
 	    								alias: $scope.misvehiculos[j].alias,
 	    								placa: $scope.misvehiculos[j].placa,
-	    								fechaRealizado: $scope.fecha.toString().substring(0, 15),
+                      mostrar: $scope.fecha.toLocaleDateString("es-MX", options),
+	    								fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options),
 	    								nombre: res.rows.item(i).nombre
 	    							});
 	    							x=x+1;
@@ -86,17 +94,72 @@ angular.module('app.controllers')
 	    					}
 
 	    				}
-	    			}
+	    			} else {
+              if (res.rows.item(i).ultimoRealizado != "NaN"){
+                var km = parseInt(res.rows.item(i).ultimoRealizado);
+                console.log("km: "+km);
+                var intervalo = res.rows.item(i).intervalo;
+                console.log("intervalo: "+intervalo);
+                var kmMantenimiento = km + intervalo;
+                console.log("kmMantenimiento: "+kmMantenimiento);
+                for (var k=0; k<$scope.misvehiculos.length; k++){
+                  if ($scope.misvehiculos[k].id == res.rows.item(i).idVehiculo){
+                    var kilometraje = $scope.misvehiculos[k].kilometraje;
+                    console.log("kilometraje: "+kilometraje);
+                    var kmRestante = kmMantenimiento - kilometraje;
+                    console.log("kmRestante: "+kmRestante);
+                    if (kmRestante > 0){
+                      console.log("entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                      $scope.selectedVehicleMantenimientosKm.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
+                        fecha: kmRestante,
+                        idtoStyle: x,
+                        idtoStyle2: y,
+                        alias: $scope.misvehiculos[k].alias,
+                        placa: $scope.misvehiculos[k].placa,
+                        mostrar: "Kilometros restantes: "+kmRestante,
+                        fechaRealizado: $scope.fecha.toString().substring(0, 15),
+                        nombre: res.rows.item(i).nombre
+                      });
+                      x=x+1;
+                      y=y-1;
+                    }
+                  }
+                }
+              }
+            }
 	    		}    	
 	          
 	        
 	        }
+          if($scope.selectedVehicleMantenimientosFecha.length == 0){
+            alert("No hay próximos mantenimientos por fecha para mostrar");
+          }
+          $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosFecha;
 	       	$scope.temporalSave = $scope.selectedVehicleMantenimientos;
 	        $ionicLoading.hide();
 	        $scope.putSize();
 	    });
 
 	}
+
+
+  $scope.onChanged = function(){
+    var ciclo = $("#vista").val();
+    if (ciclo == "Kilometraje"){
+      $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosKm;
+      buscar = false;
+      if ($scope.selectedVehicleMantenimientos.length == 0){
+        alert("No hay próximos mantenimientos por kilometro para mostrar");
+      }
+    }else{
+      $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosFecha;
+      buscar = true;
+      if ($scope.selectedVehicleMantenimientos.length == 0){
+        alert("No hay próximos mantenimientos por fecha para mostrar");
+      }
+    }
+    $scope.putSize();
+  }
 
 	// funcion para obtener la informacion de fecha precio y detalle
     $scope.setInfo = function(fecha, precio, detalle){
@@ -106,20 +169,10 @@ angular.module('app.controllers')
     	$rootScope.setInfoMant.detalle = detalle;
     }
 
-  	//funcion para desplegar los servicios 
-	$scope.toggleGroup = function(group) {
-	    if ($scope.isGroupShown(group)) {
-	      $scope.shownGroup = null;
-	    } else {
-	      $scope.shownGroup = group;
-	    }
-	};
-	$scope.isGroupShown = function(group) {
-	    return $scope.shownGroup === group;
-	};
 
 	//funcion para buscar los proximos mantenimientos
 	$scope.buscar = function(){
+    if (buscar == true){
       var m = 2;
       var p = -2;
       $scope.selectedVehicleMantenimientos = $scope.temporalSave;
@@ -132,7 +185,7 @@ angular.module('app.controllers')
       for(var i=0; i<$scope.selectedVehicleMantenimientos.length; i++){
       	//console.log("fecha1: "+$scope.fecha.toString().substring(0, 15));
       	//console.log("fecha2: "+$scope.selectedVehicleMantenimientos[i].fechaRealizado);
-        if($scope.fecha.toString().substring(0, 15) == $scope.selectedVehicleMantenimientos[i].fechaRealizado){
+        if($scope.fecha.toString().substring(0, 15) == $scope.selectedVehicleMantenimientos[i].fecha.toString().substring(0, 15)){
           var existe = true;
           $scope.arrayTemporal.push({
             nombre: $scope.selectedVehicleMantenimientos[i].nombre,
@@ -140,6 +193,7 @@ angular.module('app.controllers')
             idtoStyle: m,
             idtoStyle2: p,
             fecha: $scope.fecha,
+            mostrar: $scope.selectedVehicleMantenimientos[i].fechaRealizado,
             alias: $scope.selectedVehicleMantenimientos[i].alias,
             fechaRealizado: $scope.selectedVehicleMantenimientos[i].fechaRealizado
           });
@@ -148,13 +202,16 @@ angular.module('app.controllers')
         }
       }
       if(!existe){
-      	alert("No hay servicio para esta fecha");
+      	alert("No hay mantenimiento para esta fecha");
       }
       $scope.selectedVehicleMantenimientos = "";
       $scope.selectedVehicleMantenimientos = $scope.arrayTemporal;
       $ionicLoading.hide();
       $scope.putSize();
+    } else {
+      alert("solo puede realizar busqueda por fechas");
     }
+  }
 
 
     //funcion para cambiar el tamaño de letra de la aplicacion

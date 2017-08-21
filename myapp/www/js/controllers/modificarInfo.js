@@ -8,13 +8,14 @@
 angular.module('app.controllers')
 app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout){
 
+  $scope.newVehicle = {}
   // Informacion ya existente del vehiculo
-  $scope.updatedplaca = $rootScope.chosenVehicle.placa;
-  $scope.updatedalias = $rootScope.chosenVehicle.alias;
-  $scope.updatedmarca = $rootScope.chosenVehicle.marca;
-  $scope.updatedyear = $rootScope.chosenVehicle.year;
-  $scope.updatedcolor = $rootScope.chosenVehicle.color;
-
+  //$scope.updatedplaca = $rootScope.chosenVehicle.placa;
+  //$scope.updatedalias = $rootScope.chosenVehicle.alias;
+  //$scope.updatedmarca = $rootScope.chosenVehicle.marca;
+  //$scope.updatedyear = $rootScope.chosenVehicle.year;
+  //$scope.updatedcolor = $rootScope.chosenVehicle.color;
+    
 
   // We use a loading screen to wait the selected vehicle to be loaded from the database
   $ionicLoading.show({
@@ -25,6 +26,19 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
     showDelay: 0
   });
 
+  $scope.cargarInformacion = function(){
+    console.log("entraaaaaa");
+    $scope.actualid = $rootScope.chosenVehicle.id;
+    var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      console.log("PRIMERPPPPPP: "+res.rows.item(0).placa);
+      console.log(res.rows.item(0).alias);
+      console.log(res.rows.item(0).año);
+      $scope.updatedplaca = res.rows.item(0).placa;
+      $scope.updatedalias = res.rows.item(0).alias;
+      $scope.updatedyear = res.rows.item(0).año;
+    })
+  }
 
   /**
    * We use a listener to wait the selected vehicle to be retrieved from the database.
@@ -75,7 +89,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
       }else{
         console.log("No hay Registros de Vehiculos");
       }
-
+      $scope.cargarInformacion();
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
       // When the vehicle is loaded we hide the Loading screen.
 
@@ -86,25 +100,98 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
       });
   });
 
+  
+
+  //CARGA MARCAS DE TODOS LOS VEHICULOS
+  $scope.cargarMarcas = function(){
+    //$rootScope.serviciosParaAgregar = [];
+    // Hardcoded vehicle for web testing
+    $scope.registrosPlacasVehiculos=[];
+    var query = "select * from marca";
+    $cordovaSQLite.execute(db, query).then(function(res){
+
+      if (res.rows.length > 0){
+        for (var i=0; i<res.rows.length; i++) {
+          $scope.registrosPlacasVehiculos.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          });
+
+        }
+
+      }else{
+        console.log("No hay Registros de Marcas");
+      }
+      console.log("SE CARGARON : "+ res.rows.length + " Marcas");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
+  //CARGA COLORES DE TODOS LOS VEHICULOS
+  $scope.cargarColores = function(){
+    //$rootScope.serviciosParaAgregar = [];
+    // Hardcoded vehicle for web testing
+    $scope.registrosColoresVehiculos=[];
+    var query = "select * from color";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      console.log("TAMAAAAAAAAAAAANOOOOOOOOOOOO: "+res.rows.length);
+      if (res.rows.length > 0){
+        for (var i=0; i<res.rows.length; i++) {
+          console.log(res.rows.item(i).nombre);
+          $scope.registrosColoresVehiculos.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          });
+
+        }
+       
+      }else{
+        console.log("No hay Registros de Colores");
+      }
+      console.log("SE CARGARON : "+ res.rows.length + " Colores");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
+  $scope.cargarColores();
+  $scope.cargarMarcas();
+
   /**
    * Modificar informacion de un vehiculo.
    */
   $scope.actualizarAlias = function(id){
     console.log($scope);
-    alias = document.getElementById("updatedalias").value;
-    placa = document.getElementById("updatedplaca").value;
-    marca = document.getElementById("updatedmarca").value;
-    year = document.getElementById("updatedyear").value;
-    color = document.getElementById("updatedcolor").value;
-    console.log(alias);
-    var query = "UPDATE vehiculo SET alias=?, placa=?, marca=?, año=?, color=?, imagen=? WHERE id=?";
-    console.log(query);
-    $cordovaSQLite.execute(db, query, [alias, placa, marca, year, color, $scope.img, id]).then(function(result) {
-      console.log("Km Actualizado");
-    }, function(error){
-      console.log(error);
-    });
-
+    $scope.actualid = $rootScope.chosenVehicle.id;
+    var query = "SELECT * FROM vehiculo WHERE id = '"+ $scope.actualid +"'";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      alias = document.getElementById("updatedalias").value;
+      placa = document.getElementById("updatedplaca").value;
+      //marca = document.getElementById("updatedmarca").value;
+      year = document.getElementById("updatedyear").value;
+      //color = document.getElementById("updatedcolor").value;
+      console.log(alias);
+      console.log("Marcaaa: "+$scope.newVehicle.idMarca);
+      console.log("Colorrr: "+$scope.newVehicle.newColor);
+      if (typeof($scope.newVehicle.idMarca) == "undefined"){
+        console.log("entra1")
+        $scope.newVehicle.idMarca = res.rows.item(0).idMarca;
+      }
+      if (typeof($scope.newVehicle.newColor) == "undefined"){
+        console.log("entra2")
+        $scope.newVehicle.newColor = res.rows.item(0).color;
+      }
+      console.log("Marcaaa: "+$scope.newVehicle.idMarca);
+      console.log("Colorrr: "+$scope.newVehicle.newColor);
+      var query = "UPDATE vehiculo SET alias=?, placa=?, idMarca=?, año=?, color=?, imagen=? WHERE id=?";
+      console.log(query);
+      $cordovaSQLite.execute(db, query, [alias, placa, $scope.newVehicle.idMarca, year, $scope.newVehicle.newColor, $scope.img, id]).then(function(result) {
+        console.log("Km Actualizado");
+      }, function(error){
+        console.log(error);
+      });
+    })
   }
 
   $scope.fotoGaleria = function() {

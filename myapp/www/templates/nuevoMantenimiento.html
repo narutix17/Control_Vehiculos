@@ -1,9 +1,7 @@
 <ion-view title="Nuevo Mantenimiento" id="page5" ng-controller='DBControllerAgregarMantenimiento'>
 
   <ion-nav-buttons side="right" class="has-header">
-    <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
-      <i class="icon ion-android-home"></i> <span class="back-text"></span>
-    </button>
+    
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
     <form name="nuevoMantenimiento" class="list">
@@ -28,7 +26,7 @@
         <p style="color:#000000;">Fecha del Mantenimiento:</p>
       </div>
       <label class="item item-input custom-input" id="nuevoMantenimiento-input5">
-        <input name="fecha" ng-model="newMantenimiento.fecha" type="date" placeholder="Fecha del Mantenimiento" ng-required="true" ng-model-options="{ updateOn: 'blur' }">
+        <input name="fecha" ng-model="newMantenimiento.fecha" type="date" placeholder="Fecha del Mantenimiento" ng-required="true" id="fecha" ng-model-options="{ updateOn: 'blur' }">
       </label>
       <span class="messages" ng-show="nuevoMantenimiento.$submitted || nuevoMantenimiento.fecha.$touched">
         <span ng-show="nuevoMantenimiento.fecha.$error.required">  La fecha es un campo requerido.</span>

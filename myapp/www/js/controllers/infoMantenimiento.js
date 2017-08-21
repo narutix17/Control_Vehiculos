@@ -8,7 +8,7 @@ angular.module('app.controllers')
 
 app.controller("infoMantenimiento", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
 
-	$scope.fechaMant = $rootScope.setInfoMant.fecha;
+	   $scope.fechaMant = $rootScope.setInfoMant.fecha;
   	$scope.precioMant = $rootScope.setInfoMant.precio;
   	$scope.detalleMant = $rootScope.setInfoMant.detalle;
 

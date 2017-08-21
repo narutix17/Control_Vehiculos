@@ -33,7 +33,7 @@
         <div class="row">
         <div class="col col-60">
           <div class="item item-input custom-input" id="agregarServicioPersonalizado-input11">
-            <input name="intervalo" type="number" placeholder="{{item.intervalo}}" ng-model="servicioEditado.intervalo" ng-required="true" ng-maxlength="10" >
+            <input name="intervalo" type="number" placeholder="{{item.intervalo}}" ng-model="servicioEditado.intervalo" ng-required="true" ng-maxlength="5" ng-minlength="2">
           </div>
         </div>
         <div class="col col-30">
@@ -42,11 +42,11 @@
       </div>
       <span class="messages" ng-show="form13.$submitted || form13.intervalo.$touched">
         <span ng-show="form13.intervalo.$error.required">  El Intervalo es un campo requerido.</span>
-        <span ng-show="form13.intervalo.$error.maxlength">  El Intervalo debe tener máximo 10 digitos.</span>
+        <span ng-show="form13.intervalo.$error.maxlength || form13.nombreServicio.$error.minlength"">  El Intervalo debe tener entre 2 y 5 dígitos.</span>
       </span>
         <br>
       <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots">
-        <p id="kof" style="color:#000000;">Kilometraje de ultimo mantenimiento:</p>
+        <p id="kof" style="color:#000000;">Kilometraje o Fecha de última vez realizado:</p>
       </div>
         <label class="item item-input custom-input" id="agregarServicioPersonalizado-input12">
           <input id="kilfec" name="ultimoRealizado" type="text" placeholder="{{item.ultimoRealizado}}" ng-model="servicioEditado.ultimoRealizado" ng-required="true">

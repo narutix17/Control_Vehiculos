@@ -1,4 +1,4 @@
-<ion-view title="Informacion" id="page2"  cache-view="false">
+<ion-view title="Información" id="page2"  cache-view="false">
   <ion-nav-buttons side="left" class="has-header">
     <a ui-sref="tabsController.listaDeVehiculos()" class="button back-button buttons button-clear header-item">
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
@@ -36,7 +36,7 @@
         <div class="row">
           <form id="actualizarKilometrajeForm" name="actualizarKilometrajeForm" class="list" novalidate>
             <label class="item item-input" id="informaciN-input3" style="border-bottom: solid 1px #ccc !important">
-              <input ng-model="updatedKm.km" ng-min="{{item.kilometraje}}" name="updatedKm" ng-maxlength="7" type="number" ng-required="true" placeholder="{{item.kilometraje}}">
+              <input ng-model="updatedKm.km" ng-min="{{item.kilometraje}}" name="updatedKm" id="KmToUpdate" ng-maxlength="7" type="number" ng-required="true">
             </label>
           </form>
         </div>
@@ -54,11 +54,18 @@
       <p style="color:#000000;">
         <strong>Próximo Mantenimiento:</strong>
       </p>
+      <div ng-repeat="item1 in selectedVehicleMantenimientosFecha | orderBy:'fecha' |limitTo:1 ">
+        <p><u>Por fecha:</u> {{item1.nombre}}</p><br>
+
+      </div>
+      <div ng-repeat="item2 in selectedVehicleMantenimientosKm | orderBy:'fecha' |limitTo:1 ">
+        <p><u>Por Kilometros:</u> {{item2.nombre}}</p>
+      </div>
     </div>
 
     <div id="informaciN-markdown3" class="show-list-numbers-and-dots" style="padding-top: 20px">
         <p style="color:#000000;">
-          <strong>Servicios del vehículo:</strong>
+          <strong>Mantenimientos del vehículo:</strong>
         </p>
     </div>
     <div id="serviciosDeVehiculo" ng-repeat="item in selectedVehicleServices">
@@ -81,11 +88,9 @@
     </div>
 
 
-    </div>
-
 
       <button ui-sref="agregarServicioPersonalizado()" id="informaciN-button1" class="button button-stable button-block">Agregar Servicio Perzonalizado</button>
-      <button  id="informaciN-button2" class="button button-positive button-block" ng-click="puEVehiculo()" style="background-color: #A51D1D; margin-bottom: 10px">Eliminar Vehículo</button>
+      <button id="informaciN-button2" class="button button-positive button-block" ng-click="puEVehiculo()">Eliminar Vehículo</button>
 
     <div class="spacer" style="height: 5px;"></div>
     </div>

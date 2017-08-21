@@ -196,7 +196,8 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
       date: _5_SecondsFromNow,
       message: "Toque para ingresar a los servicios por realizar",
       title: "Servicio a Realizar Mañana",
-      sound: null
+      sound: null,
+      icon: 'res://icononotificacion.png'
     }).then(function () {
       alert("Notification Set");
     });

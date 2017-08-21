@@ -28,9 +28,6 @@ angular.module('app.controllers')
     }
   });
 
-  $scope.$on('$ionicView.afterEnter', function(){
-    $scope.putSize();
-  });
 
 
   //$("label input").on("show-invalid",function(){
@@ -60,6 +57,7 @@ angular.module('app.controllers')
 
     console.log("nativeURL: "+$scope.img);
     var servicios = $rootScope.serviciosParaAgregar;
+    console.log("color: "+$scope.newVehicle.newColor);
     var query = "INSERT INTO vehiculo (idTipo,idMarca, color, placa, alias, año, kilometraje, imagen) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
     $cordovaSQLite.execute(db, query, [$scope.newVehicle.idTipo,$scope.newVehicle.idMarca, $scope.newVehicle.newColor, $scope.newVehicle.newPlaca, $scope.newVehicle.newAlias, $scope.newVehicle.newYear, $scope.newVehicle.newKilometraje, $scope.img]).then(function(result) {
       console.log("Vehiculo Agregado");
@@ -169,6 +167,7 @@ angular.module('app.controllers')
     $scope.registrosPlacasVehiculos=[];
     var query = "select * from marca";
     $cordovaSQLite.execute(db, query).then(function(res){
+
       if (res.rows.length > 0){
         for (var i=0; i<res.rows.length; i++) {
           $scope.registrosPlacasVehiculos.push({
@@ -177,10 +176,61 @@ angular.module('app.controllers')
           });
 
         }
+
       }else{
         console.log("No hay Registros de Marcas");
       }
       console.log("SE CARGARON : "+ res.rows.length + " Marcas");
+    }, function(error){
+      console.log(error);
+    });
+  }
+
+
+  $('body').on('focusout', '#placa', function(){
+    var valorPlaca = $scope.newVehicle.newPlaca;
+    console.log("en la placaaaa: "+valorPlaca);
+    console.log("en la placaaaa: "+$scope.newVehicle.newPlaca);
+
+    //var digitos = valorPlaca.length;
+
+    // Aqui esta el patron(expresion regular) a buscar en el input
+    patronPlaca = /([A-Za-z]{3}-\d{3,4})/;
+    
+    if( patronPlaca.test($scope.newVehicle.newPlaca) )
+    {
+      console.log('Yeah!! si es correcto');
+      $('#mensaje').text('');
+    }
+    else
+    {
+      $('#mensaje').text('Formato de Placa no valida');
+    }
+  })
+
+  //CARGA COLORES DE TODOS LOS VEHICULOS
+  $scope.cargarColores = function(){
+    //$rootScope.serviciosParaAgregar = [];
+    // Hardcoded vehicle for web testing
+    $scope.registrosColoresVehiculos=[];
+    var query = "select * from color";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      console.log("TAMAAAAAAAAAAAANOOOOOOOOOOOO: "+res.rows.length);
+      if (res.rows.length > 0){
+        for (var i=0; i<res.rows.length; i++) {
+          console.log("nombre: "+res.rows.item(i).nombre);
+          console.log("id: "+res.rows.item(i).id);
+          $scope.registrosColoresVehiculos.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          });
+
+        }
+       
+      }else{
+        console.log("No hay Registros de Colores");
+      }
+      console.log("SE CARGARON : "+ res.rows.length + " Colores");
     }, function(error){
       console.log(error);
     });
@@ -211,6 +261,7 @@ angular.module('app.controllers')
     });
   }
 
+  $scope.cargarColores();
   $scope.cargarPlacas();
   $scope.cargarTiposVehiculos();
   //$scope.putSize();
@@ -472,14 +523,15 @@ angular.module('app.controllers')
     var hora = Math.floor(Math.random() * (20 - 8)) + 8;
     diaNotificacion.setHours(hora);
     var now = new Date().getTime();
-    var _5_SecondsFromNow = new Date(now + 15 * 1000);
+    var _5_SecondsFromNow = new Date(now + 10 * 1000);
     $cordovaLocalNotification.schedule({
       id: nombreServicio+placa,
       date: _5_SecondsFromNow,
       //date: dianotificacion,
       message: "Toque para ingresar a los servicios por realizar",
       title: "Servicio a Realizar Mañana",
-      sound: null
+      sound: null,
+      icon: 'res://icononotificacion.png'
     }).then(function () {
       alert("Notification Set");
     });

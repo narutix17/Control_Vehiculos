@@ -17,12 +17,18 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/login', function(req, res, next){
+    if (req.query.success){
+      res.render('login', { user: req.user, message: "El usuario o contrasena son incorrectos. Por favor, ingrese nuevamente." });
+    }
+    if (req.user){
+      res.render('publicidad', {user: req.user});
+    }
     res.render('login', { user: req.user });
   });
 
 router.post('/login', passport.authenticate(
 	'local', { successRedirect: '/publicidad',
-            	failureRedirect: '/login'})
+            	failureRedirect: '/login?success=0'})
 );
 
 router.get('/logout', function(req, res, next){

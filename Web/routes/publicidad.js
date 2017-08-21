@@ -96,6 +96,7 @@ router.post('/', function(req, res, next){
           var publicidad = new Publicidad({
               id: newId,
               nombre: req.body.pubName,
+              file_name: targetName,
               region: req.body.pubRegion,
               url_publicidad: req.body.pubUrl,
               fechaAgregada: new Date()

@@ -8,7 +8,8 @@ var publicidadSchema = new Schema({
     nombre: String,
     region: [String],
     url_publicidad: String,
-    fechaAgregada: String
+    fechaAgregada: String,
+    file_name: String
 },
 {
     collection: 'Publicidades'

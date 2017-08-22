@@ -107,6 +107,7 @@ angular.module('app.controllers')
     var query = "SELECT vehiculo.id,vehiculo.idTipo,vehiculo.color,vehiculo.placa,vehiculo.idMarca,vehiculo.alias,vehiculo.año,vehiculo.kilometraje,vehiculo.imagen,marca.nombre as marca FROM vehiculo JOIN marca ON vehiculo.idMarca=marca.id";
     $cordovaSQLite.execute(db, query).then(function(res){
       if (res.rows.length > 0){
+        document.getElementById("vacio").innerHTML = "";
         for (var i=0; i<res.rows.length; i++) {
           if (localStorage.getItem("Alias") == "true"){
             $scope.registrosVehiculos.push({
@@ -176,6 +177,7 @@ angular.module('app.controllers')
         }
       }else{
         console.log("No hay Registros de Vehiculos");
+        document.getElementById("vacio").innerHTML = "LISTA DE VEHICULOS VACIA";
       }
       $scope.putSize();
       console.log("SE CARGARON : "+ res.rows.length + " VEHICULOS");
@@ -249,7 +251,7 @@ angular.module('app.controllers')
             onTap: function(e){
               angular.element($("#"+idVehiculo)).remove();
               $scope.eliminarVehiculo(idVehiculo);
-
+              //$scope.cargarVehiculos();
             }
          },
          {

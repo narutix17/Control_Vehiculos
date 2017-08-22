@@ -191,15 +191,43 @@ angular.module('app.controllers')
     $cordovaSQLite.execute(db, query).then(function(res){
       for(var i=0;i<res.rows.length; i++){
         console.log("placas");
-        console.log(res.rows.item(i).placa);
-        console.log(placa);
-        if(res.rows.item(i).placa == placa){
+        console.log(res.rows.item(i).placa.toLowerCase());
+        console.log(placa.toLowerCase());
+        if(res.rows.item(i).placa.toLowerCase() == placa.toLowerCase()){
           console.log("entro aca");
           $scope.popUpPlacaRepetida();
           $scope.newVehicle.newPlaca = "";
         }
       }
     })
+  }
+
+  $scope.verificarMantenimientosRepetidos = function(nombre){
+    $scope.lastViewTitle = $ionicHistory.backTitle();
+    if ($scope.lastViewTitle == "Información"){
+      var query = "select * from servicio WHERE idVehiculo = ?";
+      $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
+        for(var i=0;i<res.rows.length; i++){
+          console.log("nombres");
+          console.log(res.rows.item(i).nombre.toLowerCase());
+          console.log(nombre.toLowerCase());
+          if(res.rows.item(i).nombre.toLowerCase() == nombre.toLowerCase()){
+            console.log("entro aca");
+            $scope.popUpMantenimientoRepetido();
+            $scope.newService.nombre = "";
+            break;
+          }
+        }
+      })
+    } else {
+      for(var j=0; j<$rootScope.serviciosParaAgregar.length; j++){
+        if($rootScope.serviciosParaAgregar[j].nombre.toLowerCase() == nombre.toLowerCase()){
+          $scope.popUpMantenimientoRepetido();
+            $scope.newService.nombre = "";
+            break;
+        }
+      } 
+    }
   }
 
   $scope.popUpPlacaRepetida = function() {
@@ -212,7 +240,17 @@ angular.module('app.controllers')
     });
   };
 
+  $scope.popUpMantenimientoRepetido = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Nombre de Mantenimiento Existente',
+      template: 'El nombre de mantenimiento ingresada ya existe, por favor ingrese un nuevo nombre o edite el existente'
+    });
+    alertPopup.then(function(res) {
+      console.log('placa repetida');
+    });
+  };
 
+  // verificacion de placa
   $('body').on('focusout', '#placa', function(){
     var valorPlaca = $scope.newVehicle.newPlaca;
     console.log("en la placaaaa: "+valorPlaca);
@@ -233,6 +271,13 @@ angular.module('app.controllers')
       $('#mensaje').text('Formato de Placa no valida');
     }
     $scope.verificarPlacas(valorPlaca);
+  })
+
+  //verificacion de mantenimientos repetidos 
+  $('body').on('focusout', '#nombreMantenimiento', function(){
+    var nombre = $scope.newService.nombre;
+    console.log("en la placaaaa: "+nombre);
+    $scope.verificarMantenimientosRepetidos(nombre);
   })
 
   //CARGA COLORES DE TODOS LOS VEHICULOS

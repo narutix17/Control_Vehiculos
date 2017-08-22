@@ -13,7 +13,7 @@
         <p style="color:#000000;">Nombre:</p>
       </div>
       <div class="item item-input custom-input" id="agregarServicioPersonalizado-input10">
-        <input type="text" placeholder="Nombre del Servicio" ng-model="newService.nombre" name="nombreServicio" ng-required="true" ng-maxlength="20" ng-minlength="3" value="">
+        <input type="text" id="nombreMantenimiento" placeholder="Nombre del Servicio" ng-model="newService.nombre" name="nombreServicio" ng-required="true" ng-maxlength="20" ng-minlength="3" value="">
       </div>
       <span class="messages" ng-show="form13.$submitted || form13.nombreServicio.$touched">
         <span ng-show="form13.nombreServicio.$error.required">  * El nombre de servicio es un campo requerido.</span>

@@ -186,6 +186,32 @@ angular.module('app.controllers')
     });
   }
 
+  $scope.verificarPlacas = function(placa){
+    var query = "select * from vehiculo";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      for(var i=0;i<res.rows.length; i++){
+        console.log("placas");
+        console.log(res.rows.item(i).placa);
+        console.log(placa);
+        if(res.rows.item(i).placa == placa){
+          console.log("entro aca");
+          $scope.popUpPlacaRepetida();
+          $scope.newVehicle.newPlaca = "";
+        }
+      }
+    })
+  }
+
+  $scope.popUpPlacaRepetida = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Placa Existente',
+      template: 'La placa ingresada ya existe, por favor ingrese una nueva placa'
+    });
+    alertPopup.then(function(res) {
+      console.log('placa repetida');
+    });
+  };
+
 
   $('body').on('focusout', '#placa', function(){
     var valorPlaca = $scope.newVehicle.newPlaca;
@@ -206,6 +232,7 @@ angular.module('app.controllers')
     {
       $('#mensaje').text('Formato de Placa no valida');
     }
+    $scope.verificarPlacas(valorPlaca);
   })
 
   //CARGA COLORES DE TODOS LOS VEHICULOS

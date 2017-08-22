@@ -130,7 +130,7 @@ angular.module('app.controllers')
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
     console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
 
-    if ($scope.lastViewTitle == "Informacion"){
+    if ($scope.lastViewTitle == "Información"){
       $scope.serviciosAgregar = [];
       $scope.serviciosAgregar.push({
         nombre: $scope.newService.nombre,

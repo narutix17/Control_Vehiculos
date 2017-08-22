@@ -9,92 +9,92 @@
 angular.module('app.controllers')
 
 
-.controller('proximosMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout) {
+.controller('proximosMantenimientos', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout, $ionicPopup) {
   //moment.locale('es');
   var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   var buscar = true;
-	//funcion para ejecutar las funciones antes de entrar a la vista proximos Mantenimientos
-	$scope.$on('$ionicView.beforeEnter', function () {
-    	$scope.CurrentDate = new Date();
+  //funcion para ejecutar las funciones antes de entrar a la vista proximos Mantenimientos
+  $scope.$on('$ionicView.beforeEnter', function () {
+      $scope.CurrentDate = new Date();
       
-    	$scope.cargarvehiculos();
-    	$scope.cargarServicios();
-  	});
+      $scope.cargarvehiculos();
+      $scope.cargarServicios();
+    });
 
-	//funcion para cargar los vehiculos 
-	$scope.cargarvehiculos = function(){
-		$scope.misvehiculos = [];
-		var querys = "SELECT * FROM vehiculo";
-		console.log("ingresaAaAaaaaaaaa");
-  		$cordovaSQLite.execute(db, querys).then(function(resp){
-    		console.log("si entra ps");
-    		for (var f=0; f<resp.rows.length; f++) {
-      			$scope.misvehiculos.push({ //arreglo con la informacion de mis vehiculos
-      				id: resp.rows.item(f).id,
-            		idMarca:resp.rows.item(f).idMarca,
-            		idTipo: resp.rows.item(f).idTipo,
-            		placa: resp.rows.item(f).placa,
-            		alias: resp.rows.item(f).alias,
+  //funcion para cargar los vehiculos 
+  $scope.cargarvehiculos = function(){
+    $scope.misvehiculos = [];
+    var querys = "SELECT * FROM vehiculo";
+    console.log("ingresaAaAaaaaaaaa");
+      $cordovaSQLite.execute(db, querys).then(function(resp){
+        console.log("si entra ps");
+        for (var f=0; f<resp.rows.length; f++) {
+            $scope.misvehiculos.push({ //arreglo con la informacion de mis vehiculos
+              id: resp.rows.item(f).id,
+                idMarca:resp.rows.item(f).idMarca,
+                idTipo: resp.rows.item(f).idTipo,
+                placa: resp.rows.item(f).placa,
+                alias: resp.rows.item(f).alias,
                 kilometraje: resp.rows.item(f).kilometraje
-      			});
-    		}
-  		});
-  		console.log("tamaño: "+$scope.misvehiculos.length);
-  	}
-  	//funcion para sumar los dias y determinar cuando toca un mantenimiento
-  	function sumarDias(fecha, dias){
-  		fecha.setDate(fecha.getDate() + dias);
-  		return fecha;
-	 }
-	//funcion para cargar los servicios ue se mostraran en la vista Proximos Mantenimientos
-	$scope.cargarServicios = function(){
-		var query = "SELECT * FROM servicio";
+            });
+        }
+      });
+      console.log("tamaño: "+$scope.misvehiculos.length);
+    }
+    //funcion para sumar los dias y determinar cuando toca un mantenimiento
+    function sumarDias(fecha, dias){
+      fecha.setDate(fecha.getDate() + dias);
+      return fecha;
+   }
+  //funcion para cargar los servicios ue se mostraran en la vista Proximos Mantenimientos
+  $scope.cargarServicios = function(){
+    var query = "SELECT * FROM servicio";
     
-	    $scope.selectedVehicleAlias = [];
-	    $scope.nom = [];
-	    $scope.temporalSave = [];
-	    $scope.vehicleInfoMantenimientos = [];
-	    $scope.selectedVehicleMantenimientos = [];
+      $scope.selectedVehicleAlias = [];
+      $scope.nom = [];
+      $scope.temporalSave = [];
+      $scope.vehicleInfoMantenimientos = [];
+      $scope.selectedVehicleMantenimientos = [];
       $scope.selectedVehicleMantenimientosKm = [];
       $scope.selectedVehicleMantenimientosFecha = [];
-	    var x = 2;
-	    var y = -2;
-	    $cordovaSQLite.execute(db, query).then(function(res){ //se ejecuta el query
-	        if (res.rows.length > 0){
-	        	console.log("cantidad: "+res.rows.length);
-	    		for(var i=0; i<res.rows.length; i++){
-	    			console.log("tipo: "+res.rows.item(i).idTipoIntervalo);
-	    			if (res.rows.item(i).idTipoIntervalo == "Fecha"){ //condicion para verificar ue el tipo de intervalo sea por fecha
+      var x = 2;
+      var y = -2;
+      $cordovaSQLite.execute(db, query).then(function(res){ //se ejecuta el query
+          if (res.rows.length > 0){
+            console.log("cantidad: "+res.rows.length);
+          for(var i=0; i<res.rows.length; i++){
+            console.log("tipo: "+res.rows.item(i).idTipoIntervalo);
+            if (res.rows.item(i).idTipoIntervalo == "Fecha"){ //condicion para verificar ue el tipo de intervalo sea por fecha
 
-	    				$scope.fecha = new Date(res.rows.item(i).ultimoRealizado);
-	    				console.log("fechaa1: "+$scope.CurrentDate.toString().substring(0, 15));
-	    				console.log("fechaa2: "+$scope.fecha.toString().substring(0, 15));
+              $scope.fecha = new Date(res.rows.item(i).ultimoRealizado);
+              console.log("fechaa1: "+$scope.CurrentDate.toString().substring(0, 15));
+              console.log("fechaa2: "+$scope.fecha.toString().substring(0, 15));
 
-	    				console.log("fecha3: "+sumarDias($scope.fecha, res.rows.item(i).intervalo+1)); //se suma los dias
+              console.log("fecha3: "+sumarDias($scope.fecha, res.rows.item(i).intervalo+1)); //se suma los dias
 
-	    				if ($scope.CurrentDate < $scope.fecha){ //condicion para solo obtener los servicios de fechas proximas
+              if ($scope.CurrentDate < $scope.fecha){ //condicion para solo obtener los servicios de fechas proximas
 
-	    					for(var j=0; j<$scope.misvehiculos.length; j++){ //se recorre el arreglo de vehiculos para obtener sus datos 
-	    						if ($scope.misvehiculos[j].id == res.rows.item(i).idVehiculo){
-	    							
-	    							
-	    							$scope.selectedVehicleMantenimientosFecha.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
-	    								fecha: $scope.fecha,
-	    								idtoStyle: x,
-	    								idtoStyle2: y,
-	    								alias: $scope.misvehiculos[j].alias,
-	    								placa: $scope.misvehiculos[j].placa,
+                for(var j=0; j<$scope.misvehiculos.length; j++){ //se recorre el arreglo de vehiculos para obtener sus datos 
+                  if ($scope.misvehiculos[j].id == res.rows.item(i).idVehiculo){
+                    
+                    
+                    $scope.selectedVehicleMantenimientosFecha.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
+                      fecha: $scope.fecha,
+                      idtoStyle: x,
+                      idtoStyle2: y,
+                      alias: $scope.misvehiculos[j].alias,
+                      placa: $scope.misvehiculos[j].placa,
                       mostrar: $scope.fecha.toLocaleDateString("es-MX", options),
-	    								fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options),
-	    								nombre: res.rows.item(i).nombre
-	    							});
-	    							x=x+1;
-	    							y=y-1;
-	    						}
-	    					}
+                      fechaRealizado: $scope.fecha.toLocaleDateString("es-MX", options),
+                      nombre: res.rows.item(i).nombre
+                    });
+                    x=x+1;
+                    y=y-1;
+                  }
+                }
 
-	    				}
-	    			} else {
+              }
+            } else {
               if (res.rows.item(i).ultimoRealizado != "NaN"){
                 var km = parseInt(res.rows.item(i).ultimoRealizado);
                 console.log("km: "+km);
@@ -127,20 +127,20 @@ angular.module('app.controllers')
                 }
               }
             }
-	    		}    	
-	          
-	        
-	        }
+          }     
+            
+          
+          }
           if($scope.selectedVehicleMantenimientosFecha.length == 0){
-            alert("No hay próximos mantenimientos por fecha para mostrar");
+            $scope.popUpFechas();
           }
           $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosFecha;
-	       	$scope.temporalSave = $scope.selectedVehicleMantenimientos;
-	        $ionicLoading.hide();
-	        $scope.putSize();
-	    });
+          $scope.temporalSave = $scope.selectedVehicleMantenimientos;
+          $ionicLoading.hide();
+          $scope.putSize();
+      });
 
-	}
+  }
 
 
   $scope.onChanged = function(){
@@ -149,29 +149,29 @@ angular.module('app.controllers')
       $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosKm;
       buscar = false;
       if ($scope.selectedVehicleMantenimientos.length == 0){
-        alert("No hay próximos mantenimientos por kilometro para mostrar");
+        $scope.popUpKilometros();
       }
     }else{
       $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosFecha;
       buscar = true;
       if ($scope.selectedVehicleMantenimientos.length == 0){
-        alert("No hay próximos mantenimientos por fecha para mostrar");
+        $scope.popUpFechas();
       }
     }
     $scope.putSize();
   }
 
-	// funcion para obtener la informacion de fecha precio y detalle
+  // funcion para obtener la informacion de fecha precio y detalle
     $scope.setInfo = function(fecha, precio, detalle){
-    	$rootScope.setInfoMant = {}
-    	$rootScope.setInfoMant.fecha = fecha;
-    	$rootScope.setInfoMant.precio = precio;
-    	$rootScope.setInfoMant.detalle = detalle;
+      $rootScope.setInfoMant = {}
+      $rootScope.setInfoMant.fecha = fecha;
+      $rootScope.setInfoMant.precio = precio;
+      $rootScope.setInfoMant.detalle = detalle;
     }
 
 
-	//funcion para buscar los proximos mantenimientos
-	$scope.buscar = function(){
+  //funcion para buscar los proximos mantenimientos
+  $scope.buscar = function(){
     if (buscar == true){
       var m = 2;
       var p = -2;
@@ -183,8 +183,8 @@ angular.module('app.controllers')
       //$scope.arrayTemporal = $scope.vehicleMantenimientos;
 
       for(var i=0; i<$scope.selectedVehicleMantenimientos.length; i++){
-      	//console.log("fecha1: "+$scope.fecha.toString().substring(0, 15));
-      	//console.log("fecha2: "+$scope.selectedVehicleMantenimientos[i].fechaRealizado);
+        //console.log("fecha1: "+$scope.fecha.toString().substring(0, 15));
+        //console.log("fecha2: "+$scope.selectedVehicleMantenimientos[i].fechaRealizado);
         if($scope.fecha.toString().substring(0, 15) == $scope.selectedVehicleMantenimientos[i].fecha.toString().substring(0, 15)){
           var existe = true;
           $scope.arrayTemporal.push({
@@ -202,16 +202,56 @@ angular.module('app.controllers')
         }
       }
       if(!existe){
-      	alert("No hay mantenimiento para esta fecha");
+        $scope.popUpNoFechaMostrar();
       }
       $scope.selectedVehicleMantenimientos = "";
       $scope.selectedVehicleMantenimientos = $scope.arrayTemporal;
       $ionicLoading.hide();
       $scope.putSize();
     } else {
-      alert("solo puede realizar busqueda por fechas");
+      $scope.popUpBuscarPorFecha();
     }
   }
+
+  $scope.popUpBuscarPorFecha = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Error de busqueda',
+      template: 'Solo puede realizar busqueda por fechas'
+    });
+    alertPopup.then(function(res) {
+      console.log('solo por fechas');
+    });
+  };
+
+  $scope.popUpKilometros = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Mantenimientos por Kilometros',
+      template: 'No hay próximos mantenimientos por kilometro para mostrar'
+    });
+    alertPopup.then(function(res) {
+      console.log('solo por fechas');
+    });
+  };
+
+  $scope.popUpFechas = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Mantenimiento por Fecha',
+      template: 'No hay próximos mantenimientos por Fecha para mostrar'
+    });
+    alertPopup.then(function(res) {
+      console.log('solo por fechas');
+    });
+  };
+
+  $scope.popUpNoFechaMostrar = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Busqueda por Fecha',
+      template: 'No hay mantenimientos para mostrar en esta fecha'
+    });
+    alertPopup.then(function(res) {
+      console.log('solo por fechas');
+    });
+  };
 
 
     //funcion para cambiar el tamaño de letra de la aplicacion

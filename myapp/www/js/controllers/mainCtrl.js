@@ -14,7 +14,7 @@ app.controller("MainCtrl", ['$scope', '$http', '$cordovaSQLite', '$rootScope', '
 
 	mostrarPublicidad();
 
-	var procesoDePublicidades = setInterval(mostrarPublicidad, 30 * 1000);
+	var procesoDePublicidades = setInterval(mostrarPublicidad, 60 * 1000);
 
 	function mostrarPublicidad(){
 

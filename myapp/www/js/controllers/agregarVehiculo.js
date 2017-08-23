@@ -257,20 +257,18 @@ angular.module('app.controllers')
     console.log("en la placaaaa: "+$scope.newVehicle.newPlaca);
 
     //var digitos = valorPlaca.length;
-
+    var valorPlaca = document.getElementById("placa").value;
     // Aqui esta el patron(expresion regular) a buscar en el input
     patronPlaca = /([A-Za-z]{3}-\d{3,4})/;
 
-    if( patronPlaca.test($scope.newVehicle.newPlaca) )
+    if( patronPlaca.test(valorPlaca) )
     {
       console.log('Yeah!! si es correcto');
       $('#mensaje').text('');
-      $('#mensaje').css('display', 'none');
     }
     else
     {
       $('#mensaje').text('Formato de Placa no valida. ');
-      $('#mensaje').css('display', 'inline');
     }
     $scope.verificarPlacas(valorPlaca);
   })

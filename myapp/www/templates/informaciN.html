@@ -8,15 +8,15 @@
     <div ng-controller="DBControllerOneVehiculo">
     <div ng-repeat="item in selectedVehicle">
     <div>
-      <button class="button button-fab button-fab-top-right button-dark icon ion-edit" style="position: fixed !important;" ui-sref="modificarInformacion()" id="modInfo"> </button>
+      <button class="button button-fab button-fab-top-right button-dark icon ion-edit animated fadeIn" style="position: fixed !important;" ui-sref="modificarInformacion()" id="modInfo"> </button>
     </div>
-    <div class="row">
+    <div class="row animated fadeIn">
       <div class = "col col-100 align-center" style="margin: 0px; padding-top: 20px">
         <img id="foto" src="{{item.imagen}}" style="vertical-align: left; height: 200px; width: 200px; border-radius: 100px">
       </div>
     </div>
     <div class="row">
-      <div class = "col col-50">
+      <div class = "col col-50 animated fadeInLeft">
         <div style="padding-top: 15px; padding-left: 5px">
           <p><strong> Alias: </strong> {{item.alias}} </p>
           <p><strong> Placa: </strong> {{item.placa}} </p>
@@ -25,7 +25,7 @@
           <p><strong> Color: </strong> {{item.color}} </p>
         </div>
       </div>
-      <div class="col col-50">
+      <div class="col col-50 animated fadeInRight">
         <div class="row" style="padding-top: 15px;">
           <div id="informaciN-markdown1" class="show-list-numbers-and-dots">
             <p style="color:#000000;">
@@ -50,7 +50,7 @@
     </div>
     </div>
 
-    <div id="informaciN-markdown2" class="show-list-numbers-and-dots" style="padding-top: 20px;">
+    <div id="informaciN-markdown2" class="show-list-numbers-and-dots animated fadeIn" style="padding-top: 20px;">
       <p style="color:#000000;">
         <h4><strong>Próximos Mantenimientos:</strong></h4>
       </p>

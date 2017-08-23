@@ -4,10 +4,10 @@
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
     </button>
   </ion-nav-buttons>
-  <ion-content padding="true" class="has-header">
+  <ion-content padding="true" class="has-header animated fadeInDown">
 
     <form id="gastos-form5" name="gastosForm" class="list" novalidate ng-model="formularioGastos">
-      <p>Elegir modo de visualizacion: </p>
+      <p class="bold">Elegir modo de visualizacion: </p>
       <label class="item item-select" id="gastos-select1" style="border-bottom: solid 1px #ccc !important">
         <select ng-model="actGastos.intervalo" ng-required="true" name="intervalo">
 
@@ -19,13 +19,13 @@
 
 
       <div id="gastos-markdown8" class="show-list-numbers-and-dots" style="padding-top: 15px;">
-        <p style="color:#000000;">Fecha inicio:</p>
+        <p style="color:#000000;" class="bold">Fecha inicio:</p>
       </div>
       <label class="item item-input" id="gastos-input7" style="border-bottom: solid 1px #ccc !important; padding-top: 15px;">
         <input type="date" placeholder="" ng-required="true" ng-model="actGastos.fechaini" name="fechaini">
       </label>
       <div id="gastos-markdown9" class="show-list-numbers-and-dots" style="padding-top: 15px;">
-        <p style="color:#000000;">Fecha fin:</p>
+        <p style="color:#000000;" class="bold">Fecha fin:</p>
       </div>
       <label class="item item-input" id="gastos-input8" style="margin-bottom: 15px; border-bottom: solid 1px #ccc !important;">
         <input type="date" placeholder="" ng-required="true" ng-model="actGastos.fechafin" name="fechafin">

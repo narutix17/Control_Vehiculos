@@ -11,7 +11,7 @@
       <button class="button button-fab button-fab-top-right button-dark icon ion-edit animated fadeIn" style="position: fixed !important;" ui-sref="modificarInformacion()" id="modInfo"> </button>
     </div>
     <div class="row animated fadeIn">
-      <div class = "col col-100 align-center" style="margin: 0px; padding-top: 20px">
+      <div class = "col col-100 align-center" style="margin: 0px; padding-top: 20px" id="divFoto" ng-click="tada()">
         <img id="foto" src="{{item.imagen}}" style="vertical-align: left; height: 200px; width: 200px; border-radius: 100px">
       </div>
     </div>
@@ -48,9 +48,9 @@
         </div>
       </div>
     </div>
-    </div>
 
-    <div id="informaciN-markdown2" class="show-list-numbers-and-dots animated fadeIn" style="padding-top: 20px;">
+
+    <div id="informaciN-markdown2" class="show-list-numbers-and-dots animated fadeInUp" style="padding-top: 20px;">
       <p style="color:#000000;">
         <h4><strong>Próximos Mantenimientos:</strong></h4>
       </p>
@@ -108,7 +108,7 @@
 
       <button ui-sref="agregarServicioPersonalizado()" id="informaciN-button1" class="button button-stable button-block">Agregar Servicio Perzonalizado</button>
       <button id="informaciN-button2" class="button button-positive button-block" ng-click="puEVehiculo()">Eliminar Vehículo</button>
-
+    </div>
     <div class="spacer" style="height: 5px;"></div>
     </div>
   </ion-content>

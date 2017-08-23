@@ -13,7 +13,9 @@ angular.module('app.controllers')
 
 app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$ionicPopup', '$state', '$cordovaImagePicker', '$cordovaCamera', '$timeout', '$cordovaLocalNotification', '$ionicPopup', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $ionicPopup, $state, $cordovaImagePicker, $cordovaCamera, $timeout, $cordovaLocalNotification, $ionicPopup){
 
-
+  $scope.tada = function (){
+    document.getElementById("modInfo").setAttribute("class", "button button-fab button-fab-top-right button-dark icon ion-edit animated tada");
+  }
 
   $scope.updatedKm = {};
   //$scope.updatedKm.km = parseInt($rootScope.chosenVehicle.km);

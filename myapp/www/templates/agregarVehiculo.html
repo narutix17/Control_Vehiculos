@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <form id="agregarVehiculo-form1" class="list" name="newVehicleForm" novalidate ng-model="formulario">
+    <form id="agregarVehiculo-form1" class="list" name="newVehicleForm" ng-model="formulario">
     <label >
       <ion-md-input placeholder="Placa" hightlight-color="assertive" ng-maxlength="8" ng-minlength="6" ng-required="true" type="text" id="placa" ng-model="newVehicle.newPlaca" ng-model-options="{ updateOn: 'keyup' }" name="newPlaca" ></ion-md-input>
     </label class="item item-input">
@@ -37,8 +37,8 @@
       </span>
       <ion-md-input placeholder="Año" hightlight-color="assertive" ng-maxlength="4" ng-min="1950" ng-max="2017" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newVehicle.newYear" ng-model-options="{ updateOn: 'blur' }" name="newYear"></ion-md-input>
       <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newYear.$touched">
-        <span ng-show="newVehicleForm.newYear.$error.minlength || newVehicleForm.newYear.$error.maxlength">  >El año debe tener 4 digitos.</span>
-        <span ng-show="newVehicleForm.newYear.$error.min || newVehicleForm.newYear.$error.max">  "El año debe ser valido.</span>
+        <span ng-show="newVehicleForm.newYear.$error.minlength || newVehicleForm.newYear.$error.maxlength">El año debe tener 4 digitos.</span>
+        <span ng-show="newVehicleForm.newYear.$error.min || newVehicleForm.newYear.$error.max">El año debe ser valido.</span>
       </span>
 
       <label class="item item-select custom-input" id="agregarVehiculo-input3" style="margin-top: 8px; height: 50px; padding-top: 10px">
@@ -50,12 +50,12 @@
       <ion-md-input placeholder="Alias" hightlight-color="assertive" ng-maxlength="20" ng-minlength="1" ng-required="true" type="text" placeholder="" id="agregarVehiculo-input5b" ng-model="newVehicle.newAlias" ng-model-options="{ updateOn: 'blur' }" name="newAlias"></ion-md-input>
       <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newAlias.$touched">
         <span ng-show="newVehicleForm.newAlias.$error.required">El Alias es un campo requerido.</span>
-        <span ng-show="newVehicleForm.newAlias.$error.minlength || newVehicleForm.newAlias.$error.maxlength">  "El alias debe tener entre 3 y 20 caracteres.</span>
+        <span ng-show="newVehicleForm.newAlias.$error.minlength || newVehicleForm.newAlias.$error.maxlength">El alias debe tener entre 3 y 20 caracteres.</span>
       </span>
       <ion-md-input placeholder="Kilometraje" hightlight-color="assertive" type="number" ng-maxlength="7" ng-minlength="1" placeholder="" ng-required="true" id="agregarVehiculo-input5b" ng-model="newVehicle.newKilometraje" ng-model-options="{ updateOn: 'blur' }" name="newKilometraje"></ion-md-input>
       <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newKilometraje.$touched">
         <span ng-show="newVehicleForm.newKilometraje.$error.required">El Kilometraje es un campo requerido.</span>
-        <span ng-show="newVehicleForm.newKilometraje.$error.minlength || newVehicleForm.newKilometraje.$error.maxlength">  *El Kilometraje debe tener maximo 7 digitos.</span>
+        <span ng-show="newVehicleForm.newKilometraje.$error.minlength || newVehicleForm.newKilometraje.$error.maxlength">El Kilometraje debe tener maximo 7 digitos.</span>
       </span>
 
       <label class="item item-select custom-input" id="agregarVehiculo-select1" style="margin-top: 8px; height: 50px; padding-top: 10px">
@@ -86,10 +86,10 @@
                 <a class="icon ion-trash-a" style="font-size: 30px; background-color: #FFFFFF; border:none; vertical-align: middle; color:#bfbfbf" ng-click="eliminarServicioDeLaLista('{{serv.nombre}}')"></a>
               </div>
             </div>
-        </div id="nuevoVehiculoServicios">
+      </div id="nuevoVehiculoServicios">
       <button ui-sref="agregarServicioPersonalizado()" id="agregarVehiculo-button4" class="button button-stable button-block">Agregar Servicio Personalizado</button>
       <!-- <button ng-disabled="newVehicleForm.$invalid" ui-sref="tabsController.listaDeVehiculos()" id="botonAgregarVehiculo" ng-click="crearVehiculo()" class="button button-positive button-block">Agregar Vehiculo</button> -->
-      <button ui-sref="tabsController.listaDeVehiculos()" id="botonAgregarVehiculo" ng-click="crearVehiculo()" class="button button-positive button-block">Agregar Vehiculo</button>
+      <button ng-disabled="newVehicleForm.$invalid" ui-sref="tabsController.listaDeVehiculos()" id="botonAgregarVehiculo" ng-click="crearVehiculo()" class="button button-positive button-block">Agregar Vehiculo</button>
 
     </form>
     <div class="spacer" style="height: 5px;"></div>

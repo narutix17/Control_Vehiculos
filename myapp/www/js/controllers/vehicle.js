@@ -373,9 +373,10 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
               $scope.fecha = new Date(res.rows.item(i).ultimoRealizado);
               console.log("fecha3: "+sumarDias($scope.fecha, res.rows.item(i).intervalo+1)); //se suma los dias
 
-              if ($scope.CurrentDate < $scope.fecha){ //condicion para solo obtener los servicios de fechas proximas               
+              if ($scope.CurrentDate < $scope.fecha){ //condicion para solo obtener los servicios de fechas proximas
                     $scope.selectedVehicleMantenimientosFecha.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
-                      nombre: res.rows.item(i).nombre + ", se realiza el día: "+ $scope.fecha.toLocaleDateString("es-MX", options)
+                      nombre: res.rows.item(i).nombre,
+                      fecha: $scope.fecha.toLocaleDateString("es-MX", options)
                     });
                     x=x+1;
                     y=y-1;
@@ -389,26 +390,27 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
                     var kmRestante = kmMantenimiento - kilometraje;
                     if (kmRestante > 0){
                       $scope.selectedVehicleMantenimientosKm.push({ //se coloca en el arreglo los datos a presentar en la vista(html)
-                        nombre: res.rows.item(i).nombre + ", Kilometros restantes: "+ kmRestante
+                        nombre: res.rows.item(i).nombre,
+                        falta: "Faltan " + kmRestante + " kilometros"
                       });
                       x=x+1;
                       y=y-1;
- 
-                    }    
+
+                    }
               }
             }
-          }     
+          }
             if ($scope.selectedVehicleMantenimientosFecha.length <= 0){
               $scope.selectedVehicleMantenimientosFecha.push({
-                nombre: "No hay servicio por fecha para presentar"
+                nombre: "No tiene mantenimientos próximos"
               });
             };
             if ($scope.selectedVehicleMantenimientosKm.length <= 0){
               $scope.selectedVehicleMantenimientosKm.push({
-                nombre: "No hay servicio por kilometros para presentar"
+                nombre: "No tiene mantenimientos próximos"
               });
-            }  
-          
+            }
+
           } else {
             $scope.selectedVehicleMantenimientosKm.push({
               nombre: "No hay servicios para presentar"

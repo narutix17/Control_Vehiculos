@@ -175,6 +175,7 @@ angular.module('app.controllers')
       //$scope.arrayTemporal = $scope.vehicleMantenimientos;
       for(var i=0; i<$scope.vehicleMantenimientos.length; i++){
         if($scope.fecha.toString().substring(0, 15) == $scope.vehicleMantenimientos[i].fecha.toString().substring(0, 15)){
+          var existe = true;
           $scope.arrayTemporal.push({
             nombre: $scope.vehicleMantenimientos[i].nombre,
             idtoStyle2: m,
@@ -187,6 +188,9 @@ angular.module('app.controllers')
           });
           m=m+1;
         }
+      }
+      if(!existe){
+        $scope.popUpNoFechaMostrar();
       }
       $scope.vehicleMantenimientos = "";
       $scope.vehicleMantenimientos = $scope.arrayTemporal;
@@ -241,6 +245,16 @@ angular.module('app.controllers')
     });
     alertasPopup.then(function(res) {
       console.log('popup contraseña');
+    });
+  };
+
+  $scope.popUpNoFechaMostrar = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Busqueda por Fecha',
+      template: 'No hay mantenimientos para mostrar en esta fecha'
+    });
+    alertPopup.then(function(res) {
+      console.log('solo por fechas');
     });
   };
 

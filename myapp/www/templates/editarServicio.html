@@ -41,7 +41,7 @@
       </div>
       <span class="messages" ng-show="form13.$submitted || form13.intervalo.$touched">
         <span ng-show="form13.intervalo.$error.required">  El Intervalo es un campo requerido.</span>
-        <span ng-show="form13.intervalo.$error.maxlength || form13.nombreServicio.$error.minlength">  El Intervalo debe tener entre 2 y 5 dígitos.</span>
+        <span ng-show="form13.intervalo.$error.minlength || form13.intervalo.$error.maxlength">  El Intervalo debe tener entre 2 y 5 dígitos.</span>
       </span>
         <br>
       <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots">

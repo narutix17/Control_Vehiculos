@@ -9,7 +9,7 @@
 
 angular.module('app.controllers')
 
-.controller('gastosController', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout) {
+.controller('gastosController', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout, $ionicPopup) {
 
 
   // Arreglos de agrupaciones de mantenimientos
@@ -71,7 +71,7 @@ angular.module('app.controllers')
           });
         }
       } else {
-        alert("El vehiculo no posee mantenimientos de los cuales graficar gastos");
+        $scope.popUpNoMantenimientos();
       }
 
       // Ordeno los mantenimientos por fecha ascendentemente
@@ -183,7 +183,7 @@ angular.module('app.controllers')
           });
         }
       } else {
-        alert("El vehiculo no posee mantenimientos de los cuales graficar gastos");
+        $scope.popUpNoMantenimientos();
       }
 
       $scope.selectedVehicleMantenimientos.sort(function(a,b){
@@ -201,6 +201,16 @@ angular.module('app.controllers')
       $ionicLoading.hide();
       $scope.putSize();
     });
+
+    $scope.popUpNoMantenimientos = function() {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Visualización de Gastos',
+        template: 'El vehiculo no posee mantenimientos de los cuales graficar gastos'
+      });
+      alertPopup.then(function(res) {
+        console.log('solo por fechas');
+      });
+    };
 
     //funcion para cambiar el tamaño de letra de la aplicacion
   $scope.putSize = function () {

@@ -116,6 +116,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
         for (var i=0; i<res.rows.length; i++) {
           console.log("MARCAAAAAAAAAAAA: "+res.rows.item(i).marca);
           console.log("MARCAAAAAAAAAAAA: "+res.rows.item(i).idMarca);
+          console.log("IMAGEEN: "+res.rows.item(i).imagen);
           $scope.selectedVehicle.push({
             id: res.rows.item(i).id,
             idMarca:res.rows.item(i).idMarca,

@@ -130,7 +130,7 @@ angular.module('app.controllers')
     console.log("ACAAAAAAAAAAAAAA: " + $scope.lastViewTitle)
     console.log("ACAAAAAAAAAAAAAA: " + $scope.newService.ultimoRealizado.toString().substring(0, 15))
 
-    if ($scope.lastViewTitle == "Informacion"){
+    if ($scope.lastViewTitle == "Información"){
       $scope.serviciosAgregar = [];
       $scope.serviciosAgregar.push({
         nombre: $scope.newService.nombre,
@@ -186,7 +186,71 @@ angular.module('app.controllers')
     });
   }
 
+  $scope.verificarPlacas = function(placa){
+    var query = "select * from vehiculo";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      for(var i=0;i<res.rows.length; i++){
+        console.log("placas");
+        console.log(res.rows.item(i).placa.toLowerCase());
+        console.log(placa.toLowerCase());
+        if(res.rows.item(i).placa.toLowerCase() == placa.toLowerCase()){
+          console.log("entro aca");
+          $scope.popUpPlacaRepetida();
+          $scope.newVehicle.newPlaca = "";
+        }
+      }
+    })
+  }
 
+  $scope.verificarMantenimientosRepetidos = function(nombre){
+    $scope.lastViewTitle = $ionicHistory.backTitle();
+    if ($scope.lastViewTitle == "Información"){
+      var query = "select * from servicio WHERE idVehiculo = ?";
+      $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
+        for(var i=0;i<res.rows.length; i++){
+          console.log("nombres");
+          console.log(res.rows.item(i).nombre.toLowerCase());
+          console.log(nombre.toLowerCase());
+          if(res.rows.item(i).nombre.toLowerCase() == nombre.toLowerCase()){
+            console.log("entro aca");
+            $scope.popUpMantenimientoRepetido();
+            $scope.newService.nombre = "";
+            break;
+          }
+        }
+      })
+    } else {
+      for(var j=0; j<$rootScope.serviciosParaAgregar.length; j++){
+        if($rootScope.serviciosParaAgregar[j].nombre.toLowerCase() == nombre.toLowerCase()){
+          $scope.popUpMantenimientoRepetido();
+            $scope.newService.nombre = "";
+            break;
+        }
+      } 
+    }
+  }
+
+  $scope.popUpPlacaRepetida = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Placa Existente',
+      template: 'La placa ingresada ya existe, por favor ingrese una nueva placa'
+    });
+    alertPopup.then(function(res) {
+      console.log('placa repetida');
+    });
+  };
+
+  $scope.popUpMantenimientoRepetido = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Nombre de Mantenimiento Existente',
+      template: 'El nombre de mantenimiento ingresada ya existe, por favor ingrese un nuevo nombre o edite el existente'
+    });
+    alertPopup.then(function(res) {
+      console.log('placa repetida');
+    });
+  };
+
+  // verificacion de placa
   $('body').on('focusout', '#placa', function(){
     var valorPlaca = $scope.newVehicle.newPlaca;
     console.log("en la placaaaa: "+valorPlaca);
@@ -206,6 +270,14 @@ angular.module('app.controllers')
     {
       $('#mensaje').text('Formato de Placa no valida');
     }
+    $scope.verificarPlacas(valorPlaca);
+  })
+
+  //verificacion de mantenimientos repetidos 
+  $('body').on('focusout', '#nombreMantenimiento', function(){
+    var nombre = $scope.newService.nombre;
+    console.log("en la placaaaa: "+nombre);
+    $scope.verificarMantenimientosRepetidos(nombre);
   })
 
   //CARGA COLORES DE TODOS LOS VEHICULOS
@@ -526,14 +598,14 @@ angular.module('app.controllers')
     var _5_SecondsFromNow = new Date(now + 10 * 1000);
     $cordovaLocalNotification.schedule({
       id: nombreServicio+placa,
-      date: _5_SecondsFromNow,
-      //date: dianotificacion,
+      //date: _5_SecondsFromNow,
+      date: dianotificacion,
       message: "Toque para ingresar a los servicios por realizar",
       title: "Servicio a Realizar Mañana",
       sound: null,
       icon: 'res://icononotificacion.png'
     }).then(function () {
-      alert("Notification Set");
+      console.log("Notification Set");
     });
 
     // Join BBM Meeting when user has clicked on the notification
@@ -552,7 +624,7 @@ angular.module('app.controllers')
                 id: nombreServicio+placa,
                 title: "Servicio a Realizar Hoy"
             });
-        }, 60000);
+        }, 600000);
     });
   }
 

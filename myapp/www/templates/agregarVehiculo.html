@@ -37,7 +37,7 @@
       </span>
       <ion-md-input placeholder="Año" hightlight-color="assertive" ng-maxlength="4" ng-min="1950" ng-max="2017" ng-minlength="4" type="number" placeholder="" ng-required="false" id="agregarVehiculo-input6b" ng-model="newVehicle.newYear" ng-model-options="{ updateOn: 'blur' }" name="newYear"></ion-md-input>
       <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newYear.$touched">
-        <span ng-show="newVehicleForm.newYear.$error.minlength || newVehicleForm.newYear.$error.maxlength">  ">El año debe tener 4 digitos.</span>
+        <span ng-show="newVehicleForm.newYear.$error.minlength || newVehicleForm.newYear.$error.maxlength">  >El año debe tener 4 digitos.</span>
         <span ng-show="newVehicleForm.newYear.$error.min || newVehicleForm.newYear.$error.max">  "El año debe ser valido.</span>
       </span>
 

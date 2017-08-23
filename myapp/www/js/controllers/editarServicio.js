@@ -193,13 +193,14 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
     var _5_SecondsFromNow = new Date(now + 5 * 1000);
     $cordovaLocalNotification.schedule({
       id: nombreServicio+placa,
-      date: _5_SecondsFromNow,
+      //date: _5_SecondsFromNow,
+      date: dianotificacion,
       message: "Toque para ingresar a los servicios por realizar",
       title: "Servicio a Realizar Mañana",
       sound: null,
       icon: 'res://icononotificacion.png'
     }).then(function () {
-      alert("Notification Set");
+      console.log("Notification Set");
     });
 
     // Join BBM Meeting when user has clicked on the notification

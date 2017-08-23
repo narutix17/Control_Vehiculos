@@ -14,11 +14,11 @@ app.controller("MainCtrl", ['$scope', '$http', '$cordovaSQLite', '$rootScope', '
 
 
 
-	var procesoDePublicidades = setInterval(mostrarPublicidad, 120 * 1000);
+	var procesoDePublicidades = setInterval(mostrarPublicidad, 5 * 1000);
 
 	function mostrarPublicidad(){
 
-		$http.get("http://192.168.0.100:3000/api/publicidad").success(function(res){
+		$http.get("http://www.vcontrol-publicidades.com/api/publicidad").success(function(res){
 
 			var publicidades = res;
 			var totPublicidades = publicidades.length;
@@ -27,20 +27,9 @@ app.controller("MainCtrl", ['$scope', '$http', '$cordovaSQLite', '$rootScope', '
 
 			var imgPublicidad = document.getElementsByClassName("imgpublicidad")[0];
 			var linkPublicidad = document.getElementsByClassName("linkpublicidad")[0];
-			imgPublicidad.src = publicidad.url_imagen;
+			imgPublicidad.src = "http://www.vcontrol-publicidades.com/imagen/" + publicidad.file_name;
 			linkPublicidad.href = publicidad.url_publicidad;
-			var pContainer = document.getElementsByClassName("publicidad")[0];
 
-			if (typeof pContainer !== "undefined"){
-				if (pContainer.style.display == "none"){
-
-					pContainer.style.display = "inline";
-
-				} else {
-					pContainer.style.display = "none";
-				}
-			}
-			console.log(publicidades);
 		}).error(function(err){
 			console.log("error al traer");
 			return;

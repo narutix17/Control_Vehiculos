@@ -5,8 +5,63 @@
  * Version: 1.0
  * Creador: Jose Cedeno.
  */
-angular.module('app.controllers') 
-app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout, $state){
+angular.module('app.controllers')
+app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', '$state', '$ionicPopup', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout, $state, $ionicPopup){
+
+  $scope.updatedVehicle = {};
+  // verificacion de placa
+  $('body').on('focusout', '#updatedplaca', function(){
+    var valorPlaca = $scope.updatedVehicle.updatedplaca;
+    console.log("en la placaaaa: "+valorPlaca);
+
+    //var digitos = valorPlaca.length;
+
+    // Aqui esta el patron(expresion regular) a buscar en el input
+    patronPlaca = /([A-Za-z]{3}-\d{3,4})/;
+
+    if( patronPlaca.test($scope.updatedVehicle.updatedplaca) )
+    {
+      console.log('Yeah!! si es correcto');
+      $('#mensaje').text('');
+      $('#mensaje').css('display', 'none');
+    }
+    else
+    {
+      $('#mensaje').text('Formato de Placa no valida. ');
+      $('#mensaje').css('display', 'inline');
+    }
+    $scope.verificarPlacas(valorPlaca);
+  })
+
+  $scope.verificarPlacas = function(placa){
+    var indicador = 0;
+    var query = "select * from vehiculo";
+    $cordovaSQLite.execute(db, query).then(function(res){
+      for(var i=0;i<res.rows.length; i++){
+        console.log("placas");
+        console.log(res.rows.item(i).placa.toLowerCase());
+        console.log(placa.toLowerCase());
+        if(res.rows.item(i).placa.toLowerCase() == placa.toLowerCase()){
+          indicador +=1;
+        }
+      }
+      if (indicador > 1){
+        console.log("entro aca");
+        $scope.popUpPlacaRepetida();
+        $scope.updatedVehicle.updatedplaca = "";
+      }
+    })
+  }
+
+  $scope.popUpPlacaRepetida = function() {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Placa Existente',
+      template: 'La placa ingresada ya existe, por favor ingrese una nueva placa'
+    });
+    alertPopup.then(function(res) {
+      console.log('placa repetida');
+    });
+  };
 
   $scope.newVehicle = {}
   // Informacion ya existente del vehiculo
@@ -15,7 +70,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
   //$scope.updatedmarca = $rootScope.chosenVehicle.marca;
   //$scope.updatedyear = $rootScope.chosenVehicle.year;
   //$scope.updatedcolor = $rootScope.chosenVehicle.color;
-    
+
 
   // We use a loading screen to wait the selected vehicle to be loaded from the database
   $ionicLoading.show({
@@ -100,7 +155,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
       });
   });
 
-  
+
 
   //CARGA MARCAS DE TODOS LOS VEHICULOS
   $scope.cargarMarcas = function(){
@@ -145,7 +200,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
           });
 
         }
-       
+
       }else{
         console.log("No hay Registros de Colores");
       }

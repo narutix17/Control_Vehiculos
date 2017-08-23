@@ -1,7 +1,7 @@
 <ion-view title="Agregar Vehiculo" id="page3" ng-controller="DBControllerAgregarVehiculo">
   <ion-nav-buttons side="right" class="has-header" >
     <button ui-sref="tabsController.listaDeVehiculos()" class="button home-button buttons button-clear header-item">
-      <i class="icon ion-android-home"></i> <span class="back-text"></span>
+
     </button>
   </ion-nav-buttons>
  <ion-content padding="true" class="has-header animated slideInRight">
@@ -30,7 +30,7 @@
         <!-- <span class="input-label" aria-label="Placa">Placa</span> -->
         <!-- <div class="highlight hightlight-calm"> </div> -->
       <!-- </label> -->
-      <span id="mensaje"></span>
+      <span id="mensaje" style="display: none;"></span><br>
       <span class="messages" ng-show="newVehicleForm.$submitted || newVehicleForm.newPlaca.$touched">
         <span ng-show="newVehicleForm.newPlaca.$error.required">La placa es un campo requerido.</span>
         <span ng-show="newVehicleForm.newPlaca.$error.minlength || newVehicleForm.newPlaca.$error.maxlength">La placa debe tener entre 6 y 8 caracteres.</span>

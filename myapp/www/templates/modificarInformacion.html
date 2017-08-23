@@ -35,8 +35,9 @@
 
       <label class="item item-input" id="modificarInfo-input30" style="margin-top: 8px">
         <span class="input-label bold">Placa:</span>
-        <input ng-model="updatedplaca" name="updatedplaca" id="updatedplaca" type="text" ng-maxlength="10" ng-minlength="5" ng-required="true">
+        <input ng-model="updatedVehicle.updatedplaca" name="updatedplaca" id="updatedplaca" type="text" ng-maxlength="10" ng-minlength="5" ng-required="true">
       </label>
+      <span id="mensaje" style="display: none;"></span><br>
       <span class="messages" ng-show="formalias.$submitted || formalias.updatedplaca.$touched">
         <span ng-show="formalias.updatedplaca.$error.required">La placa es un campo requerido.</span>
         <span ng-show="formalias.updatedplaca.$error.minlength || formalias.updatedplaca.$error.maxlength">La placa debe tener entre 6 y 8 caracteres.</span>

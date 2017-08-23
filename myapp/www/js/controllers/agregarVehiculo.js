@@ -226,7 +226,7 @@ angular.module('app.controllers')
             $scope.newService.nombre = "";
             break;
         }
-      } 
+      }
     }
   }
 
@@ -260,20 +260,22 @@ angular.module('app.controllers')
 
     // Aqui esta el patron(expresion regular) a buscar en el input
     patronPlaca = /([A-Za-z]{3}-\d{3,4})/;
-    
+
     if( patronPlaca.test($scope.newVehicle.newPlaca) )
     {
       console.log('Yeah!! si es correcto');
       $('#mensaje').text('');
+      $('#mensaje').css('display', 'none');
     }
     else
     {
-      $('#mensaje').text('Formato de Placa no valida');
+      $('#mensaje').text('Formato de Placa no valida. ');
+      $('#mensaje').css('display', 'inline');
     }
     $scope.verificarPlacas(valorPlaca);
   })
 
-  //verificacion de mantenimientos repetidos 
+  //verificacion de mantenimientos repetidos
   $('body').on('focusout', '#nombreMantenimiento', function(){
     var nombre = $scope.newService.nombre;
     console.log("en la placaaaa: "+nombre);
@@ -298,7 +300,7 @@ angular.module('app.controllers')
           });
 
         }
-       
+
       }else{
         console.log("No hay Registros de Colores");
       }

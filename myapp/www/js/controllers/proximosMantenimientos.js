@@ -117,7 +117,7 @@ angular.module('app.controllers')
                         alias: $scope.misvehiculos[k].alias,
                         placa: $scope.misvehiculos[k].placa,
                         mostrar: "Kilometros restantes: "+kmRestante,
-                        fechaRealizado: $scope.fecha.toString().substring(0, 15),
+                        //fechaRealizado: $scope.fecha.toString().substring(0, 15),
                         nombre: res.rows.item(i).nombre
                       });
                       x=x+1;

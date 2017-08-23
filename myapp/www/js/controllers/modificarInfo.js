@@ -102,6 +102,8 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
     return $rootScope.chosenVehicle.id;
   }, function(){
     console.log("LOADING")
+    $scope.anteriorMarca = [];
+    $scope.anteriorColor = [];
     $scope.selectedVehicle = []; //arreglo para los datos del vehiculo
     $rootScope.selectedVehicleServices = []; //arreglo para los datos del servicio del vehiculo
     $scope.actualid = $rootScope.chosenVehicle.id;
@@ -120,6 +122,22 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
             kilometraje: res.rows.item(i).kilometraje,
             imagen: res.rows.item(i).imagen,
           });
+          for (var k=0; k<$scope.registrosPlacasVehiculos.length; k++){
+            if ($scope.registrosPlacasVehiculos[k].id == res.rows.item(i).idMarca){
+              $scope.anteriorMarca.push({
+                marca: $scope.registrosPlacasVehiculos[k].nombre
+              })
+            }
+          }
+          for (var k=0; k<$scope.registrosColoresVehiculos.length; k++){
+            console.log($scope.registrosColoresVehiculos[k].id);
+            console.log(res.rows.item(i).color);
+            if ($scope.registrosColoresVehiculos[k].id == res.rows.item(i).color){
+              $scope.anteriorColor.push({
+                color: $scope.registrosColoresVehiculos[k].nombre
+              })
+            }
+          }
 
           var servQuery = "SELECT * FROM servicio WHERE idVehiculo = ?" //query para obtener los servicios del vehiculos seleccionado por id
           $cordovaSQLite.execute(db, servQuery, [res.rows.item(i).id]).then(function(res){

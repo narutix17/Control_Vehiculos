@@ -189,6 +189,7 @@ angular.module('app.controllers')
   $scope.verificarPlacas = function(placa){
     var query = "select * from vehiculo";
     $cordovaSQLite.execute(db, query).then(function(res){
+      console.log("tamaño: "+res.rows.length);
       for(var i=0;i<res.rows.length; i++){
         console.log("placas");
         console.log(res.rows.item(i).placa.toLowerCase());
@@ -270,6 +271,7 @@ angular.module('app.controllers')
     {
       $('#mensaje').text('Formato de Placa no valida. ');
     }
+    console.log("ahora verifica");
     $scope.verificarPlacas(valorPlaca);
   })
 

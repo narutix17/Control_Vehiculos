@@ -18,13 +18,11 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.agregarVehiculo', {
+  .state('agregarVehiculo', {
     url: '/vehiculos/crear',
-    views: {
-      'tab4': {
+    
         templateUrl: 'templates/agregarVehiculo.html'
-      }
-    }
+     
   })
 
   .state('tabsController.agregarServicioPersonalizado', {
@@ -88,13 +86,11 @@ angular.module('app.routes', [])
     abstract:true
   })
 
-  .state('tabsController2.nuevoMantenimiento', {
+  .state('nuevoMantenimiento', {
     url: '/nuevoMantenimiento',
-    views: {
-      'tab2': {
+ 
         templateUrl: 'templates/nuevoMantenimiento.html'
-      }
-    }
+  
   })
 
   .state('agregarServicioPersonalizado', {

@@ -15,6 +15,9 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
 
   $scope.tada = function (){
     document.getElementById("modInfo").setAttribute("class", "button button-fab button-fab-top-right button-dark icon ion-edit animated tada");
+    setTimeout(function(){
+      document.getElementById("modInfo").setAttribute("class", "button button-fab button-fab-top-right button-dark icon ion-edit");
+    }, 2000)
   }
 
   $scope.updatedKm = {};

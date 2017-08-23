@@ -598,14 +598,14 @@ angular.module('app.controllers')
     var _5_SecondsFromNow = new Date(now + 10 * 1000);
     $cordovaLocalNotification.schedule({
       id: nombreServicio+placa,
-      date: _5_SecondsFromNow,
-      //date: dianotificacion,
+      //date: _5_SecondsFromNow,
+      date: dianotificacion,
       message: "Toque para ingresar a los servicios por realizar",
       title: "Servicio a Realizar Mañana",
       sound: null,
       icon: 'res://icononotificacion.png'
     }).then(function () {
-      alert("Notification Set");
+      console.log("Notification Set");
     });
 
     // Join BBM Meeting when user has clicked on the notification
@@ -624,7 +624,7 @@ angular.module('app.controllers')
                 id: nombreServicio+placa,
                 title: "Servicio a Realizar Hoy"
             });
-        }, 60000);
+        }, 600000);
     });
   }
 

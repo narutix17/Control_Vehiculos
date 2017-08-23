@@ -9,11 +9,11 @@
   <ion-content padding="true" class="has-header animated fadeInDown" >
     <div ng-repeat = "item in chosenService">
     <div id="agregarServicioPersonalizado-markdown17" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">Nombre:</p> <h4> {{item.nombre}} </h4>
+      <p style="color:#000000;" class="bold">Nombre:</p> <h4> {{item.nombre}} </h4>
     </div>
     <br>
     <div id="agregarServicioPersonalizado-markdown18" class="show-list-numbers-and-dots">
-      <p style="color:#000000;">El ciclo de los mantenimientos se realizará por:</p>
+      <p style="color:#000000;" class="bold">El ciclo de los mantenimientos se realizará por:</p>
     </div>
     <form id="editarNuevoServicioPersonalizado" class="list" name="form13">
       <label class="item item-select custom-input" id="agregarServicioPersonalizado-select3">
@@ -28,7 +28,7 @@
       </span>
       <br>
       <div id="agregarServicioPersonalizado-markdown19" class="show-list-numbers-and-dots">
-        <p style="color:#000000;">Se realiza cada:</p>
+        <p style="color:#000000;" class="bold">Se realiza cada:</p>
       </div>
         <div class="row">
         <div class="col col-60">
@@ -46,7 +46,7 @@
       </span>
         <br>
       <div id="agregarServicioPersonalizado-markdown20" class="show-list-numbers-and-dots">
-        <p id="kof" style="color:#000000;">Kilometraje o Fecha de última vez realizado:</p>
+        <p id="kof" style="color:#000000;" class="bold">Kilometraje o Fecha de última vez realizado:</p>
       </div>
         <label class="item item-input custom-input" id="agregarServicioPersonalizado-input12">
           <input id="kilfec" name="ultimoRealizado" type="text" placeholder="{{item.ultimoRealizado}}" ng-model="servicioEditado.ultimoRealizado" ng-required="true">

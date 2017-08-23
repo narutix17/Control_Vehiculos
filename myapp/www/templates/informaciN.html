@@ -52,20 +52,37 @@
 
     <div id="informaciN-markdown2" class="show-list-numbers-and-dots" style="padding-top: 20px;">
       <p style="color:#000000;">
-        <strong>Próximo Mantenimiento:</strong>
+        <h4><strong>Próximos Mantenimientos:</strong></h4>
       </p>
       <div ng-repeat="item1 in selectedVehicleMantenimientosFecha | orderBy:'fecha' |limitTo:1 ">
-        <p><u>Por fecha:</u> {{item1.nombre}}</p><br>
-
+        <div class="row ion-android-calendar" style="color: black;">
+          <div class="col col-100">
+            <p><span class="bold"> Por Fecha: </span> {{item1.nombre}} </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-100">
+            <p>{{item1.fecha}}</p>
+          </div>
+        </div>
       </div>
-      <div ng-repeat="item2 in selectedVehicleMantenimientosKm | orderBy:'fecha' |limitTo:1 ">
-        <p><u>Por Kilometros:</u> {{item2.nombre}}</p>
+      <div ng-repeat="item2 in selectedVehicleMantenimientosKm | orderBy:'falta' |limitTo:1 ">
+        <div class="row ion-speedometer" style="color: black;">
+          <div class="col col-100">
+            <p><span class="bold"> Por Kilometraje: </span>{{item2.nombre}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-100">
+            <p>{{item2.falta}}</p>
+          </div>
+        </div>
       </div>
     </div>
 
     <div id="informaciN-markdown3" class="show-list-numbers-and-dots" style="padding-top: 20px">
         <p style="color:#000000;">
-          <strong>Mantenimientos del vehículo:</strong>
+          <h4><strong>Mantenimientos del vehículo:</strong></h4>
         </p>
     </div>
     <div id="serviciosDeVehiculo" ng-repeat="item in selectedVehicleServices">

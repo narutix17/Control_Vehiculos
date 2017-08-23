@@ -5,8 +5,8 @@
  * Version: 1.0
  * Creador: Jose Cedeno.
  */
-angular.module('app.controllers')
-app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout){
+angular.module('app.controllers') 
+app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', '$timeout', '$state', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout, $state){
 
   $scope.newVehicle = {}
   // Informacion ya existente del vehiculo
@@ -184,10 +184,12 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
       }
       console.log("Marcaaa: "+$scope.newVehicle.idMarca);
       console.log("Colorrr: "+$scope.newVehicle.newColor);
+      console.log("imagen: "+$scope.img);
       var query = "UPDATE vehiculo SET alias=?, placa=?, idMarca=?, año=?, color=?, imagen=? WHERE id=?";
       console.log(query);
       $cordovaSQLite.execute(db, query, [alias, placa, $scope.newVehicle.idMarca, year, $scope.newVehicle.newColor, $scope.img, id]).then(function(result) {
         console.log("Km Actualizado");
+        $state.go('tabsController2.informaciN');
       }, function(error){
         console.log(error);
       });
@@ -237,6 +239,7 @@ app.controller("DBControllerModificarInfo", ['$scope', '$cordovaSQLite', '$rootS
         $scope.$apply(function () {
           $scope.images.push(entry.nativeURL);
         });
+        console.log("URL: "+entry.nativeURL);
         $scope.img = entry.nativeURL;
       }
 

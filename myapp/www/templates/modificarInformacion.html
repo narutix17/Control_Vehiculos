@@ -28,33 +28,44 @@
         <span class="input-label bold">Alias:</span>
         <input type="text" value="hola" ng-model="updatedalias" name="updatedalias" id="updatedalias" >
       </label>
+      <span class="messages" ng-show="formalias.$submitted || formalias.updatealias.$touched">
+        <span ng-show="formalias.updatealias.$error.required">El Alias es un campo requerido.</span>
+        <span ng-show="formalias.updatealias.$error.minlength || formalias.updatealias.$error.maxlength">  "El alias debe tener entre 3 y 20 caracteres.</span>
+      </span>
 
       <label class="item item-input" id="modificarInfo-input30" style="margin-top: 8px">
         <span class="input-label bold">Placa:</span>
         <input ng-model="updatedplaca" name="updatedplaca" id="updatedplaca" type="text"  >
       </label>
+      <span class="messages" ng-show="formalias.$submitted || formalias.updateplaca.$touched">
+        <span ng-show="formalias.updateplaca.$error.required">La placa es un campo requerido.</span>
+        <span ng-show="formalias.updateplaca.$error.minlength || formalias.updateplaca.$error.maxlength">La placa debe tener entre 6 y 8 caracteres.</span>
+      </span>
 
-      <label class="item item-select custom-input" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
+      <label class="item item-select" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
         <span class="input-label bold">Marca:</span>
         <select ng-model="newVehicle.idMarca" >
           <option  ng-repeat="marca in registrosPlacasVehiculos | orderBy:'nombre'" value="{{marca.id}}">{{marca.nombre}}</option>
         </select>
-
       </label>
 
       <label class="item item-input" id="modificarInfo-input12" style="margin-top: 8px">
         <span class="input-label bold">Año:</span>
         <input type="text" ng-model="updatedyear" id="updatedyear">
       </label>
+      <span class="messages" ng-show="formalias.$submitted || formalias.updatedyear.$touched">
+        <span ng-show="formalias.updatedyear.$error.minlength || formalias.updatedyear.$error.maxlength">  >El año debe tener 4 digitos.</span>
+        <span ng-show="formalias.updatedyear.$error.min || formalias.updatedyear.$error.max">  "El año debe ser valido.</span>
+      </span>
 
-      <label class="item item-select custom-input" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
+      <label class="item item-select" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
         <span class="input-label bold">Color:</span>
         <select ng-model="newVehicle.newColor" name="newColor">
           <option ng-repeat="color in registrosColoresVehiculos " value="{{color.id}}">{{color.nombre}}</option>
         </select>
       </label>
 
-      <button id="modificarInfo-button5" class="button button-positive button-block" ng-click="actualizarAlias('{{item.idVehiculo}}')">Actualizar</button>
+      <button ng-disabled="formalias.$invalid" id="modificarInfo-button5" class="button button-positive button-block" ng-click="actualizarAlias('{{item.idVehiculo}}')">Actualizar</button>
     </form>
   </ion-content>
 </ion-view>

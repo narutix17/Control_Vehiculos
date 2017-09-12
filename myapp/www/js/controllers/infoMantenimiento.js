@@ -1,11 +1,14 @@
+/**
+ * Controlador para
+ * Utilizado en:
+ * Version: 1.0
+ * Creador: Jose Cedeno
+ */
 angular.module('app.controllers')
 
-/**
- * Controller for an specific Vehicle operations
- */
 app.controller("infoMantenimiento", ['$scope', '$cordovaSQLite', '$rootScope', '$ionicLoading', function($scope, $cordovaSQLite, $rootScope, $ionicLoading){
 
-	$scope.fechaMant = $rootScope.setInfoMant.fecha;
+	   $scope.fechaMant = $rootScope.setInfoMant.fecha;
   	$scope.precioMant = $rootScope.setInfoMant.precio;
   	$scope.detalleMant = $rootScope.setInfoMant.detalle;
 
@@ -16,7 +19,7 @@ app.controller("infoMantenimiento", ['$scope', '$cordovaSQLite', '$rootScope', '
   	$ionicLoading.show({
     	content: 'Loading',
     	animation: 'fade-in',
-    	showBackdrop: true,
+    	showBackdrop: false,
     	maxWidth: 200,
     	showDelay: 0
   	});

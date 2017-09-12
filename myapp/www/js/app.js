@@ -1,5 +1,11 @@
+/**
+ * Archivo principal de la aplicacion. En este .js se instancia la base de datos.
+ * Se crea la base de datos en caso de no existir, y se cargan las dependencias necesarias.
+ * Version: 2.1
+ * Creador: Leonardo Kuffo
+ * Editores: Ruben Suarez
+ */
 // Ionic Starter App
-
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -9,19 +15,20 @@
 var db = null;
 
 
-var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova', 'chart.js'])
+var app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services', 'ngCordova', 'chart.js', 'ionic-material'])
 
-app.config(function($ionicConfigProvider, $sceDelegateProvider){
+app.config(function($ionicConfigProvider, $sceDelegateProvider, $compileProvider){
 
   $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
-
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile|content):|data:image\//);
+  $ionicConfigProvider.navBar.alignTitle('center');
 })
 
 /**
  * This method is excecuted when app starts running. Inside this function we create the Database. Every SQL execute command
  * is validated everytime the app opens, to avoid redundancy problems.
  */
-app.run(function($ionicPlatform, $cordovaSQLite) {
+app.run(function($ionicPlatform, $cordovaSQLite, $cordovaLocalNotification, $timeout, $state, $location, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -34,27 +41,55 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
       StatusBar.styleDefault();
     }
 
-    
 
-
-    //db = $cordovaSQLite.deleteDatabase({name: 'controlvehiculos.db', location: 'default'}, successcb, errorcb);
-
-    // Open DB
+    //$rootScope.size12 = localStorage.getItem("size12");
+    /**
+     *
+     *
+     * CREACION DE LA BASE DE DATOS
+     *
+     *
+     */
     db = $cordovaSQLite.openDB({ name: "controlvehiculos.db", iosDatabaseLocation:'default'});
 
-  /**
-   * Creating tables and default registries
-   */
     $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS tipo_vehiculo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombre VARCHAR (20) UNIQUE);").then(function(result){
         $cordovaSQLite.execute(db,"select * from tipo_vehiculo").then(function(result){
           if (result.rows.length==0) {
-            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["automovil"]);
-            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["camion"]);
-            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["taxi"]);
+            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Automóvil"]);
+            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Camión"]);
+            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Taxi"]);
+            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Moto"]);
             console.log("seeee insertaron 3 tipos de vehiculoos");
           }
           else{
             console.log("tabla tipo_vehiculo ya tiene datos");
+
+          }
+        },function(error){
+
+          console.log(error);
+
+        });
+
+      },function(error){
+        console.log(error);
+
+      });
+
+    $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS color (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,nombre VARCHAR (12) UNIQUE);").then(function(result){
+        $cordovaSQLite.execute(db,"select * from color").then(function(result){
+          if (result.rows.length==0) {
+            var query="INSERT INTO color VALUES (1,'Amarillo'),(2,'Azul'),(3,'Blanco'),(4,'Gris'),(5,'Morado'),(6,'Naranja'),(7,'Negro'),(8,'Rojo'),(9,'Rosado'),(10,'Verde');";
+            $cordovaSQLite.execute(db,query).then(
+              function(result1){
+                console.log("colores creados");
+              },function(error){
+                console.log("ERROR AL INSERTAR COLORES DE VEHICULO");
+                console.log(error);
+              });
+          }
+          else{
+            console.log("tabla color ya tiene datos");
 
           }
         },function(error){
@@ -74,9 +109,10 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
             var query2="INSERT INTO marca VALUES (1,'SCANIA'),(2,'HINO'),(3,'CHEVROLET'),(4,'INTERNATIONAL'),(5,'VOLKSWAGEN'),(6,'HYUNDAI'),(7,'YUTONG'),(8,'MERCEDES BENZ'),(9,'AGRALE'),(10,'THOMAS BUILT '),(11,'VOLVO'),(12,'FARDIER'),(13,'GREAT WALL'),(14,'ZOTYE'),(15,'TOYOTA'),(16,'KIA'),(17,'FIAT'),(18,'MAZDA'),(19,'JEEP'),(20,'DODGE'),(21,'CHERY'),(22,'DONGFENG'),(23,'CITROEN'),(24,'NISSAN'),(25,'RENAULT'),(26,'FORD'),(27,'LIFAN'),(28,'FAW'),(29,'MITSUBISHI'),(30,'AUDI'),(31,'BMW'),(32,'PORSCHE'),(33,'MINI'),(34,'LAND ROVER'),(35,'BYD'),(36,'HONDA'),(37,'PEUGEOT'),(38,'UAZ'),(39,'KING LONG'),(40,'DFSK'),(41,'HIGER'),(42,'FOTON'),(43,'GOLDEN DRAGON'),(44,'JINBEI'),(45,'VENTURA'),(46,'JAC'),(47,'RAM'),(48,'CHANGHE'),(49,'TATA'),(50,'MAZDA');";
             var query="INSERT INTO marca VALUES (?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?);";
             var marcas=["SCANIA","HINO","CHEVROLET","INTERNATIONAL","VOLKSWAGEN","HYUNDAI","YUTONG","MERCEDES BENZ","AGRALE","THOMAS BUILT","VOLVO","FARDIER","GREAT WALL","ZOTYE","TOYOTA","KIA","FIAT","MAZDA","JEEP","DODGE","CHERY","DONGFENG","CITROEN","NISSAN","RENAULT","FORD","LIFAN","FAW","MITSUBISHI","AUDI","BMW","PORSCHE","MINI","LAND ROVER","BYD","HONDA","PEUGEOT","UAZ","KING LONG","DFSK","HIGER","FOTON","GOLDEN DRAGON","JINBEI","VENTURA","JAC","RAM","CHANGHE","TATA","MAZDA"];
+            marcas.sort();
             $cordovaSQLite.execute(db,query2).then(
               function(result){
-                console.log("seeee insertaron"+marcas.length+" marcas de vehiculos");
+                console.log("seeee insertaron "+marcas.length+" marcas de vehiculos");
               },function(error){
                 console.log("ERROR AL INSERTAR MARCAS DE VEHICULO");
                 console.log(error);
@@ -97,7 +133,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
 
       });
 
-      $cordovaSQLite.execute(db,"CREATE TABLE if NOT EXISTS vehiculo ( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER NOT NULL REFERENCES tipo_vehiculo (id) ON DELETE CASCADE,idMarca INTEGER NOT NULL REFERENCES marca (id) ON DELETE CASCADE, color VARCHAR(10), placa VARCHAR (10) UNIQUE, marca VARCHAR (20), alias VARCHAR (20), año INTEGER (4), kilometraje INTEGER (7) NOT NULL, imagen TEXT);").then(function(result){
+      $cordovaSQLite.execute(db,"CREATE TABLE if NOT EXISTS vehiculo ( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER NOT NULL REFERENCES tipo_vehiculo (id) ON DELETE CASCADE,idMarca INTEGER NOT NULL REFERENCES marca (id) ON DELETE CASCADE, color INTEGER NOT NULL REFERENCES color (id) ON DELETE CASCADE, placa VARCHAR (10) UNIQUE, marca VARCHAR (20), alias VARCHAR (20), año INTEGER (4), kilometraje INTEGER (7) NOT NULL, imagen TEXT);").then(function(result){
         console.log("SE HA CREADO TABLA VEHICULO");
 
       },function(error){
@@ -111,7 +147,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
           if (result.rows.length==0) {
             $cordovaSQLite.execute(db,"insert into tipo_intervalo (nombre) VALUES (?)",["tiempo"]);
             $cordovaSQLite.execute(db,"insert into tipo_intervalo (nombre) VALUES (?)",["kilometro"]);
-            console.log("seeee insertaron colores");
+            console.log("seeee insertaron tipo intervalo");
           }
           else{
             console.log("tabla tipo_intervalo ya tiene datos");
@@ -127,6 +163,9 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
         console.log(error);
 
       });
+
+      
+
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS tipo_servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,nombre VARCHAR (20) UNIQUE);").then(function(result){
         $cordovaSQLite.execute(db,"select * from tipo_servicio").then(function(result){
           if (result.rows.length==0) {
@@ -164,7 +203,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
           $cordovaSQLite.execute(db,"select * from servicios_predeterminados").then(function(result){
             if (result.rows.length==0) {
               $cordovaSQLite.execute(db, "INSERT INTO servicios_predeterminados (nombre, tipo_intervalo, intervalo) VALUES ('Cambio de Aceite', 1, 5000) ");
-              $cordovaSQLite.execute(db, "INSERT INTO servicios_predeterminados (nombre, tipo_intervalo, intervalo) VALUES ('Cambio de Agua de Bateria', 1, 1000) ");
+              $cordovaSQLite.execute(db, "INSERT INTO servicios_predeterminados (nombre, tipo_intervalo, intervalo) VALUES ('Cambio de Agua de Batería', 1, 1000) ");
               $cordovaSQLite.execute(db, "INSERT INTO servicios_predeterminados (nombre, tipo_intervalo, intervalo) VALUES ('Cambio de Mangueras', 1, 50000) ");
             }
             else{
@@ -173,7 +212,7 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
           });
       });
 
-      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER REFERENCES tipo_servicio (id) ON DELETE CASCADE, idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id) ON DELETE CASCADE, idVehiculo INTEGER REFERENCES vehiculo (id) ON DELETE CASCADE, nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado INTEGER (10) );").then(
+      $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS servicio (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, idTipo INTEGER REFERENCES tipo_servicio (id) ON DELETE CASCADE, idTipoIntervalo INTEGER REFERENCES tipo_intervalo (id) ON DELETE CASCADE, idVehiculo INTEGER REFERENCES vehiculo (id) ON DELETE CASCADE, nombre VARCHAR (30), intervalo INTEGER (10), ultimoRealizado VARCHAR (15) );").then(
         function(result){
           console.log("TABLA SERVICIO CREADA")
         },function(error){
@@ -186,8 +225,10 @@ app.run(function($ionicPlatform, $cordovaSQLite) {
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS region (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre VARCHAR (20) UNIQUE);");
       $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS publicidad (id INTEGER PRIMARY KEY AUTOINCREMENT, idRegion INTEGER REFERENCES region (id) ON DELETE CASCADE,nombre VARCHAR (30),url VARCHAR (50) );");
 
-
+  $location.path('/tabs/tabs/vehiculos');
+  $rootScope.$apply();
   });
+  
 })
 
 
@@ -246,27 +287,7 @@ app.directive('hrefInappbrowser', function() {
 });
 
 
-app.controller("ExampleController", function($scope, $cordovaLocalNotification) {
- 
-    $scope.add = function() {
-        var alarmTime = new Date();
-        alarmTime.setMinutes(alarmTime.getMinutes() + 1);
-        $cordovaLocalNotification.add({
-            id: "1234",
-            date: alarmTime,
-            message: "This is a message",
-            title: "This is a title",
-            autoCancel: true,
-            sound: null
-        }).then(function () {
-            console.log("The notification has been set");
-        });
-    };
- 
-    $scope.isScheduled = function() {
-        $cordovaLocalNotification.isScheduled("1234").then(function(isScheduled) {
-            alert("Notification 1234 Scheduled: " + isScheduled);
-        });
-    }
- 
-});
+
+
+
+

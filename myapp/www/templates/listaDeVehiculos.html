@@ -1,62 +1,85 @@
-<ion-view title="Lista de Vehiculos" id="page2" ng-controller="DBControllerVehiculo">
-<ion-nav-buttons side="left" class="has-header">
-    <button ui-sref="inicio()" class="button back-button buttons button-clear header-item">
-      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
+<ion-view title="Lista de Vehículos" id="page2" ng-controller="DBControllerVehiculo">
+  <ion-nav-buttons side="left" class="has-header">
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right" class="has-header">
+    <button ng-click="configurarVista()" class="icon ion-android-settings button buttons button-clear header-item">
     </button>
   </ion-nav-buttons>
+
+  <div>
+
+    <button class="button button-fab button-fab-bottom-right button-balanced icon ion-android-add animated fadeIn" ng-click="maximosVehiculosCrear()" id="listaDeVehiculos-button12" style="position: fixed !important; bottom: 120px;"></button>
+
+  </div>
   <ion-content padding="true" class="has-header" id="listaVehiculos">
+  <div >
 
-  <div class="row">
-    <div class="col col-60">
-      <label class="item item-input" id="mantenimiento-search1">
-          <i class="icon ion-search placeholder-icon"></i>
-          <input type="search" placeholder="">
-      </label>
-    </div>
-    <div class="col col-20">
-      <a ui-sref="tabsController.agregarVehiculo()" id="listaDeVehiculos-button1" style="font-weight:300;border-radius:200px 200px 200px 200px; text-align: center; display: block; " class="button button-balanced icon ion-plus"></a><br>
-    </div>
-    <div class="col col-20">
-       <i ui-sref="configuraciNDeVisualizaciN()" class="icon ion-android-settings" style="font-size: 50px; vertical-align: middle; color:#666666"></i>
+  <div style="margin-top: 15px">
+    <strong><h1 id="vacio" style="color: #E6E6E6; text-align: center; text-shadow: 0px 0px 2px #B4B4B4; font-size: 3.4em" ></h1></strong>
+  </div>
 
-    </div>
+      <div class="list animated fadeInDown" >
 
+
+        <div class="item-thumbnail-left item" id="{{item.id}}" ng-repeat="item in registrosVehiculos">
+
+          <img src="{{item.imagen}}" ng-click="showImage({{item.id}})" style="vertical-align: middle; border-radius: 50px;">
+
+          <div class="row">
+            <div class="col col-80" ng-click="setVehicle('{{item.alias}}', '{{item.id}}', '{{item.placa}}', '{{item.marca}}', '{{item.year}}', '{{item.color}}', '{{item.kilometraje}}')" ui-sref="tabsController2.informaciN()">
+
+              <h2 id="titulo1">{{item.orden1}}</h2>
+              <p id="titulo2">{{item.orden2}}</p>
+              <p id="titulo3">{{item.orden3}}</p>
+            </div>
+            <div class="col col-20">
+
+              <div style="vertical-align: text-bottom;">
+                <button  class="icon ion-trash-a" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#bfbfbf;" ng-click="showConfirmEliminarVehiculo2('{{item.id}}','{{item.alias}}')"></button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    <div class="spacer" style="height: 5px;"></div>
+  </div>
+
+  </ion-content>
+
+  <div class="publicidad" style="position: absolute; overflow:hidden; bottom: 0px; height: 100px; width: 100vw; z-index: 10000;">
+    <a href="http://www.valvoline.com/es-latinamerica" class="linkpublicidad">
+      <img src="#" class="imgpublicidad" style="max-width: 100% !important;">
+    </a>
   </div>
 
 
+  <script id="image-modal.html" type="text/ng-template">
+    <div class="modal image-modal transparent" ng-click="closeModal()">
+      <ion-pane class="transparent">
+        <img ng-src="{{imageSrc}}" class="fullscreen-image"/>
+      </ion-pane>
+    </div>
+  </script>
+  <script id='orderPopup.html' type='text/ng-template'>
+    <div>
+    <p class="bold">Visualizar vehículo mediante:</p>
+      <ion-radio class="wrapping-list" ng-model="choice2.value" ng-value="'Alias'" name="grupo1">Alias</ion-radio>
+      <ion-radio class="wrapping-list" ng-model="choice2.value" ng-value="'Placa'" name="grupo1">Placa</ion-radio>
+      <ion-radio class="wrapping-list" ng-model="choice2.value" ng-value="'Marca'" name="grupo1">Marca</ion-radio>
+    </div>
+    <div>
+    <br>
+    <p class="bold">Tamaño de letra:</p>
+      <ion-radio class="wrapping-list" ng-model="choice.value" ng-value="'Pequeno'" name="grupo2">Pequeño</ion-radio>
+      <ion-radio class="wrapping-list" ng-model="choice.value" ng-value="'Mediano'" name="grupo2">Mediano</ion-radio>
+      <ion-radio class="wrapping-list" ng-model="choice.value" ng-value="'Grande'" name="grupo2">Grande</ion-radio>
+    </div>
+  </script>
 
-    <ion-list id="listaDeVehiculos-list2" class="disable-user-behavior">
-
-      <div class="list" >
-
-        <ion-item class="item-thumbnail-left item" id="{{item.id}}" ng-repeat="item in registrosVehiculos">
-          
-          <img src="img/car_agregar.png" style="vertical-align: middle;">
-          
-          <div class="row"> 
-            <div class="col col-60">
-              <h2>{{item.alias}}</h2>
-              <p>Placa: {{item.placa}}</p>
-              <p>Marca: {{item.marca}}</p>
-            </div>
-            <div class="col col-40">
-              <div style="vertical-align: text-top;">
-                <ion-button  ng-click="setVehicle('{{item.alias}}', '{{item.id}}', '{{item.placa}}', '{{item.marca}}', '{{item.year}}', '{{item.color}}')" ui-sref="tabsController2.informaciN()" id="listaDeVehiculos-button3" style="text-align:;" class="button button-stable icon icon-right ion-android-car">Ver</button>
-              
-              </div>
-              <div style="vertical-align: text-bottom;">
-                <button  class="icon ion-android-remove-circle" style="font-size: 30px; background-color: #FFFFFF; border:none;text-align: bottom;  color:#A51D1D" ng-click="showConfirmEliminarVehiculo2('{{item.id}}','{{item.alias}}')"></button>
-              </div>
-              
-            </div>
-            
-            
-            
-              
-          </div>
-
-        </ion-item>
-      </div>
-    </ion-list>
-  </ion-content>
 </ion-view>

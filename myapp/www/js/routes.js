@@ -13,18 +13,16 @@ angular.module('app.routes', [])
     url: '/tabs/vehiculos',
     views: {
       'tab4': {
-        templateUrl: 'templates/listaDeVehiculos.html'
+        templateUrl: 'templates/listaDeVehiculos.html'        
       }
     }
   })
 
-  .state('tabsController.agregarVehiculo', {
+  .state('agregarVehiculo', {
     url: '/vehiculos/crear',
-    views: {
-      'tab4': {
+    
         templateUrl: 'templates/agregarVehiculo.html'
-      }
-    }
+     
   })
 
   .state('tabsController.agregarServicioPersonalizado', {
@@ -88,13 +86,11 @@ angular.module('app.routes', [])
     abstract:true
   })
 
-  .state('tabsController2.nuevoMantenimiento', {
+  .state('nuevoMantenimiento', {
     url: '/nuevoMantenimiento',
-    views: {
-      'tab2': {
+ 
         templateUrl: 'templates/nuevoMantenimiento.html'
-      }
-    }
+  
   })
 
   .state('agregarServicioPersonalizado', {
@@ -110,26 +106,6 @@ angular.module('app.routes', [])
   .state('inicio', {
     url: '/inicio',
     templateUrl: 'templates/inicio.html'
-  })
-
-  .state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html'
-  })
-
-  .state('enviarCorreo', {
-    url: '/enviarCorreo',
-    templateUrl: 'templates/enviarCorreo.html'
-  })
-
-  .state('nuevaContraseA', {
-    url: '/nuevaContraseña',
-    templateUrl: 'templates/nuevaContraseA.html'
-  })
-
-  .state('registrarse', {
-    url: '/registrarse',
-    templateUrl: 'templates/registrarse.html'
   })
 
   .state('infoServicio', {
@@ -152,7 +128,7 @@ angular.module('app.routes', [])
     templateUrl: 'templates/modificarInformacion.html'
   })
 
-$urlRouterProvider.otherwise('/inicio')
+  $urlRouterProvider.otherwise('/inicio')
 
 
 });

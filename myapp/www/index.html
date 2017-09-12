@@ -5,13 +5,27 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
+    <link href='https://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic' rel='stylesheet' type='text/css'>
 
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="jquery.js" type="text/javascript"></script>
+    <script src="jquery.maskedinput.js" type="text/javascript"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+
+    <!-- importo la libreria moments -->
+
+    <!-- importo todos los idiomas -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -20,7 +34,112 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
 
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
     <style type="text/css">
+
+      @import url('https://fonts.googleapis.com/css?family=Sedgwick+Ave');
+
+      .custom-input{
+        border-bottom: solid 1px #ccc !important;
+      }
+
+      .loading-container{
+        display:none;
+      }
+
+      .loading{
+        display:none;
+      }
+
+      .align-center {
+          margin: 0 auto;
+          text-align: center;
+          align-items: center;
+          display: block;
+      }
+
+      .bold{
+      	font-weight: bold;
+      }
+
+      .align-right {
+          margin: 0 auto;
+          text-align: right;
+          align-items: right;
+          display: block;
+      }
+
+      .align-left {
+          margin: 0 auto;
+          text-align: left;
+          align-items: left;
+          display: block;
+      }
+
+
+      .item-md-label2 {
+        display: block;
+        background-color: transparent;
+        box-shadow: none;
+        padding-top: 30px;
+        padding-bottom: 0; }
+        .item-md-label2 .input-label {
+          position: absolute;
+          padding: 5px 0 0;
+          z-index: 2;
+          -webkit-transform: translate3d(0, -30px, 0) scale(1);
+          transform: translate3d(0, -30px, 0) scale(1);
+          -webkit-transition: all 0.2s ease;
+          transition: all 0.2s ease;
+          color: #444;
+          opacity: 0.5;
+          transform-origin: 0; }
+        .item-md-label2 input {
+          z-index: 1;
+          position: relative;
+          bottom: 0; }
+        .item-md-label2 .highlight {
+          position: absolute;
+          bottom: 0;
+          height: 2px;
+          left: 0;
+          width: 100%;
+          -webkit-transform: translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0);
+          -webkit-transition: all 0.15s ease;
+          transition: all 0.15s ease; }
+        .item-md-label2 .highlight-light {
+          background: #fff; }
+        .item-md-label2 .highlight-stable {
+          background: #f8f8f8; }
+        .item-md-label2 .highlight-positive {
+          background: #387ef5; }
+        .item-md-label2 .highlight-calm {
+          background: #11c1f3; }
+        .item-md-label2 .highlight-balanced {
+          background: #33cd5f; }
+        .item-md-label2 .highlight-energized {
+          background: #ffc900; }
+        .item-md-label2 .highlight-assertive {
+          background: #ef473a; }
+        .item-md-label2 .highlight-royal {
+          background: #886aea; }
+        .item-md-label2 .highlight-dark {
+          background: #444; }
+        .item-md-label2 input:focus ~ .input-label, .item-md-label2 input.used ~ .input-label {
+          -webkit-transform: translate3d(0, -60px, 0) scale(0.9);
+          transform: translate3d(0, -60px, 0) scale(0.9);
+          opacity: 1; }
+        .item-md-label2 input:focus ~ .highlight {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0); }
+
       .platform-ios .manual-ios-statusbar-padding{
         padding-top:20px;
       }
@@ -61,7 +180,6 @@
       }
 
 
-
       form label.ng-invalid.ng-touched{
         border-color: #ffdddd;
       }
@@ -74,8 +192,50 @@
         border-color: red;
       }
 
+      .transparent {
+        background: transparent !important;
+      }
+      .image-modal {
+        width: 100% !important;
+        height: 100%;
+        top: 0 !important;
+        left: 0 !important;
+      }
+      .fullscreen-image {
+        max-width: 100%;
+        width: 90% !important;
+        height: 70%;
+        max-height: 70%;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        overflow: auto;
+        position: fixed;
+        right: 0;
+        top: 0;
+      }
+      .active .modal-backdrop-bg {
+        opacity: .5;
+      }
+      .modal-backdrop-bg {
+        -webkit-transition: opacity 300ms ease-in-out;
+        transition: opacity 300ms ease-in-out;
+        background-color: #000;
+        opacity: 0;
+      }
+
+      .bar {
+          box-shadow: none;
+      }
+
+      .popup-buttons .button{
+        padding-left: 0px;
+        padding-right: 0px;
+      }
+
 
     </style>
+
 
     <script src="js/dependencies/Chart.min.js"></script>
     <script src="js/dependencies/angular-chart.min.js"></script>
@@ -83,14 +243,15 @@
     <script src="js/controllers.js"></script>
     <script src="js/controllers/vehicles.js"></script>
     <script src="js/controllers/vehicle.js"></script>
+    <script src="js/controllers/mainCtrl.js"></script>
     <script src="js/controllers/agregarVehiculo.js"></script>
     <script src="js/controllers/agregarMantenimiento.js"></script>
     <script src="js/controllers/mantenimientos.js"></script>
     <script src="js/controllers/editarServicioNuevo.js"></script>
     <script src="js/controllers/editarServicio.js"></script>
-    <script src="js/controllers/popUpConfirmaciones.js"></script>
+    <script src="js/controllers/enviarCorreo.js"></script>
     <script src="js/controllers/modificarInfo.js"></script>
-    <script src="js/controllers/showHidePanlesMantenimiento.js"></script>
+    <script src="js/controllers/proximosMantenimientos.js"></script>
     <script src="js/controllers/infoMantenimiento.js"></script>
     <script src="js/controllers/gastos.js"></script>
     <script src="js/routes.js"></script>
@@ -104,7 +265,7 @@
     -->
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7" >
+  <body ng-app="app" animation="slide-left-right-ios7" ng-controller="MainCtrl">
   <div>
   <div>
     <ion-nav-bar class="bar-positive">
@@ -118,5 +279,7 @@
 
   <footer>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript">
+  </script>
   </footer>
 </html>

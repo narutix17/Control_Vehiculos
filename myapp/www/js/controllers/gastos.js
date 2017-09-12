@@ -1,25 +1,41 @@
+
+/**
+ * Controlador utilizado para manejar los gastos.
+ * Utilizado en: gastos.html
+ * Version: 1.0
+ * Creador: Leonardo Kuffo
+ * Editores: //
+ */
+
 angular.module('app.controllers')
 
-.controller('gastosController', function($scope, $cordovaSQLite, $rootScope, $ionicLoading) {
+.controller('gastosController', function($scope, $cordovaSQLite, $rootScope, $ionicLoading, $timeout, $ionicPopup) {
 
+
+  // Arreglos de agrupaciones de mantenimientos
   var byweek = {};
   var bymonth = {};
+
   function groupweek(value, index, array){
       d = new Date(value.fechaEntera);
       d = Math.floor(d.getTime()/(1000*60*60*24*7));
       byweek[d]=byweek[d]||[];
       byweek[d].push(value);
   }
-  function groupmonth(value, index, array)
-  {
+  // Agrupar por mes
+  function groupmonth(value, index, array){
       d = new Date(value.fechaEntera);
       d = (d.getFullYear()-1970)*12 + d.getMonth();
       bymonth[d]=bymonth[d]||[];
       bymonth[d].push(value);
   }
 
+  // Objeto que tendra los valores del modelo del HTML
   $scope.actGastos = {};
 
+  /**
+   * Grafica una serie de tiempo poniendo los datos requeridos y filtrados en los arreglos utilizados por el <canvas>
+   */
   $scope.graficar = function(){
     bymonth = {};
     byweek = {};
@@ -34,6 +50,8 @@ angular.module('app.controllers')
     ];
 
     $scope.graph.labels = [];
+
+    // Obtengo los mantenimientos
 
     $cordovaSQLite.execute(db, query, [$rootScope.chosenVehicle.id]).then(function(res){
       if (res.rows.length > 0){
@@ -52,8 +70,11 @@ angular.module('app.controllers')
             fechaEntera: res.rows.item(i).fechaRealizado
           });
         }
+      } else {
+        $scope.popUpNoMantenimientos();
       }
 
+      // Ordeno los mantenimientos por fecha ascendentemente
       $scope.selectedVehicleMantenimientos.sort(function(a,b){
         a = new Date(a.fechaEntera);
         b = new Date(b.fechaEntera);
@@ -116,18 +137,18 @@ angular.module('app.controllers')
           $scope.graph.labels.push(month);
         }
       }
-
-
     });
   }
 
   $ionicLoading.show({
       content: 'Loading',
       animation: 'fade-in',
-      showBackdrop: true,
+      showBackdrop: false,
       maxWidth: 200,
       showDelay: 0
   });
+
+  // Carga Inicial de los datos a los arreglos requeridos por el <canvas>
 
   var query = "SELECT * FROM mantenimiento JOIN servicio ON mantenimiento.idServicio = servicio.id AND servicio.idVehiculo = ?";
 
@@ -161,6 +182,8 @@ angular.module('app.controllers')
             fechaEntera: res.rows.item(i).fechaRealizado
           });
         }
+      } else {
+        $scope.popUpNoMantenimientos();
       }
 
       $scope.selectedVehicleMantenimientos.sort(function(a,b){
@@ -176,6 +199,82 @@ angular.module('app.controllers')
       }
 
       $ionicLoading.hide();
+      $scope.putSize();
     });
+
+    $scope.popUpNoMantenimientos = function() {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Visualización de Gastos',
+        template: 'El vehículo no posee mantenimientos de los cuales graficar gastos'
+      });
+      alertPopup.then(function(res) {
+        console.log('solo por fechas');
+      });
+    };
+
+    //funcion para cambiar el tamaño de letra de la aplicacion
+  $scope.putSize = function () {
+    $rootScope.sizeGrande = localStorage.getItem("sizeGrande");
+    $rootScope.sizePequeno = localStorage.getItem("sizePequeno");
+    $rootScope.sizeMediano = localStorage.getItem("sizeMediano");
+    console.log("$rootScope.sizeGrande: "+$rootScope.sizeGrande);
+    console.log("$rootScope.sizePequeno: "+$rootScope.sizePequeno);
+    console.log("$rootScope.sizeMediano: "+$rootScope.sizeMediano);
+    $timeout(function(){
+      if ($rootScope.sizeGrande == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.3em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.3em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1.3em");
+        }
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.3em");
+        }
+      } else if ($rootScope.sizeMediano == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1.15em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1.15em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1.1em");
+        }
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1.1em");
+        }
+      } else if ($rootScope.sizePequeno == "true"){
+        var s=document.getElementsByTagName('p');
+        for(var i=0;i<s.length;i++){
+          s[i].setAttribute("style","font-size: 1em");
+        }
+        var b=document.getElementsByTagName('button');
+        for(var j=0;j<b.length;j++){
+          b[j].setAttribute("style","font-size: 1em");
+        }
+        var a=document.getElementsByTagName('span');
+        for(var b=0;b<a.length;b++){
+          a[b].setAttribute("style","font-size: 1em");
+        }
+        var c=document.getElementsByTagName('input');
+        for(var d=0;d<c.length;d++){
+          c[d].setAttribute("style","font-size: 1em");
+        }
+      }
+
+    }, 0);
+  };
 
 });

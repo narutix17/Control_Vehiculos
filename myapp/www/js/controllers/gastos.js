@@ -205,7 +205,7 @@ angular.module('app.controllers')
     $scope.popUpNoMantenimientos = function() {
       var alertPopup = $ionicPopup.alert({
         title: 'Visualización de Gastos',
-        template: 'El vehiculo no posee mantenimientos de los cuales graficar gastos'
+        template: 'El vehículo no posee mantenimientos de los cuales graficar gastos'
       });
       alertPopup.then(function(res) {
         console.log('solo por fechas');

@@ -20,9 +20,25 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
       showDelay: 0
     });
 
+    $scope.cargarInfoServicio = function(){
+      $scope.actualid = $rootScope.chosenService[0].id;
+      console.log("$rootScope.chosenService.nombre: "+$rootScope.chosenService[0].id);
+      var query = "SELECT * FROM servicio WHERE id = ?";
+      $cordovaSQLite.execute(db, query, [$rootScope.chosenService[0].id]).then(function(res){
+        console.log("ressssss: "+res.rows.length);
+        console.log("PRIMERPPPPPP: "+res.rows.item(0).idTipoIntervalo);
+        console.log("PRIMERPPPPPP: "+res.rows.item(0).intervalo);
+        console.log("PRIMERPPPPPP: "+res.rows.item(0).ultimoRealizado);
+        $scope.servicioEditado.tipo_intervalo = res.rows.item(0).idTipoIntervalo;
+        $scope.servicioEditado.intervalo = res.rows.item(0).intervalo;
+        $scope.servicioEditado.ultimoRealizado = res.rows.item(0).ultimoRealizado;
+      })
+    }
+
     $scope.$watch(function(){
       return $rootScope.chosenService[0].ultimoRealizado;
     }, function(){
+      $scope.cargarInfoServicio();
       $ionicLoading.hide();
 
       $scope.putSize();
@@ -195,8 +211,8 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
       id: nombreServicio+placa,
       //date: _5_SecondsFromNow,
       date: dianotificacion,
-      message: "Toque para ingresar a los servicios por realizar",
-      title: "Servicio a Realizar Mañana",
+      message: "Toque para ingresar a los mantenimientos por realizar",
+      title: "Mantenimiento a Realizar Mañana",
       sound: null,
       icon: 'res://icononotificacion.png'
     }).then(function () {
@@ -217,7 +233,7 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
         setTimeout(function () {
             cordova.plugins.notification.local.update({
                 id: nombreServicio+placa,
-                title: "Servicio a Realizar Hoy"
+                title: "Mantenimiento a Realizar Hoy"
             });
         }, 60000);
     });
@@ -226,8 +242,8 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
   $scope.servicioPopUp = function(servicio, alias, placa, marca, id) {
 
     var alertasPopup = $ionicPopup.confirm({
-      title: 'Servicio a Realizar',
-      template: 'Tiene que realizar el siguiente servicio: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
+      title: 'Mantenimiento a Realizar',
+      template: 'Tiene que realizar el siguiente mantenimiento: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
       buttons: [
          {
             text: 'Aceptar',
@@ -254,8 +270,8 @@ app.controller("EditarServicio", ['$scope', '$cordovaSQLite', '$rootScope', '$io
   $scope.posponer = function(nombre, id) {
     $rootScope.newItem = {};
     var alertasPopup = $ionicPopup.show({
-      title: 'Posponer Servicio',
-      template: '<p>Ingrese la cantidad de dias que desea posponer el servicio: </p><br><input type="number" ng-model="newItem.aumentarDias">',
+      title: 'Posponer Mantenimiento',
+      template: '<p>Ingrese la cantidad de dias que desea posponer el mantenimiento: </p><br><input type="number" ng-model="newItem.aumentarDias">',
       rootScope: this,
       buttons: [
          {

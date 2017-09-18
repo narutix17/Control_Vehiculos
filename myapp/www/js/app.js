@@ -55,8 +55,8 @@ app.run(function($ionicPlatform, $cordovaSQLite, $cordovaLocalNotification, $tim
     $cordovaSQLite.execute(db,"CREATE TABLE IF NOT EXISTS tipo_vehiculo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nombre VARCHAR (20) UNIQUE);").then(function(result){
         $cordovaSQLite.execute(db,"select * from tipo_vehiculo").then(function(result){
           if (result.rows.length==0) {
-            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Automovil"]);
-            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Camion"]);
+            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Automóvil"]);
+            $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Camión"]);
             $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Taxi"]);
             $cordovaSQLite.execute(db,"insert into tipo_vehiculo (nombre) VALUES (?)",["Moto"]);
             console.log("seeee insertaron 3 tipos de vehiculoos");
@@ -203,7 +203,7 @@ app.run(function($ionicPlatform, $cordovaSQLite, $cordovaLocalNotification, $tim
           $cordovaSQLite.execute(db,"select * from servicios_predeterminados").then(function(result){
             if (result.rows.length==0) {
               $cordovaSQLite.execute(db, "INSERT INTO servicios_predeterminados (nombre, tipo_intervalo, intervalo) VALUES ('Cambio de Aceite', 1, 5000) ");
-              $cordovaSQLite.execute(db, "INSERT INTO servicios_predeterminados (nombre, tipo_intervalo, intervalo) VALUES ('Cambio de Agua de Bateria', 1, 1000) ");
+              $cordovaSQLite.execute(db, "INSERT INTO servicios_predeterminados (nombre, tipo_intervalo, intervalo) VALUES ('Cambio de Agua de Batería', 1, 1000) ");
               $cordovaSQLite.execute(db, "INSERT INTO servicios_predeterminados (nombre, tipo_intervalo, intervalo) VALUES ('Cambio de Mangueras', 1, 50000) ");
             }
             else{

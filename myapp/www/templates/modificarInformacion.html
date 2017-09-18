@@ -1,4 +1,4 @@
-<ion-view title="Modificar Informacion" id="pageMI" ng-controller= "DBControllerModificarInfo" cache-view="false">
+<ion-view title="Modificar Información" id="pageMI" ng-controller= "DBControllerModificarInfo" cache-view="false">
   <ion-nav-buttons side="left" class="has-header">
     <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item">
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
@@ -43,12 +43,15 @@
         <span ng-show="formalias.updatedplaca.$error.minlength || formalias.updatedplaca.$error.maxlength">La placa debe tener entre 6 y 8 caracteres.</span>
       </span>
 
-      <label class="item item-select" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
+      <div ng-repeat = "item in anteriorMarca">
+        <label class="item item-select" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
         <span class="input-label bold">Marca:</span>
-        <select ng-model="newVehicle.idMarca" >
-          <option  ng-repeat="marca in registrosPlacasVehiculos | orderBy:'nombre'" value="{{marca.id}}">{{marca.nombre}}</option>
-        </select>
-      </label>
+          <select ng-model="newVehicle.idMarca" >
+            <option value="" disabled selected hidden>{{item.marca}}</option>
+            <option  ng-repeat="marca in registrosPlacasVehiculos | orderBy:'nombre'" value="{{marca.id}}">{{marca.nombre}}</option>
+          </select>      
+        </label>
+      </div>
 
       <label class="item item-input" id="modificarInfo-input12" style="margin-top: 8px">
         <span class="input-label bold">Año:</span>
@@ -59,13 +62,17 @@
         <span ng-show="formalias.updatedyear.$error.min || formalias.updatedyear.$error.max">El año debe ser valido.</span>
       </span>
 
-      <label class="item item-select" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
+      <div ng-repeat="item in anteriorColor">
+        <label class="item item-select" id="agregarVehiculo-select5" style="margin-top: 8px; height: 50px; padding-top: 10px">
         <span class="input-label bold">Color:</span>
-        <select ng-model="newVehicle.newColor" name="newColor">
-          <option ng-repeat="color in registrosColoresVehiculos " value="{{color.id}}">{{color.nombre}}</option>
-        </select>
-      </label>
-
+        
+          <select ng-model="newVehicle.newColor" name="newColor">
+            <option value="" disabled selected hidden>{{item.color}}</option>
+            <option ng-repeat="color in registrosColoresVehiculos " value="{{color.id}}">{{color.nombre}}</option>
+          </select>
+        </label>
+      </div>
+      
       <button ng-disabled="formalias.$invalid" id="modificarInfo-button5" class="button button-positive button-block" ng-click="actualizarAlias('{{item.idVehiculo}}')">Actualizar</button>
     </form>
   </ion-content>

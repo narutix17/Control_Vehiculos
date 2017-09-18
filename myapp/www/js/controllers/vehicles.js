@@ -47,7 +47,28 @@ angular.module('app.controllers')
     //var tamano = $("#tamano").val();
   };
 
+  $scope.maximosVehiculosCrear = function(){
+    console.log("entraraaa");
+    var query = "SELECT * FROM vehiculo";
+    $cordovaSQLite.execute(db, query).then(function(result) {
+      if (result.rows.length < 3){
+        $state.go('agregarVehiculo');
+      } else {
+        $scope.popUpMaximosVehiculos();
+      } 
+    });
+  }
 
+  $scope.popUpMaximosVehiculos = function() {
+
+    var alertasPopup = $ionicPopup.alert({
+      title: 'Máxima Cantidad de Vehículos',
+      template: 'Ha alcanzado el número máximo de vehículos'
+    });
+    alertasPopup.then(function(res) {
+      console.log('popup máximos vehículos');
+    });
+  };
 
 
   /**

@@ -198,6 +198,7 @@ angular.module('app.controllers')
           console.log("entro aca");
           $scope.popUpPlacaRepetida();
           $scope.newVehicle.newPlaca = "";
+          break;
         }
       }
     })
@@ -274,6 +275,8 @@ angular.module('app.controllers')
     console.log("ahora verifica");
     $scope.verificarPlacas(valorPlaca);
   })
+
+ 
 
   //verificacion de mantenimientos repetidos
   $('body').on('focusout', '#nombreMantenimiento', function(){
@@ -602,8 +605,8 @@ angular.module('app.controllers')
       id: nombreServicio+placa,
       //date: _5_SecondsFromNow,
       date: dianotificacion,
-      message: "Toque para ingresar a los servicios por realizar",
-      title: "Servicio a Realizar Mañana",
+      message: "Toque para ingresar a los mantenimientos por realizar",
+      title: "Mantenimiento a Realizar Mañana",
       sound: null,
       icon: 'res://icononotificacion.png'
     }).then(function () {
@@ -624,7 +627,7 @@ angular.module('app.controllers')
         setTimeout(function () {
             cordova.plugins.notification.local.update({
                 id: nombreServicio+placa,
-                title: "Servicio a Realizar Hoy"
+                title: "Mantenimiento a Realizar Hoy"
             });
         }, 600000);
     });
@@ -633,8 +636,8 @@ angular.module('app.controllers')
   $scope.servicioPopUp = function(servicio, alias, placa, marca, id) {
 
     var alertasPopup = $ionicPopup.confirm({
-      title: 'Servicio a Realizar',
-      template: 'Tiene que realizar el siguiente servicio: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
+      title: 'Mantenimiento a Realizar',
+      template: 'Tiene que realizar el siguiente mantenimiento: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
       buttons: [
          {
             text: 'Aceptar',
@@ -661,8 +664,8 @@ angular.module('app.controllers')
   $scope.posponer = function(nombre, id) {
     $rootScope.newItem = {};
     var alertasPopup = $ionicPopup.show({
-      title: 'Posponer Servicio',
-      template: '<p>Ingrese la cantidad de dias que desea posponer el servicio: </p><br><input type="number" ng-model="newItem.aumentarDias">',
+      title: 'Posponer Mantenimiento',
+      template: '<p>Ingrese la cantidad de dias que desea posponer el mantenimiento: </p><br><input type="number" ng-model="newItem.aumentarDias">',
       rootScope: this,
       buttons: [
          {

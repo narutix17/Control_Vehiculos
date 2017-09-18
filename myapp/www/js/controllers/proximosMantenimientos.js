@@ -116,7 +116,7 @@ angular.module('app.controllers')
                         idtoStyle2: y,
                         alias: $scope.misvehiculos[k].alias,
                         placa: $scope.misvehiculos[k].placa,
-                        mostrar: "Kilometros restantes: "+kmRestante,
+                        mostrar: "Kilómetros restantes: "+kmRestante,
                         //fechaRealizado: $scope.fecha.toString().substring(0, 15),
                         nombre: res.rows.item(i).nombre
                       });
@@ -215,8 +215,8 @@ angular.module('app.controllers')
 
   $scope.popUpBuscarPorFecha = function() {
     var alertPopup = $ionicPopup.alert({
-      title: 'Error de busqueda',
-      template: 'Solo puede realizar busqueda por fechas'
+      title: 'Error de búsqueda',
+      template: 'Solo puede realizar búsqueda por fechas'
     });
     alertPopup.then(function(res) {
       console.log('solo por fechas');
@@ -245,7 +245,7 @@ angular.module('app.controllers')
 
   $scope.popUpNoFechaMostrar = function() {
     var alertPopup = $ionicPopup.alert({
-      title: 'Busqueda por Fecha',
+      title: 'Búsqueda por Fecha',
       template: 'No hay mantenimientos para mostrar en esta fecha'
     });
     alertPopup.then(function(res) {

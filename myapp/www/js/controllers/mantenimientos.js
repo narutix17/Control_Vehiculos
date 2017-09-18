@@ -224,7 +224,7 @@ angular.module('app.controllers')
     $scope.popUpEliminarMantenimiento = function(id, nombre) {
     var alertasPopup = $ionicPopup.confirm({
       title: 'Eliminar Mantenimiento',
-      template: 'Esta seguro que desea eliminar este mantenimiento? se eliminaran las notificaciones automaticas del servicio: "'+nombre+'" </br> Para recibir notificaciones vuelva a agregar nuevamente un mantenimiento o servicio',
+      template: 'Está seguro que desea eliminar este mantenimiento realizado? se eliminaran las notificaciones automaticas del mantenimiento: "'+nombre+'" </br> Para recibir notificaciones vuelva a agregar nuevamente un mantenimiento',
 
       buttons: [
          {
@@ -250,7 +250,7 @@ angular.module('app.controllers')
 
   $scope.popUpNoFechaMostrar = function() {
     var alertPopup = $ionicPopup.alert({
-      title: 'Busqueda por Fecha',
+      title: 'Búsqueda por Fecha',
       template: 'No hay mantenimientos para mostrar en esta fecha'
     });
     alertPopup.then(function(res) {

@@ -4,11 +4,6 @@
       <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
     </button>
   </ion-nav-buttons>
-  <ion-nav-buttons side="left" class="has-header">
-    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item">
-      <i class="icon ion-android-arrow-back"></i> <span class="back-text"></span>
-    </button>
-  </ion-nav-buttons>
  <ion-content padding="true" class="has-header animated slideInLeft">
     <div class="row">
       <div class="col col-100">
@@ -97,7 +92,7 @@
         </select>
       </label>
 
-      <h3 id="agregarVehiculo-heading1" style="color:#000000;">Servicios del Vehiculo</h3>
+      <h3 id="agregarVehiculo-heading1" style="color:#000000;">Mantenimientos del Vehiculo</h3>
       <div id="nuevoVehiculoServicios" ng-repeat="serv in serviciosParaAgregar" >
             <div class="row">
               <div class = "col col-75">
@@ -111,8 +106,8 @@
               </div>
             </div>
       </div id="nuevoVehiculoServicios">
-      <p class="align-center"> No olvide modificar los servicios predeterminados </p>
-      <button ui-sref="agregarServicioPersonalizado()" id="agregarVehiculo-button4" class="button button-stable button-block">Agregar Servicio Personalizado</button>
+      <p class="align-center"> No olvide modificar los mantenimientos predeterminados </p>
+      <button ui-sref="agregarServicioPersonalizado()" id="agregarVehiculo-button4" class="button button-stable button-block">Agregar Mantenimiento Personalizado</button>
       <!-- <button ng-disabled="newVehicleForm.$invalid" ui-sref="tabsController.listaDeVehiculos()" id="botonAgregarVehiculo" ng-click="crearVehiculo()" class="button button-positive button-block">Agregar Vehiculo</button> -->
       <button ng-disabled="newVehicleForm.$invalid" ui-sref="tabsController.listaDeVehiculos()" id="botonAgregarVehiculo" ng-click="crearVehiculo()" class="button button-positive button-block">Agregar Vehiculo</button>
 

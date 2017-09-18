@@ -82,6 +82,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
    * Editar la informacion de un servicio
    */
   $scope.editarServicio = function(id, nombre, servTipo, intervalo, ultimoRealizado){
+      console.log("entra al chosen");
       $rootScope.chosenService = [];
       $rootScope.chosenService.push({
         id: id,
@@ -90,6 +91,7 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
         intervalo: intervalo,
         ultimoRealizado: ultimoRealizado
       });
+
   }
 
 
@@ -332,8 +334,8 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
 
   $scope.popUpEliminarServicio = function(idServicio, nombre) {
     var alertasPopup = $ionicPopup.confirm({
-      title: 'Eliminar Servicio',
-      template: 'Está seguro que desea eliminar el servicio: "'+nombre+'"?',
+      title: 'Eliminar Mantenimiento',
+      template: 'Está seguro que desea eliminar el mantenimiento: "'+nombre+'"?',
       buttons: [
          {
             text: 'Aceptar',
@@ -419,10 +421,10 @@ app.controller("DBControllerOneVehiculo", ['$scope', '$cordovaSQLite', '$rootSco
 
           } else {
             $scope.selectedVehicleMantenimientosKm.push({
-              nombre: "No hay servicios para presentar"
+              nombre: "No hay mantenimientos para presentar"
             });
             $scope.selectedVehicleMantenimientosFecha.push({
-              nombre: "No hay servicios para presentar"
+              nombre: "No hay mantenimientos para presentar"
             });
           }
           $scope.selectedVehicleMantenimientos = $scope.selectedVehicleMantenimientosFecha;

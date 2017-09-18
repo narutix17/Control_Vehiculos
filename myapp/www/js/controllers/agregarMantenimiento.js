@@ -183,7 +183,7 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
   $scope.popUpInformacion = function() {
     var alertasPopup = $ionicPopup.confirm({
       title: 'Agregar Mantenimiento',
-      template: 'Está seguro que desea registrar este mantenimiento? <br> Se actualizará automaticamente la fecha o kilometraje del servicio: "'+$scope.newMantenimiento.nombreServ+'" y el kilometraje actual del vehículo',
+      template: 'Está seguro que desea registrar este mantenimiento realizado? <br> Se actualizará automaticamente la fecha o kilometraje del mantenimiento: "'+$scope.newMantenimiento.nombreServ+'" y el kilometraje actual del vehículo',
       buttons: [
          {
             text: 'Aceptar',
@@ -235,8 +235,8 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
       id: nombreServicio+placa,
       //date: _5_SecondsFromNow,
       date: diaNotificacion,
-      message: "Toque para ingresar a los servicios por realizar",
-      title: "Servicio a Realizar Mañana",
+      message: "Toque para ingresar a los mantenimientos por realizar",
+      title: "Mantenimiento a Realizar Mañana",
       sound: null,
       icon: 'res://icononotificacion.png'
     }).then(function () {
@@ -256,7 +256,7 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
         setTimeout(function () {
             cordova.plugins.notification.local.update({
                 id: nombreServicio+placa,
-                title: "Servicio a Realizar Hoy"
+                title: "Mantenimiento a Realizar Hoy"
             });
         }, 60000);
     });
@@ -265,8 +265,8 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
   $scope.servicioPopUp = function(servicio, alias, placa, marca, id) {
 
     var alertasPopup = $ionicPopup.confirm({
-      title: 'Servicio a Realizar',
-      template: 'Tiene que realizar el siguiente servicio: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
+      title: 'Mantenimiento a Realizar',
+      template: 'Tiene que realizar el siguiente mantenimiento: "'+servicio+'", del vehiculo:<br>Alias: '+alias+'<br>Placa: '+placa+'<br>Marca: '+marca,
       buttons: [
          {
             text: 'Aceptar',
@@ -293,8 +293,8 @@ app.controller("DBControllerAgregarMantenimiento", ['$scope', '$cordovaSQLite', 
   $scope.posponer = function(nombre, id) {
     $rootScope.newItem = {};
     var alertasPopup = $ionicPopup.show({
-      title: 'Posponer Servicio',
-      template: '<p>Ingrese la cantidad de dias que desea posponer el servicio: </p><br><input type="number" ng-model="newItem.aumentarDias">',
+      title: 'Posponer Mantenimiento',
+      template: '<p>Ingrese la cantidad de dias que desea posponer el mantenimiento: </p><br><input type="number" ng-model="newItem.aumentarDias">',
       rootScope: this,
       buttons: [
          {
